@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>1WEN's Garden</title>
 
 <style>
@@ -30,18 +30,6 @@ button{font-family:inherit}
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-}
-
-.home::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:radial-gradient(
-    circle at 50% 35%,
-    rgba(150,170,255,.10),
-    transparent 45%
-  );
 }
 
 .worlds{
@@ -74,10 +62,8 @@ button{font-family:inherit}
   );
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
-  box-shadow:
-    0 8px 30px rgba(0,0,0,.40),
-    inset 0 0 18px rgba(255,255,255,.08);
-  transition:transform .25s ease;
+  box-shadow:0 8px 30px rgba(0,0,0,.4);
+  transition:transform .25s;
 }
 
 .world:active{transform:scale(.92)}
@@ -88,18 +74,16 @@ button{font-family:inherit}
 }
 
 .star-button{
-  box-shadow:0 0 32px rgba(255,220,110,.30),0 8px 30px rgba(0,0,0,.40)
+  box-shadow:0 0 32px rgba(255,220,110,.30),0 8px 30px rgba(0,0,0,.4)
 }
-
 .garden-button{
-  box-shadow:0 0 32px rgba(255,150,190,.25),0 8px 30px rgba(0,0,0,.40)
+  box-shadow:0 0 32px rgba(255,150,190,.25),0 8px 30px rgba(0,0,0,.4)
 }
-
 .bunny-button{
-  box-shadow:0 0 32px rgba(255,255,255,.22),0 8px 30px rgba(0,0,0,.40)
+  box-shadow:0 0 32px rgba(255,255,255,.22),0 8px 30px rgba(0,0,0,.4)
 }
 
-/* 共用返回按鈕 */
+/* 返回 */
 
 .back-button{
   position:absolute;
@@ -115,7 +99,6 @@ button{font-family:inherit}
   cursor:pointer;
   background:rgba(15,20,50,.42);
   backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
 }
 
 /* =========================
@@ -170,17 +153,11 @@ button{font-family:inherit}
   text-shadow:
     0 0 7px rgba(255,230,130,.95),
     0 0 18px rgba(255,205,80,.65);
-  transition:transform .3s ease,filter .3s ease;
 }
 
 .sky-star::before{content:"✦"}
 .sky-star:nth-child(3n){font-size:20px}
 .sky-star:nth-child(4n){font-size:31px}
-
-.sky-star:active{
-  transform:translate(-50%,-50%) scale(1.35);
-}
-
 .sky-star.revealed::before{content:""}
 .sky-star.revealed{font-size:27px}
 
@@ -201,9 +178,6 @@ button{font-family:inherit}
   color:#fff1bd;
   font-size:15px;
   font-weight:bold;
-  text-shadow:
-    0 0 7px rgba(255,210,100,.95),
-    0 0 15px rgba(255,190,70,.75);
 }
 
 @keyframes specialGlow{
@@ -246,7 +220,7 @@ button{font-family:inherit}
   );
   box-shadow:0 0 10px rgba(255,215,100,.55);
   opacity:0;
-  transition:opacity 1s ease;
+  transition:opacity 1s;
 }
 
 .connection-line.show{opacity:1}
@@ -311,10 +285,7 @@ button{font-family:inherit}
     0 12px 35px rgba(130,100,100,.12),
     inset 0 0 25px rgba(255,255,255,.65);
   font-size:clamp(58px,14vw,90px);
-  transition:transform .25s ease;
 }
-
-.garden-choice:active{transform:scale(.94)}
 
 .garden-grass{
   position:absolute;
@@ -324,12 +295,7 @@ button{font-family:inherit}
   height:25%;
   border-radius:50% 50% 0 0;
   background:rgba(182,207,153,.32);
-  filter:blur(2px);
 }
-
-/* =========================
-   🌸 呼吸花朵
-========================= */
 
 .garden-room{
   position:fixed;
@@ -344,6 +310,8 @@ button{font-family:inherit}
 
 .garden-room.open{display:block}
 
+/* 呼吸花 */
+
 .breathe-text{
   position:absolute;
   top:18%;
@@ -352,7 +320,6 @@ button{font-family:inherit}
   font-family:Georgia,serif;
   font-size:clamp(22px,5vw,34px);
   color:#806a72;
-  letter-spacing:.5px;
 }
 
 .breathing-flower{
@@ -372,15 +339,15 @@ button{font-family:inherit}
 @keyframes breatheFlower{
   0%{
     transform:translate(-50%,-50%) scale(.78);
-    opacity:.82;
+    opacity:.82
   }
   43%{
     transform:translate(-50%,-50%) scale(1.12);
-    opacity:1;
+    opacity:1
   }
   100%{
     transform:translate(-50%,-50%) scale(.78);
-    opacity:.82;
+    opacity:.82
   }
 }
 
@@ -396,13 +363,10 @@ button{font-family:inherit}
   cursor:pointer;
   color:#806a72;
   background:rgba(255,255,255,.68);
-  box-shadow:0 8px 25px rgba(120,90,100,.12);
   font-size:22px;
 }
 
-/* =========================
-   🌱 種花
-========================= */
+/* 種花 */
 
 .grow-area{
   position:absolute;
@@ -431,8 +395,6 @@ button{font-family:inherit}
   height:240px;
 }
 
-/* 土壤 */
-
 .soil{
   position:absolute;
   left:50%;
@@ -442,10 +404,7 @@ button{font-family:inherit}
   height:42px;
   border-radius:50%;
   background:#a77962;
-  box-shadow:inset 0 5px 8px rgba(80,50,40,.15);
 }
-
-/* 種子 */
 
 .seed{
   position:absolute;
@@ -458,8 +417,6 @@ button{font-family:inherit}
   background:#76533f;
 }
 
-/* 小芽 */
-
 .sprout{
   position:absolute;
   left:50%;
@@ -469,12 +426,10 @@ button{font-family:inherit}
   transform:translateX(-50%);
   border-radius:5px;
   background:#76a56a;
-  transition:height .5s ease;
+  transition:height .5s;
 }
 
-.sprout.show{
-  height:38px;
-}
+.sprout.show{height:38px}
 
 .sprout.show::before,
 .sprout.show::after{
@@ -489,17 +444,13 @@ button{font-family:inherit}
 .sprout.show::before{
   right:2px;
   border-radius:100% 0 100% 0;
-  transform:rotate(-18deg);
 }
 
 .sprout.show::after{
   left:2px;
   top:19px;
   border-radius:0 100% 0 100%;
-  transform:rotate(18deg);
 }
-
-/* 莖 */
 
 .stem{
   position:absolute;
@@ -510,12 +461,10 @@ button{font-family:inherit}
   height:0;
   border-radius:5px;
   background:#6f9e62;
-  transition:height .7s ease;
+  transition:height .7s;
 }
 
-.stem.show{
-  height:125px;
-}
+.stem.show{height:125px}
 
 .stem.show::before,
 .stem.show::after{
@@ -530,17 +479,13 @@ button{font-family:inherit}
   top:55px;
   right:3px;
   border-radius:100% 0 100% 0;
-  transform:rotate(-20deg);
 }
 
 .stem.show::after{
   top:82px;
   left:3px;
   border-radius:0 100% 0 100%;
-  transform:rotate(20deg);
 }
-
-/* 開花 */
 
 .final-flower{
   position:absolute;
@@ -548,16 +493,12 @@ button{font-family:inherit}
   bottom:143px;
   transform:translateX(-50%) scale(0);
   font-size:82px;
-  line-height:1;
-  filter:drop-shadow(0 8px 10px rgba(130,90,100,.14));
   transition:transform .8s cubic-bezier(.2,1.5,.4,1);
 }
 
 .final-flower.show{
   transform:translateX(-50%) scale(1);
 }
-
-/* 澆水 */
 
 .water-button{
   position:absolute;
@@ -571,11 +512,6 @@ button{font-family:inherit}
   cursor:pointer;
   font-size:48px;
   background:rgba(255,255,255,.72);
-  box-shadow:0 10px 28px rgba(100,100,100,.13);
-}
-
-.water-button:active{
-  transform:translateX(-50%) scale(.92);
 }
 
 .water-drop{
@@ -591,15 +527,13 @@ button{font-family:inherit}
 @keyframes waterFall{
   from{
     opacity:1;
-    transform:translate(-50%,-15px);
+    transform:translate(-50%,-15px)
   }
   to{
     opacity:0;
-    transform:translate(-50%,45px);
+    transform:translate(-50%,45px)
   }
 }
-
-/* 進度小圓點 */
 
 .grow-progress{
   position:absolute;
@@ -617,8 +551,228 @@ button{font-family:inherit}
   background:rgba(120,100,100,.18);
 }
 
-.progress-dot.done{
-  background:#d99aa8;
+.progress-dot.done{background:#d99aa8}
+
+/* =========================
+   🐰 兔兔世界
+========================= */
+
+.bunny-world{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 25%,rgba(255,255,255,.95),transparent 32%),
+    linear-gradient(180deg,#fff7ed 0%,#ffe8e2 58%,#e8efd9 100%);
+}
+
+.bunny-world.open{display:block}
+
+.bunny-world .back-button{
+  color:#806b72;
+  background:rgba(255,255,255,.58);
+  border-color:rgba(120,90,100,.15);
+}
+
+/* 背景裝飾 */
+
+.bunny-cloud{
+  position:absolute;
+  color:rgba(255,255,255,.75);
+  font-size:70px;
+  user-select:none;
+}
+
+.cloud-one{
+  top:13%;
+  left:8%;
+}
+
+.cloud-two{
+  top:21%;
+  right:8%;
+  transform:scale(.7);
+}
+
+.bunny-ground{
+  position:absolute;
+  left:-5%;
+  bottom:-7%;
+  width:110%;
+  height:30%;
+  border-radius:50% 50% 0 0;
+  background:#dce9c8;
+}
+
+/* 訊息 */
+
+.bunny-message{
+  position:absolute;
+  z-index:5;
+  top:14%;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(86%,650px);
+  min-height:90px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:#765f64;
+  font-size:clamp(22px,5vw,36px);
+  font-weight:600;
+  line-height:1.45;
+  opacity:0;
+  transition:
+    opacity .45s ease,
+    transform .45s ease;
+}
+
+.bunny-message.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(5px);
+}
+
+/* 兔兔區 */
+
+.bunny-scene{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  top:57%;
+  transform:translate(-50%,-50%);
+  width:min(90vw,480px);
+  height:390px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* 兔兔 */
+
+.big-bunny{
+  position:absolute;
+  left:50%;
+  bottom:55px;
+  transform:translateX(-50%);
+  font-size:clamp(150px,38vw,230px);
+  line-height:1;
+  filter:drop-shadow(0 15px 15px rgba(130,100,100,.13));
+  transition:transform .15s ease;
+}
+
+.bunny-scene.bite .big-bunny{
+  transform:translateX(-50%) scale(1.06) rotate(-2deg);
+}
+
+/* 愛心 */
+
+.bunny-heart{
+  position:absolute;
+  left:66%;
+  top:55px;
+  font-size:35px;
+  opacity:0;
+  pointer-events:none;
+}
+
+.bunny-heart.pop{
+  animation:heartPop .8s ease forwards;
+}
+
+@keyframes heartPop{
+  0%{
+    opacity:0;
+    transform:translateY(15px) scale(.5)
+  }
+  30%{
+    opacity:1;
+    transform:translateY(0) scale(1.2)
+  }
+  100%{
+    opacity:0;
+    transform:translateY(-45px) scale(.9)
+  }
+}
+
+/* 紅蘿蔔 */
+
+.carrot-area{
+  position:absolute;
+  z-index:6;
+  left:62%;
+  bottom:75px;
+  transform:rotate(-28deg);
+}
+
+.carrot{
+  font-size:clamp(75px,18vw,110px);
+  display:block;
+  transform-origin:bottom center;
+  transition:
+    transform .2s ease,
+    opacity .25s ease;
+}
+
+.bunny-scene.bite .carrot{
+  transform:scale(.88) rotate(-6deg);
+}
+
+/* 每咬一口的小碎屑 */
+
+.crumb{
+  position:absolute;
+  z-index:10;
+  left:61%;
+  bottom:160px;
+  font-size:18px;
+  pointer-events:none;
+  animation:crumbFly .7s ease forwards;
+}
+
+@keyframes crumbFly{
+  0%{
+    opacity:1;
+    transform:translate(0,0) rotate(0)
+  }
+  100%{
+    opacity:0;
+    transform:translate(35px,-45px) rotate(90deg)
+  }
+}
+
+/* 小提示 */
+
+.tap-hint{
+  position:absolute;
+  z-index:5;
+  left:50%;
+  bottom:8%;
+  transform:translateX(-50%);
+  color:#a3878c;
+  font-size:14px;
+  letter-spacing:1px;
+  opacity:.65;
+  animation:tapHint 2.2s ease-in-out infinite;
+}
+
+@keyframes tapHint{
+  0%,100%{opacity:.35}
+  50%{opacity:.8}
+}
+
+/* 語言小標示 */
+
+.language-indicator{
+  position:absolute;
+  z-index:5;
+  right:20px;
+  top:max(25px,env(safe-area-inset-top));
+  color:#9b8186;
+  font-size:13px;
+  opacity:.55;
 }
 
 /* =========================
@@ -659,15 +813,32 @@ button{font-family:inherit}
   .grow-area{
     height:410px;
   }
+
+  .bunny-scene{
+    top:59%;
+    height:350px;
+  }
+
+  .big-bunny{
+    bottom:55px;
+  }
+
+  .carrot-area{
+    left:63%;
+    bottom:80px;
+  }
+
+  .bunny-message{
+    top:15%;
+    font-size:clamp(20px,6vw,29px);
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     首頁
-========================= -->
+<!-- 首頁 -->
 
 <main class="home">
 
@@ -676,22 +847,23 @@ button{font-family:inherit}
     <button
       class="world star-button"
       type="button"
-      aria-label="星星世界"
-      onclick="openStarWorld()">
+      onclick="openStarWorld()"
+      aria-label="星星世界">
       <span class="icon">⭐</span>
     </button>
 
     <button
       class="world garden-button"
       type="button"
-      aria-label="花園世界"
-      onclick="openGardenWorld()">
+      onclick="openGardenWorld()"
+      aria-label="花園世界">
       <span class="icon">🌷</span>
     </button>
 
     <button
       class="world bunny-button"
       type="button"
+      onclick="openBunnyWorld()"
       aria-label="兔兔世界">
       <span class="icon">🐰</span>
     </button>
@@ -701,16 +873,13 @@ button{font-family:inherit}
 </main>
 
 
-<!-- =========================
-     ⭐ 星星世界
-========================= -->
+<!-- ⭐ 星星世界 -->
 
 <section id="starWorld" class="star-world">
 
   <button
     class="back-button"
     type="button"
-    aria-label="返回"
     onclick="closeStarWorld()">‹</button>
 
   <div id="starField"></div>
@@ -718,16 +887,13 @@ button{font-family:inherit}
 </section>
 
 
-<!-- =========================
-     🌷 花園世界首頁
-========================= -->
+<!-- 🌷 花園首頁 -->
 
 <section id="gardenWorld" class="garden-world">
 
   <button
     class="back-button"
     type="button"
-    aria-label="返回"
     onclick="closeGardenWorld()">‹</button>
 
   <h1 class="garden-title">1WEN's Garden</h1>
@@ -737,13 +903,11 @@ button{font-family:inherit}
     <button
       class="garden-choice"
       type="button"
-      aria-label="呼吸花朵"
       onclick="openBreathingGarden()">🌸</button>
 
     <button
       class="garden-choice"
       type="button"
-      aria-label="種花"
       onclick="openGrowingGarden()">🌱</button>
 
   </div>
@@ -753,16 +917,13 @@ button{font-family:inherit}
 </section>
 
 
-<!-- =========================
-     🌸 呼吸花朵
-========================= -->
+<!-- 🌸 呼吸花 -->
 
 <section id="breathingGarden" class="garden-room">
 
   <button
     class="back-button"
     type="button"
-    aria-label="返回"
     onclick="closeBreathingGarden()">‹</button>
 
   <div class="breathe-text">
@@ -777,22 +938,18 @@ button{font-family:inherit}
     id="pauseButton"
     class="pause-button"
     type="button"
-    aria-label="暫停"
     onclick="toggleBreathing()">Ⅱ</button>
 
 </section>
 
 
-<!-- =========================
-     🌱 種花
-========================= -->
+<!-- 🌱 種花 -->
 
 <section id="growingGarden" class="garden-room">
 
   <button
     class="back-button"
     type="button"
-    aria-label="返回"
     onclick="closeGrowingGarden()">‹</button>
 
   <div class="grow-area">
@@ -802,10 +959,7 @@ button{font-family:inherit}
       <div class="plant">
 
         <div class="soil"></div>
-
-        <div
-          id="seed"
-          class="seed"></div>
+        <div class="seed"></div>
 
         <div
           id="sprout"
@@ -830,9 +984,59 @@ button{font-family:inherit}
     <button
       class="water-button"
       type="button"
-      aria-label="澆水"
       onclick="waterPlant()">🪣</button>
 
+  </div>
+
+</section>
+
+
+<!-- 🐰 兔兔世界 -->
+
+<section id="bunnyWorld" class="bunny-world">
+
+  <button
+    class="back-button"
+    type="button"
+    onclick="closeBunnyWorld()">‹</button>
+
+  <div class="bunny-cloud cloud-one">☁</div>
+  <div class="bunny-cloud cloud-two">☁</div>
+
+  <div
+    id="languageIndicator"
+    class="language-indicator">
+    中文
+  </div>
+
+  <div
+    id="bunnyMessage"
+    class="bunny-message">
+  </div>
+
+  <div
+    id="bunnyScene"
+    class="bunny-scene"
+    onclick="bunnyBite()">
+
+    <div class="big-bunny">🐰</div>
+
+    <div class="carrot-area">
+      <span
+        id="carrot"
+        class="carrot">🥕</span>
+    </div>
+
+    <div
+      id="bunnyHeart"
+      class="bunny-heart">💗</div>
+
+  </div>
+
+  <div class="bunny-ground"></div>
+
+  <div class="tap-hint">
+    tap ♡
   </div>
 
 </section>
@@ -841,47 +1045,30 @@ button{font-family:inherit}
 <script>
 
 /* =========================
-   ⭐ 星星世界
+   ⭐ 星星
 ========================= */
 
-const STAR_COUNT = 20;
-
-let specialStars = [];
-let foundSpecial = 0;
-
+const STAR_COUNT=20;
+let specialStars=[];
+let foundSpecial=0;
 
 function openStarWorld(){
-
-  document
-    .getElementById("starWorld")
-    .classList.add("open");
-
+  document.getElementById("starWorld").classList.add("open");
   createStars();
 }
 
-
 function closeStarWorld(){
-
-  document
-    .getElementById("starWorld")
-    .classList.remove("open");
-
-  document
-    .getElementById("starField")
-    .innerHTML="";
-
+  document.getElementById("starWorld").classList.remove("open");
+  document.getElementById("starField").innerHTML="";
   specialStars=[];
   foundSpecial=0;
 }
 
-
 function createStars(){
 
-  const field=
-    document.getElementById("starField");
+  const field=document.getElementById("starField");
 
   field.innerHTML="";
-
   specialStars=[];
   foundSpecial=0;
 
@@ -891,33 +1078,16 @@ function createStars(){
   const angle=Math.random()*Math.PI*2;
   const distance=randomNumber(8,13);
 
-  let secondX=
-    baseX+Math.cos(angle)*distance;
-
-  let secondY=
-    baseY+Math.sin(angle)*distance;
+  let secondX=baseX+Math.cos(angle)*distance;
+  let secondY=baseY+Math.sin(angle)*distance;
 
   secondX=Math.max(12,Math.min(88,secondX));
   secondY=Math.max(15,Math.min(82,secondY));
 
-  const fang=
-    createOneStar(
-      baseX,
-      baseY,
-      true,
-      "芳樑"
-    );
-
-  const wen=
-    createOneStar(
-      secondX,
-      secondY,
-      true,
-      "1WEN"
-    );
+  const fang=createOneStar(baseX,baseY,true,"芳樑");
+  const wen=createOneStar(secondX,secondY,true,"1WEN");
 
   specialStars=[fang,wen];
-
 
   for(let i=0;i<STAR_COUNT-2;i++){
 
@@ -926,34 +1096,20 @@ function createStars(){
     let attempts=0;
 
     do{
-
       x=randomNumber(8,92);
       y=randomNumber(12,88);
-
       attempts++;
+    }
+    while(tooCloseToSpecial(x,y)&&attempts<30);
 
-    }while(
-      tooCloseToSpecial(x,y) &&
-      attempts<30
-    );
-
-    createOneStar(
-      x,
-      y,
-      false,
-      ""
-    );
+    createOneStar(x,y,false,"");
   }
 }
 
-
 function createOneStar(x,y,special,name){
 
-  const field=
-    document.getElementById("starField");
-
-  const star=
-    document.createElement("button");
+  const field=document.getElementById("starField");
+  const star=document.createElement("button");
 
   star.type="button";
   star.className="sky-star";
@@ -987,22 +1143,17 @@ function createOneStar(x,y,special,name){
   return star;
 }
 
-
 function revealNormalStar(star){
 
   if(star.classList.contains("revealed")){
     return;
   }
 
-  const surprise=
-    Math.random()<.5
-      ?"🐰"
-      :"🌸";
-
   star.classList.add("revealed");
-  star.textContent=surprise;
-}
 
+  star.textContent=
+    Math.random()<.5 ? "🐰" : "🌸";
+}
 
 function findSpecialStar(star){
 
@@ -1012,8 +1163,7 @@ function findSpecialStar(star){
 
   star.classList.add("found");
 
-  const label=
-    document.createElement("span");
+  const label=document.createElement("span");
 
   label.className="star-name";
   label.textContent=star.dataset.name;
@@ -1025,9 +1175,7 @@ function findSpecialStar(star){
   if(foundSpecial===1){
 
     const other=
-      specialStars.find(
-        item=>item!==star
-      );
+      specialStars.find(item=>item!==star);
 
     showHint(other);
   }
@@ -1039,97 +1187,67 @@ function findSpecialStar(star){
   }
 }
 
-
 function showHint(target){
 
   removeHint();
 
-  const hint=
-    document.createElement("div");
+  const hint=document.createElement("div");
 
   hint.className="hint-glow";
   hint.id="hintGlow";
 
-  hint.style.left=
-    target.dataset.x+"%";
-
-  hint.style.top=
-    target.dataset.y+"%";
+  hint.style.left=target.dataset.x+"%";
+  hint.style.top=target.dataset.y+"%";
 
   document
     .getElementById("starField")
     .appendChild(hint);
 }
 
-
 function removeHint(){
 
-  const old=
-    document.getElementById("hintGlow");
+  const old=document.getElementById("hintGlow");
 
   if(old){
     old.remove();
   }
 }
 
-
 function connectSpecialStars(){
 
-  const field=
-    document.getElementById("starField");
+  const field=document.getElementById("starField");
 
   const first=specialStars[0];
   const second=specialStars[1];
 
-  const rect=
-    field.getBoundingClientRect();
+  const rect=field.getBoundingClientRect();
 
-  const x1=
-    parseFloat(first.dataset.x)/100*
-    rect.width;
+  const x1=parseFloat(first.dataset.x)/100*rect.width;
+  const y1=parseFloat(first.dataset.y)/100*rect.height;
 
-  const y1=
-    parseFloat(first.dataset.y)/100*
-    rect.height;
-
-  const x2=
-    parseFloat(second.dataset.x)/100*
-    rect.width;
-
-  const y2=
-    parseFloat(second.dataset.y)/100*
-    rect.height;
+  const x2=parseFloat(second.dataset.x)/100*rect.width;
+  const y2=parseFloat(second.dataset.y)/100*rect.height;
 
   const dx=x2-x1;
   const dy=y2-y1;
 
-  const length=
-    Math.sqrt(dx*dx+dy*dy);
+  const length=Math.sqrt(dx*dx+dy*dy);
+  const angle=Math.atan2(dy,dx)*180/Math.PI;
 
-  const angle=
-    Math.atan2(dy,dx)*180/Math.PI;
-
-  const line=
-    document.createElement("div");
+  const line=document.createElement("div");
 
   line.className="connection-line";
-
   line.style.left=x1+"px";
   line.style.top=y1+"px";
   line.style.width=length+"px";
-  line.style.transform=
-    "rotate("+angle+"deg)";
+  line.style.transform="rotate("+angle+"deg)";
 
-  field.insertBefore(
-    line,
-    field.firstChild
-  );
+  field.insertBefore(line,field.firstChild);
 
   requestAnimationFrame(()=>{
     line.classList.add("show");
   });
 }
-
 
 function tooCloseToSpecial(x,y){
 
@@ -1149,63 +1267,40 @@ function tooCloseToSpecial(x,y){
   });
 }
 
-
 function randomNumber(min,max){
-
   return Math.random()*(max-min)+min;
 }
 
 
 /* =========================
-   🌷 花園首頁
+   🌷 花園
 ========================= */
 
 function openGardenWorld(){
-
-  document
-    .getElementById("gardenWorld")
-    .classList.add("open");
+  document.getElementById("gardenWorld").classList.add("open");
 }
-
 
 function closeGardenWorld(){
-
-  document
-    .getElementById("gardenWorld")
-    .classList.remove("open");
+  document.getElementById("gardenWorld").classList.remove("open");
 }
 
 
-/* =========================
-   🌸 呼吸花朵
-========================= */
+/* 呼吸花 */
 
 let breathingPaused=false;
 
-
 function openBreathingGarden(){
-
-  document
-    .getElementById("breathingGarden")
-    .classList.add("open");
+  document.getElementById("breathingGarden").classList.add("open");
 }
-
 
 function closeBreathingGarden(){
-
-  document
-    .getElementById("breathingGarden")
-    .classList.remove("open");
+  document.getElementById("breathingGarden").classList.remove("open");
 }
-
 
 function toggleBreathing(){
 
-  const flower=
-    document.getElementById("breathingFlower");
-
-  const button=
-    document.getElementById("pauseButton");
+  const flower=document.getElementById("breathingFlower");
+  const button=document.getElementById("pauseButton");
 
   breathingPaused=!breathingPaused;
 
@@ -1222,9 +1317,7 @@ function toggleBreathing(){
 }
 
 
-/* =========================
-   🌱 種花
-========================= */
+/* 種花 */
 
 let waterCount=0;
 let chosenFlower="🌷";
@@ -1238,7 +1331,6 @@ const flowers=[
   "🌹"
 ];
 
-
 function openGrowingGarden(){
 
   document
@@ -1248,7 +1340,6 @@ function openGrowingGarden(){
   resetPlant();
 }
 
-
 function closeGrowingGarden(){
 
   document
@@ -1256,16 +1347,13 @@ function closeGrowingGarden(){
     .classList.remove("open");
 }
 
-
 function resetPlant(){
 
   waterCount=0;
 
   chosenFlower=
     flowers[
-      Math.floor(
-        Math.random()*flowers.length
-      )
+      Math.floor(Math.random()*flowers.length)
     ];
 
   document
@@ -1285,7 +1373,6 @@ function resetPlant(){
   createProgressDots();
 }
 
-
 function createProgressDots(){
 
   const progress=
@@ -1295,15 +1382,13 @@ function createProgressDots(){
 
   for(let i=0;i<15;i++){
 
-    const dot=
-      document.createElement("div");
+    const dot=document.createElement("div");
 
     dot.className="progress-dot";
 
     progress.appendChild(dot);
   }
 }
-
 
 function waterPlant(){
 
@@ -1347,7 +1432,6 @@ function waterPlant(){
   }
 }
 
-
 function showWaterDrop(){
 
   const area=
@@ -1366,7 +1450,6 @@ function showWaterDrop(){
   },700);
 }
 
-
 function updateProgress(){
 
   const dots=
@@ -1380,6 +1463,206 @@ function updateProgress(){
       dot.classList.add("done");
     }
   });
+}
+
+
+/* =========================
+   🐰 兔兔世界
+========================= */
+
+const bunnyMessages={
+
+  zh:[
+    "慢慢",
+    "我永遠在",
+    "相信自己有無限可能",
+    "停下來看看世界",
+    "相信自己就是最棒的"
+  ],
+
+  ko:[
+    "천천히 해도 괜찮아",
+    "나는 언제나 네 곁에 있어",
+    "너에게는 무한한 가능성이 있어",
+    "잠시 멈춰 세상을 바라봐",
+    "너 자신이 최고라는 걸 믿어"
+  ],
+
+  en:[
+    "Take it slow.",
+    "I will always be here.",
+    "Believe in your infinite possibilities.",
+    "Pause and look at the world.",
+    "Believe that you are amazing."
+  ]
+};
+
+const bunnyLanguages=["zh","ko","en"];
+
+const bunnyLanguageNames={
+  zh:"中文",
+  ko:"한국어",
+  en:"English"
+};
+
+let bunnyClickCount=0;
+
+
+/* 打開兔兔 */
+
+function openBunnyWorld(){
+
+  document
+    .getElementById("bunnyWorld")
+    .classList.add("open");
+
+  bunnyClickCount=0;
+
+  const message=
+    document.getElementById("bunnyMessage");
+
+  message.textContent="";
+  message.classList.remove("show");
+
+  updateBunnyLanguage();
+}
+
+
+/* 返回首頁 */
+
+function closeBunnyWorld(){
+
+  document
+    .getElementById("bunnyWorld")
+    .classList.remove("open");
+}
+
+
+/* 兔兔咬一口 */
+
+function bunnyBite(){
+
+  const scene=
+    document.getElementById("bunnyScene");
+
+  const message=
+    document.getElementById("bunnyMessage");
+
+  /* 算目前語言 */
+
+  const languageRound=
+    Math.floor(bunnyClickCount/5)%3;
+
+  const language=
+    bunnyLanguages[languageRound];
+
+  /* 算目前第幾句 */
+
+  const messageIndex=
+    bunnyClickCount%5;
+
+  /* 顯示文字 */
+
+  message.classList.remove("show");
+
+  setTimeout(()=>{
+
+    message.textContent=
+      bunnyMessages[language][messageIndex];
+
+    message.classList.add("show");
+
+  },100);
+
+
+  /* 咬紅蘿蔔動畫 */
+
+  scene.classList.add("bite");
+
+  setTimeout(()=>{
+    scene.classList.remove("bite");
+  },180);
+
+
+  /* 小碎屑 */
+
+  createCrumb();
+
+
+  /* 愛心 */
+
+  showBunnyHeart();
+
+
+  bunnyClickCount++;
+
+
+  /* 第五句之後切換語言 */
+
+  if(bunnyClickCount%5===0){
+
+    setTimeout(()=>{
+      updateBunnyLanguage();
+    },600);
+  }
+}
+
+
+/* 顯示目前語言 */
+
+function updateBunnyLanguage(){
+
+  const languageRound=
+    Math.floor(bunnyClickCount/5)%3;
+
+  const language=
+    bunnyLanguages[languageRound];
+
+  document
+    .getElementById("languageIndicator")
+    .textContent=
+      bunnyLanguageNames[language];
+}
+
+
+/* 紅蘿蔔碎屑 */
+
+function createCrumb(){
+
+  const scene=
+    document.getElementById("bunnyScene");
+
+  const crumb=
+    document.createElement("div");
+
+  crumb.className="crumb";
+
+  crumb.textContent=
+    Math.random()<.5 ? "🥕" : "✨";
+
+  crumb.style.marginLeft=
+    (Math.random()*20-10)+"px";
+
+  scene.appendChild(crumb);
+
+  setTimeout(()=>{
+    crumb.remove();
+  },700);
+}
+
+
+/* 愛心 */
+
+function showBunnyHeart(){
+
+  const heart=
+    document.getElementById("bunnyHeart");
+
+  heart.classList.remove("pop");
+
+  void heart.offsetWidth;
+
+  heart.classList.add("pop");
 }
 
 </script>

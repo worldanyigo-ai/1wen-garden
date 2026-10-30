@@ -1,260 +1,902 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>1WEN's Garden</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  >
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  <title>1WEN's Garden</title>
+html, body {
+  width: 100%;
+  height: 100%;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+body {
+  overflow: hidden;
+  background: #050817;
+  font-family: Arial, "Microsoft JhengHei", sans-serif;
+}
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-    }
+button {
+  font-family: inherit;
+}
 
-    body {
-      overflow: hidden;
-      background: #050817;
-      font-family: Arial, "Microsoft JhengHei", sans-serif;
-    }
+/* =========================
+   首頁
+========================= */
 
-    /* =========================
-       首頁背景
-    ========================= */
+.home {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
 
-    .home {
-      position: relative;
+  background-image:
+    linear-gradient(
+      rgba(5, 8, 25, 0.08),
+      rgba(5, 8, 25, 0.30)
+    ),
+    url("./garden-bg.png");
 
-      width: 100%;
-      height: 100vh;
-      height: 100dvh;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 
-      background-image:
-        linear-gradient(
-          rgba(5, 8, 25, 0.08),
-          rgba(5, 8, 25, 0.30)
-        ),
-        url("./garden-bg.png");
+.home::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 
-      background-size: cover;
-      background-position: center center;
-      background-repeat: no-repeat;
-    }
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(150, 170, 255, 0.10),
+      transparent 45%
+    );
+}
 
-    /* 柔和光暈 */
+.worlds {
+  position: absolute;
+  z-index: 10;
 
-    .home::after {
-      content: "";
+  left: 50%;
+  bottom: 6vh;
+  transform: translateX(-50%);
 
-      position: absolute;
-      inset: 0;
+  width: min(90%, 650px);
 
-      pointer-events: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 18px;
+}
 
-      background:
-        radial-gradient(
-          circle at 50% 35%,
-          rgba(150, 170, 255, 0.10),
-          transparent 45%
-        );
-    }
+.world {
+  width: clamp(85px, 22vw, 135px);
+  aspect-ratio: 1 / 1;
 
-    /* =========================
-       三個世界入口
-    ========================= */
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 50%;
 
-    .worlds {
-      position: absolute;
-      z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-      left: 50%;
-      bottom: 6vh;
+  cursor: pointer;
 
-      transform: translateX(-50%);
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(255,255,255,0.30),
+      rgba(20,25,55,0.35) 60%,
+      rgba(10,15,40,0.45)
+    );
 
-      width: min(90%, 650px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.40),
+    inset 0 0 18px rgba(255,255,255,0.08);
 
-      gap: 18px;
-    }
+  transition: transform 0.25s ease;
+}
 
-    .world {
-      width: clamp(85px, 22vw, 135px);
-      aspect-ratio: 1 / 1;
+.world:active {
+  transform: scale(0.92);
+}
 
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      border-radius: 50%;
+.icon {
+  font-size: clamp(44px, 11vw, 70px);
+  line-height: 1;
+}
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+.star-button {
+  box-shadow:
+    0 0 32px rgba(255,220,110,0.30),
+    0 8px 30px rgba(0,0,0,0.40);
+}
 
-      cursor: pointer;
+.garden-button {
+  box-shadow:
+    0 0 32px rgba(255,150,190,0.25),
+    0 8px 30px rgba(0,0,0,0.40);
+}
 
-      background:
-        radial-gradient(
-          circle at 35% 30%,
-          rgba(255, 255, 255, 0.30),
-          rgba(20, 25, 55, 0.35) 60%,
-          rgba(10, 15, 40, 0.45)
-        );
+.bunny-button {
+  box-shadow:
+    0 0 32px rgba(255,255,255,0.22),
+    0 8px 30px rgba(0,0,0,0.40);
+}
 
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+/* =========================
+   星星世界
+========================= */
 
-      box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.40),
-        inset 0 0 18px rgba(255, 255, 255, 0.08);
+.star-world {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
 
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-    }
+  display: none;
+  overflow: hidden;
 
-    .icon {
-      font-size: clamp(44px, 11vw, 70px);
-      line-height: 1;
+  background:
+    radial-gradient(circle at 50% 100%, #18275a 0%, transparent 48%),
+    radial-gradient(circle at 15% 20%, rgba(91,76,170,0.32), transparent 35%),
+    linear-gradient(#06091e, #101637 55%, #080b20);
+}
 
-      filter:
-        drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
-    }
+.star-world.open {
+  display: block;
+}
 
-    /* 星星 */
+/* 星空微光 */
 
-    .star {
-      box-shadow:
-        0 0 32px rgba(255, 220, 110, 0.30),
-        0 8px 30px rgba(0, 0, 0, 0.40);
-    }
+.star-world::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 
-    /* 花園 */
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(170,190,255,.6) 1px, transparent 1.5px);
 
-    .garden {
-      box-shadow:
-        0 0 32px rgba(255, 150, 190, 0.25),
-        0 8px 30px rgba(0, 0, 0, 0.40);
-    }
+  background-size: 72px 72px, 113px 113px;
+  background-position: 10px 20px, 40px 55px;
 
-    /* 兔兔 */
+  opacity: 0.35;
+}
 
-    .bunny {
-      box-shadow:
-        0 0 32px rgba(255, 255, 255, 0.22),
-        0 8px 30px rgba(0, 0, 0, 0.40);
-    }
+/* 返回 */
 
-    /* 點擊效果 */
+.back-button {
+  position: absolute;
+  z-index: 100;
+  top: max(18px, env(safe-area-inset-top));
+  left: 18px;
 
-    .world:active {
-      transform: scale(0.92);
-    }
+  width: 46px;
+  height: 46px;
 
-    /* 電腦滑鼠效果 */
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 50%;
 
-    @media (hover: hover) {
+  color: white;
+  font-size: 25px;
 
-      .world:hover {
-        transform: translateY(-7px) scale(1.05);
-      }
+  cursor: pointer;
 
-      .star:hover {
-        box-shadow:
-          0 0 48px rgba(255, 220, 110, 0.55),
-          0 10px 35px rgba(0, 0, 0, 0.45);
-      }
+  background: rgba(15,20,50,0.45);
 
-      .garden:hover {
-        box-shadow:
-          0 0 48px rgba(255, 150, 190, 0.45),
-          0 10px 35px rgba(0, 0, 0, 0.45);
-      }
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
 
-      .bunny:hover {
-        box-shadow:
-          0 0 48px rgba(255, 255, 255, 0.40),
-          0 10px 35px rgba(0, 0, 0, 0.45);
-      }
-    }
+/* 星星區域 */
 
-    /* =========================
-       手機版
-    ========================= */
+#starField {
+  position: absolute;
+  inset: 0;
+}
 
-    @media (max-width: 600px) {
+/* 每一顆星 */
 
-      .home {
-        background-position: center center;
-      }
+.sky-star {
+  position: absolute;
 
-      .worlds {
-        bottom: max(5vh, 35px);
-        width: 94%;
-        gap: 8px;
-      }
+  width: 54px;
+  height: 54px;
 
-      .world {
-        width: 27vw;
-        max-width: 105px;
-      }
+  transform: translate(-50%, -50%);
 
-      .icon {
-        font-size: clamp(42px, 13vw, 60px);
-      }
-    }
+  border: 0;
+  background: transparent;
 
-  </style>
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #ffe48a;
+
+  font-size: 26px;
+
+  text-shadow:
+    0 0 7px rgba(255,230,130,0.95),
+    0 0 18px rgba(255,205,80,0.65);
+
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.sky-star::before {
+  content: "✦";
+}
+
+.sky-star:nth-child(3n) {
+  font-size: 20px;
+}
+
+.sky-star:nth-child(4n) {
+  font-size: 31px;
+}
+
+.sky-star:active {
+  transform: translate(-50%, -50%) scale(1.35);
+}
+
+/* 被找到的普通星星 */
+
+.sky-star.revealed::before {
+  content: "";
+}
+
+.sky-star.revealed {
+  font-size: 27px;
+}
+
+/* 特別星星 */
+
+.sky-star.special.found {
+  color: #fff0a8;
+
+  filter:
+    drop-shadow(0 0 8px #ffd66b)
+    drop-shadow(0 0 20px #ffbf45);
+
+  animation: specialGlow 2.2s ease-in-out infinite;
+}
+
+.star-name {
+  position: absolute;
+
+  top: 42px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  white-space: nowrap;
+
+  color: #fff1bd;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  text-shadow:
+    0 0 7px rgba(255,210,100,0.95),
+    0 0 15px rgba(255,190,70,0.75);
+}
+
+@keyframes specialGlow {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.22);
+  }
+}
+
+/* 找到第一顆後的提示光 */
+
+.hint-glow {
+  position: absolute;
+
+  width: 85px;
+  height: 85px;
+
+  border-radius: 50%;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,215,100,0.28),
+      rgba(255,190,70,0.08) 45%,
+      transparent 70%
+    );
+
+  opacity: 0;
+
+  animation: hintPulse 3s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 60%, 100% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 0.85;
+  }
+}
+
+/* 兩顆星之間的線 */
+
+.connection-line {
+  position: absolute;
+
+  height: 2px;
+
+  transform-origin: left center;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,215,110,0.15),
+      rgba(255,230,150,0.75),
+      rgba(255,215,110,0.15)
+    );
+
+  box-shadow:
+    0 0 10px rgba(255,215,100,0.55);
+
+  opacity: 0;
+
+  transition: opacity 1s ease;
+}
+
+.connection-line.show {
+  opacity: 1;
+}
+
+/* =========================
+   手機
+========================= */
+
+@media (max-width: 600px) {
+
+  .worlds {
+    bottom: max(5vh, 35px);
+    width: 94%;
+    gap: 8px;
+  }
+
+  .world {
+    width: 27vw;
+    max-width: 105px;
+  }
+
+  .icon {
+    font-size: clamp(42px, 13vw, 60px);
+  }
+
+  .sky-star {
+    width: 48px;
+    height: 48px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <main class="home">
+<!-- 首頁 -->
 
-    <div class="worlds">
+<main class="home">
 
-      <!-- 星星世界 -->
-      <button
-        class="world star"
-        type="button"
-        aria-label="星星世界"
-      >
-        <span class="icon">⭐</span>
-      </button>
+  <div class="worlds">
 
-      <!-- 花園世界 -->
-      <button
-        class="world garden"
-        type="button"
-        aria-label="花園世界"
-      >
-        <span class="icon">🌷</span>
-      </button>
+    <button
+      class="world star-button"
+      type="button"
+      aria-label="星星世界"
+      onclick="openStarWorld()"
+    >
+      <span class="icon">⭐</span>
+    </button>
 
-      <!-- 兔兔世界 -->
-      <button
-        class="world bunny"
-        type="button"
-        aria-label="兔兔世界"
-      >
-        <span class="icon">🐰</span>
-      </button>
+    <button
+      class="world garden-button"
+      type="button"
+      aria-label="花園世界"
+    >
+      <span class="icon">🌷</span>
+    </button>
 
-    </div>
+    <button
+      class="world bunny-button"
+      type="button"
+      aria-label="兔兔世界"
+    >
+      <span class="icon">🐰</span>
+    </button>
 
-  </main>
+  </div>
+
+</main>
+
+
+<!-- 星星世界 -->
+
+<section
+  id="starWorld"
+  class="star-world"
+>
+
+  <button
+    class="back-button"
+    type="button"
+    aria-label="返回"
+    onclick="closeStarWorld()"
+  >
+    ‹
+  </button>
+
+  <div id="starField"></div>
+
+</section>
+
+
+<script>
+
+const STAR_COUNT = 20;
+
+let specialStars = [];
+let foundSpecial = 0;
+
+
+/* =========================
+   打開星星世界
+========================= */
+
+function openStarWorld() {
+
+  const world =
+    document.getElementById("starWorld");
+
+  world.classList.add("open");
+
+  createStars();
+}
+
+
+/* =========================
+   返回首頁
+========================= */
+
+function closeStarWorld() {
+
+  const world =
+    document.getElementById("starWorld");
+
+  world.classList.remove("open");
+
+  document.getElementById("starField").innerHTML = "";
+
+  specialStars = [];
+  foundSpecial = 0;
+}
+
+
+/* =========================
+   建立星星
+========================= */
+
+function createStars() {
+
+  const field =
+    document.getElementById("starField");
+
+  field.innerHTML = "";
+
+  specialStars = [];
+  foundSpecial = 0;
+
+
+  /* -------------------------
+     先決定兩顆名字星的位置
+     保證彼此靠近
+  ------------------------- */
+
+  const baseX =
+    randomNumber(22, 72);
+
+  const baseY =
+    randomNumber(25, 70);
+
+  const angle =
+    Math.random() * Math.PI * 2;
+
+  const distance =
+    randomNumber(8, 13);
+
+  let secondX =
+    baseX + Math.cos(angle) * distance;
+
+  let secondY =
+    baseY + Math.sin(angle) * distance;
+
+  secondX =
+    Math.max(12, Math.min(88, secondX));
+
+  secondY =
+    Math.max(15, Math.min(82, secondY));
+
+
+  /* 芳樑 */
+
+  const fang =
+    createOneStar(
+      baseX,
+      baseY,
+      true,
+      "芳樑"
+    );
+
+
+  /* 1WEN */
+
+  const wen =
+    createOneStar(
+      secondX,
+      secondY,
+      true,
+      "1WEN"
+    );
+
+  specialStars = [fang, wen];
+
+
+  /* -------------------------
+     其他 18 顆
+  ------------------------- */
+
+  for (let i = 0; i < STAR_COUNT - 2; i++) {
+
+    let x;
+    let y;
+    let attempts = 0;
+
+    do {
+
+      x = randomNumber(8, 92);
+      y = randomNumber(12, 88);
+
+      attempts++;
+
+    } while (
+      tooCloseToSpecial(x, y) &&
+      attempts < 30
+    );
+
+    createOneStar(
+      x,
+      y,
+      false,
+      ""
+    );
+  }
+}
+
+
+/* =========================
+   建立單顆星星
+========================= */
+
+function createOneStar(
+  x,
+  y,
+  special,
+  name
+) {
+
+  const field =
+    document.getElementById("starField");
+
+  const star =
+    document.createElement("button");
+
+  star.type = "button";
+  star.className = "sky-star";
+
+  star.style.left = x + "%";
+  star.style.top = y + "%";
+
+  star.dataset.x = x;
+  star.dataset.y = y;
+
+  if (special) {
+
+    star.classList.add("special");
+
+    star.dataset.name = name;
+
+    star.addEventListener(
+      "click",
+      () => findSpecialStar(star)
+    );
+
+  } else {
+
+    star.addEventListener(
+      "click",
+      () => revealNormalStar(star)
+    );
+  }
+
+  field.appendChild(star);
+
+  return star;
+}
+
+
+/* =========================
+   普通星星
+========================= */
+
+function revealNormalStar(star) {
+
+  if (star.classList.contains("revealed")) {
+    return;
+  }
+
+  const surprise =
+    Math.random() < 0.5
+      ? "🐰"
+      : "🌸";
+
+  star.classList.add("revealed");
+
+  star.textContent = surprise;
+}
+
+
+/* =========================
+   找到名字星星
+========================= */
+
+function findSpecialStar(star) {
+
+  if (star.classList.contains("found")) {
+    return;
+  }
+
+  star.classList.add("found");
+
+
+  const label =
+    document.createElement("span");
+
+  label.className = "star-name";
+
+  label.textContent =
+    star.dataset.name;
+
+  star.appendChild(label);
+
+  foundSpecial++;
+
+
+  /* 找到第一顆 */
+
+  if (foundSpecial === 1) {
+
+    const other =
+      specialStars.find(
+        item => item !== star
+      );
+
+    showHint(other);
+  }
+
+
+  /* 兩顆都找到 */
+
+  if (foundSpecial === 2) {
+
+    removeHint();
+
+    connectSpecialStars();
+  }
+}
+
+
+/* =========================
+   提示第二顆星
+========================= */
+
+function showHint(target) {
+
+  removeHint();
+
+  const hint =
+    document.createElement("div");
+
+  hint.className = "hint-glow";
+  hint.id = "hintGlow";
+
+  hint.style.left =
+    target.dataset.x + "%";
+
+  hint.style.top =
+    target.dataset.y + "%";
+
+  document
+    .getElementById("starField")
+    .appendChild(hint);
+}
+
+
+function removeHint() {
+
+  const old =
+    document.getElementById("hintGlow");
+
+  if (old) {
+    old.remove();
+  }
+}
+
+
+/* =========================
+   連接兩顆名字星星
+========================= */
+
+function connectSpecialStars() {
+
+  const field =
+    document.getElementById("starField");
+
+  const first =
+    specialStars[0];
+
+  const second =
+    specialStars[1];
+
+  const rect =
+    field.getBoundingClientRect();
+
+
+  const x1 =
+    parseFloat(first.dataset.x) / 100
+    * rect.width;
+
+  const y1 =
+    parseFloat(first.dataset.y) / 100
+    * rect.height;
+
+  const x2 =
+    parseFloat(second.dataset.x) / 100
+    * rect.width;
+
+  const y2 =
+    parseFloat(second.dataset.y) / 100
+    * rect.height;
+
+
+  const dx =
+    x2 - x1;
+
+  const dy =
+    y2 - y1;
+
+  const length =
+    Math.sqrt(
+      dx * dx +
+      dy * dy
+    );
+
+  const angle =
+    Math.atan2(dy, dx)
+    * 180 / Math.PI;
+
+
+  const line =
+    document.createElement("div");
+
+  line.className =
+    "connection-line";
+
+  line.style.left =
+    x1 + "px";
+
+  line.style.top =
+    y1 + "px";
+
+  line.style.width =
+    length + "px";
+
+  line.style.transform =
+    "rotate(" + angle + "deg)";
+
+  field.insertBefore(
+    line,
+    field.firstChild
+  );
+
+
+  requestAnimationFrame(() => {
+
+    line.classList.add("show");
+
+  });
+}
+
+
+/* =========================
+   避免普通星星蓋住名字星
+========================= */
+
+function tooCloseToSpecial(x, y) {
+
+  if (specialStars.length < 2) {
+    return false;
+  }
+
+  return specialStars.some(star => {
+
+    const sx =
+      parseFloat(star.dataset.x);
+
+    const sy =
+      parseFloat(star.dataset.y);
+
+    const dx =
+      x - sx;
+
+    const dy =
+      y - sy;
+
+    return Math.sqrt(
+      dx * dx +
+      dy * dy
+    ) < 9;
+  });
+}
+
+
+/* =========================
+   隨機數字
+========================= */
+
+function randomNumber(min, max) {
+
+  return (
+    Math.random()
+    * (max - min)
+    + min
+  );
+}
+
+</script>
 
 </body>
 </html>

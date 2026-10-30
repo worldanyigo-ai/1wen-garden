@@ -1,1 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>1WEN's Garden</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      overflow: hidden;
+      background: #050817;
+      font-family: Arial, "Microsoft JhengHei", sans-serif;
+    }
+
+    /* =========================
+       首頁背景
+    ========================= */
+
+    .home {
+      position: relative;
+
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+
+      background-image:
+        linear-gradient(
+          rgba(5, 8, 25, 0.08),
+          rgba(5, 8, 25, 0.30)
+        ),
+        url("./garden-bg.png");
+
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    /* 柔和光暈 */
+
+    .home::after {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(150, 170, 255, 0.10),
+          transparent 45%
+        );
+    }
+
+    /* =========================
+       三個世界入口
+    ========================= */
+
+    .worlds {
+      position: absolute;
+      z-index: 10;
+
+      left: 50%;
+      bottom: 6vh;
+
+      transform: translateX(-50%);
+
+      width: min(90%, 650px);
+
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      gap: 18px;
+    }
+
+    .world {
+      width: clamp(85px, 22vw, 135px);
+      aspect-ratio: 1 / 1;
+
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      cursor: pointer;
+
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          rgba(255, 255, 255, 0.30),
+          rgba(20, 25, 55, 0.35) 60%,
+          rgba(10, 15, 40, 0.45)
+        );
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.40),
+        inset 0 0 18px rgba(255, 255, 255, 0.08);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .icon {
+      font-size: clamp(44px, 11vw, 70px);
+      line-height: 1;
+
+      filter:
+        drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+    }
+
+    /* 星星 */
+
+    .star {
+      box-shadow:
+        0 0 32px rgba(255, 220, 110, 0.30),
+        0 8px 30px rgba(0, 0, 0, 0.40);
+    }
+
+    /* 花園 */
+
+    .garden {
+      box-shadow:
+        0 0 32px rgba(255, 150, 190, 0.25),
+        0 8px 30px rgba(0, 0, 0, 0.40);
+    }
+
+    /* 兔兔 */
+
+    .bunny {
+      box-shadow:
+        0 0 32px rgba(255, 255, 255, 0.22),
+        0 8px 30px rgba(0, 0, 0, 0.40);
+    }
+
+    /* 點擊效果 */
+
+    .world:active {
+      transform: scale(0.92);
+    }
+
+    /* 電腦滑鼠效果 */
+
+    @media (hover: hover) {
+
+      .world:hover {
+        transform: translateY(-7px) scale(1.05);
+      }
+
+      .star:hover {
+        box-shadow:
+          0 0 48px rgba(255, 220, 110, 0.55),
+          0 10px 35px rgba(0, 0, 0, 0.45);
+      }
+
+      .garden:hover {
+        box-shadow:
+          0 0 48px rgba(255, 150, 190, 0.45),
+          0 10px 35px rgba(0, 0, 0, 0.45);
+      }
+
+      .bunny:hover {
+        box-shadow:
+          0 0 48px rgba(255, 255, 255, 0.40),
+          0 10px 35px rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    /* =========================
+       手機版
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .home {
+        background-position: center center;
+      }
+
+      .worlds {
+        bottom: max(5vh, 35px);
+        width: 94%;
+        gap: 8px;
+      }
+
+      .world {
+        width: 27vw;
+        max-width: 105px;
+      }
+
+      .icon {
+        font-size: clamp(42px, 13vw, 60px);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main class="home">
+
+    <div class="worlds">
+
+      <!-- 星星世界 -->
+      <button
+        class="world star"
+        type="button"
+        aria-label="星星世界"
+      >
+        <span class="icon">⭐</span>
+      </button>
+
+      <!-- 花園世界 -->
+      <button
+        class="world garden"
+        type="button"
+        aria-label="花園世界"
+      >
+        <span class="icon">🌷</span>
+      </button>
+
+      <!-- 兔兔世界 -->
+      <button
+        class="world bunny"
+        type="button"
+        aria-label="兔兔世界"
+      >
+        <span class="icon">🐰</span>
+      </button>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

@@ -1,13 +1,217 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1WEN's Garden</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>1WEN's Garden</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    font-family: Arial, "Microsoft JhengHei", sans-serif;
+    background: #070b1b;
+}
+
+/* 首頁 */
+.home {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+
+    background-image:
+        linear-gradient(
+            rgba(5, 8, 25, 0.22),
+            rgba(5, 8, 25, 0.48)
+        ),
+        url("星夜花園中的蓮花少女.png");
+
+    background-size: cover;
+    background-position: center;
+}
+
+/* 柔和星光 */
+.home::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(160, 180, 255, 0.12),
+            transparent 38%
+        );
+}
+
+/* 三個入口 */
+.worlds {
+    position: absolute;
+    z-index: 2;
+
+    left: 50%;
+    bottom: 8vh;
+
+    transform: translateX(-50%);
+
+    width: min(92%, 720px);
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* 按鈕 */
+.world {
+    width: clamp(88px, 23vw, 145px);
+    aspect-ratio: 1;
+
+    border: none;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(255,255,255,.30),
+            rgba(255,255,255,.08) 55%,
+            rgba(255,255,255,.04)
+        );
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.35),
+        inset 0 0 20px rgba(255,255,255,.08);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.world:active {
+    transform: scale(.92);
+}
+
+/* 圖像 */
+.icon {
+    font-size: clamp(45px, 12vw, 75px);
+    line-height: 1;
+
+    filter:
+        drop-shadow(0 4px 10px rgba(0,0,0,.35));
+}
+
+/* 星星 */
+.star {
+    box-shadow:
+        0 0 30px rgba(255,220,120,.20),
+        0 8px 30px rgba(0,0,0,.35);
+}
+
+/* 花園 */
+.garden {
+    box-shadow:
+        0 0 30px rgba(255,160,190,.18),
+        0 8px 30px rgba(0,0,0,.35);
+}
+
+/* 兔兔 */
+.bunny {
+    box-shadow:
+        0 0 30px rgba(255,255,255,.16),
+        0 8px 30px rgba(0,0,0,.35);
+}
+
+/* 電腦滑鼠效果 */
+@media (hover:hover) {
+
+    .world:hover {
+        transform: translateY(-8px) scale(1.05);
+    }
+
+    .star:hover {
+        box-shadow:
+            0 0 45px rgba(255,220,120,.45),
+            0 10px 35px rgba(0,0,0,.4);
+    }
+
+    .garden:hover {
+        box-shadow:
+            0 0 45px rgba(255,160,190,.35),
+            0 10px 35px rgba(0,0,0,.4);
+    }
+
+    .bunny:hover {
+        box-shadow:
+            0 0 45px rgba(255,255,255,.30),
+            0 10px 35px rgba(0,0,0,.4);
+    }
+}
+
+/* 手機直向 */
+@media (max-width: 600px) {
+
+    .home {
+        background-position: center center;
+    }
+
+    .worlds {
+        bottom: max(6vh, 45px);
+        gap: 12px;
+    }
+
+    .world {
+        width: 28vw;
+        max-width: 115px;
+    }
+}
+
+</style>
 </head>
 
 <body>
-  <h1>🌙 1WEN's Garden 🌷</h1>
-  <p>花園正在慢慢長大...</p>
+
+<main class="home">
+
+    <div class="worlds">
+
+        <!-- 星星世界 -->
+        <button class="world star" aria-label="星星世界">
+            <span class="icon">⭐</span>
+        </button>
+
+        <!-- 花園世界 -->
+        <button class="world garden" aria-label="花園世界">
+            <span class="icon">🌷</span>
+        </button>
+
+        <!-- 兔兔世界 -->
+        <button class="world bunny" aria-label="兔兔世界">
+            <span class="icon">🐰</span>
+        </button>
+
+    </div>
+
+</main>
+
 </body>
 </html>

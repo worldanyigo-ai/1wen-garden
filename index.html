@@ -513,9 +513,11 @@ button{font-family:inherit}
   cursor:pointer;
   touch-action:manipulation;
   font-size:48px;
-  background:rgba(255,255,255,.72);
+  background:rgba(255,255,255,.72);S
 }
-
+.water-button:active{
+  transform:translateX(-50%) rotate(-15deg) scale(.95);
+}
 .water-drop{
   position:absolute;
   left:50%;
@@ -986,7 +988,15 @@ button{font-family:inherit}
     <button
       class="water-button"
       type="button"
-      onclick="waterPlant()">🪣</button>
+      onclick="waterPlant()">
+  <svg viewBox="0 0 120 90" width="68" height="55" aria-hidden="true">
+    <path d="M31 35 H78 V72 H31 Z" fill="#e7aebb"/>
+    <path d="M77 42 L105 24 L110 32 L78 55 Z" fill="#e7aebb"/>
+    <path d="M31 42 C8 35 8 70 31 64" fill="none" stroke="#e7aebb" stroke-width="8" stroke-linecap="round"/>
+    <path d="M103 23 L114 30" fill="none" stroke="#e7aebb" stroke-width="8" stroke-linecap="round"/>
+    <path d="M39 35 C43 20 66 20 71 35" fill="none" stroke="#f5d9df" stroke-width="6" stroke-linecap="round"/>
+  </svg>
+</button>
 
   </div>
 

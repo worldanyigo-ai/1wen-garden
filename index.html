@@ -521,9 +521,10 @@ button{
 
 .garden-bloom{
   position:relative;
-  width:42px;
-  height:72px;
+  width:38px;
+  height:58px;
   flex:none;
+}
 }
 
 .garden-bloom-flower{
@@ -531,7 +532,7 @@ button{
   top:0;
   left:50%;
   transform:translateX(-50%);
-  font-size:34px;
+  font-size:30px;
   line-height:1;
   z-index:3;
 }
@@ -539,9 +540,9 @@ button{
 .garden-bloom-stem{
   position:absolute;
   left:50%;
-  top:28px;
+  top:24px;
   width:4px;
-  height:32px;
+  height:25px;
   transform:translateX(-50%);
   background:#6fa85b;
   border-radius:4px;
@@ -549,7 +550,7 @@ button{
 
 .garden-bloom-leaf{
   position:absolute;
-  top:40px;
+  top:34px;
   width:16px;
   height:9px;
   background:#78b967;
@@ -4065,14 +4066,14 @@ function renderFlowerBook(){
       discovered
       +" / 7 collected";
 }
-  const flowerPatchPositions = {
-  sakura:    { left:"5%",  top:"8%"  },
-  sunflower: { left:"28%", top:"42%" },
-  lavender:  { left:"38%", top:"8%"  },
-  daisy:     { left:"58%", top:"10%" },
-  tulip:     { left:"52%", top:"58%" },
-  hibiscus:  { left:"74%", top:"32%" },
-  rose:      { left:"88%", top:"5%"  }
+const flowerPatchPositions = {
+  sakura:    { left:"4%",  top:"8%"  },
+  sunflower: { left:"20%", top:"48%" },
+  lavender:  { left:"30%", top:"5%"  },
+  daisy:     { left:"64%", top:"5%"  },
+  tulip:     { left:"72%", top:"52%" },
+  hibiscus:  { left:"82%", top:"22%" },
+  rose:      { left:"55%", top:"2%"  }
 };
 function renderCollectedGarden(){
 

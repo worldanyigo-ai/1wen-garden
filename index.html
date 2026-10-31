@@ -578,7 +578,51 @@ button{
   background:#9c765f;
   border-radius:50%;
 }
+/* 櫻花測試版：先隱藏原本 Emoji 花頭 */
+.garden-bloom.sakura .garden-bloom-flower{
+  font-size:0;
+.garden-bloom.sakura .garden-bloom-flower{
+  width:30px;
+  height:30px;
+}
 
+.garden-bloom.sakura .garden-bloom-flower::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  width:13px;
+  height:13px;
+
+  background:#f6a9c3;
+  border-radius:50%;
+
+  transform:translate(-50%,-50%);
+
+  box-shadow:
+    0 -9px 0 #f6a9c3,
+    8px -3px 0 #f6a9c3,
+    5px 7px 0 #f6a9c3,
+    -5px 7px 0 #f6a9c3,
+    -8px -3px 0 #f6a9c3;
+}
+
+.garden-bloom.sakura .garden-bloom-flower::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  width:8px;
+  height:8px;
+
+  background:#ffd86b;
+  border-radius:50%;
+
+  transform:translate(-50%,-50%);
+}  
+}
 .flower-patch span{
   display:inline-block;
 }
@@ -4117,7 +4161,7 @@ if(position){
   const bloom =
     document.createElement("div");
 
-  bloom.className="garden-bloom";
+  bloom.className="garden-bloom "+flower.id;
 
   const flowerHead =
     document.createElement("div");

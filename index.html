@@ -494,8 +494,39 @@ button{
 
   color:#806c72;
 }
+/* 已種植的收藏花園 */
+.collected-garden{
+  width:min(88vw,520px);
+  min-height:220px;
+  margin:18px auto 22px;
 
-.garden-choices{
+  display:flex;
+  flex-wrap:wrap;
+  align-content:center;
+  justify-content:center;
+
+  gap:14px 22px;
+
+  position:relative;
+  z-index:5;
+}
+.flower-patch{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-end;
+
+  max-width:150px;
+  gap:2px;
+
+  font-size:clamp(25px,7vw,38px);
+  line-height:1;
+}
+
+.flower-patch span{
+  display:inline-block;
+}
+  .garden-choices{
   position:absolute;
 
   left:50%;
@@ -2012,7 +2043,7 @@ button{
   <h1 class="garden-title">
     1WEN's Garden
   </h1>
-
+<div id="collectedGarden" class="collected-garden"></div>
   <div class="garden-choices">
 
     <button
@@ -2028,14 +2059,7 @@ button{
       onclick="openGrowingGarden()">
       🌱
     </button>
-
-    <button
-      class="garden-choice"
-      type="button"
-      onclick="openFlowerBook()">
-      📖
-    </button>
-
+    
   </div>
 
   <div class="garden-grass"></div>
@@ -2870,6 +2894,7 @@ function openGardenWorld(){
     .classList.add(
       "open"
     );
+    renderCollectedGarden();
 }
 
 
@@ -3709,6 +3734,7 @@ function finishFlower(){
 
 
   saveFlowerBook();
+  renderCollectedGarden();
 
 
   /*
@@ -3984,7 +4010,50 @@ function renderFlowerBook(){
       discovered
       +" / 7 collected";
 }
+function renderCollectedGarden(){
 
+  const garden =
+    document.getElementById("collectedGarden");
+
+  if(!garden) return;
+
+  garden.innerHTML="";
+
+  flowerData.forEach(flower=>{
+
+    const count =
+      flowerSave[flower.id] || 0;
+
+    /* 沒種過的花完全不顯示 */
+    if(count <= 0) return;
+
+    /* 隱藏玫瑰尚未解鎖時不顯示 */
+    if(
+      flower.secret &&
+      !flowerSave.roseUnlocked
+    ){
+      return;
+    }
+
+    const patch =
+      document.createElement("div");
+
+    patch.className="flower-patch";
+
+    /* 有幾朵，就真的顯示幾朵 */
+    for(let i=0;i<count;i++){
+
+      const bloom =
+        document.createElement("span");
+
+      bloom.textContent=flower.emoji;
+
+      patch.appendChild(bloom);
+    }
+
+    garden.appendChild(patch);
+  });
+}
 
 
 /* =========================

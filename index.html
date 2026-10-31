@@ -496,31 +496,86 @@ button{
 }
 /* 已種植的收藏花園 */
 .collected-garden{
-  width:min(88vw,520px);
-  min-height:220px;
-  margin:18px auto 22px;
+  position:absolute;
 
-  display:flex;
-  flex-wrap:wrap;
-  align-content:center;
-  justify-content:center;
+  left:5%;
+  right:5%;
+  top:57%;
+  bottom:4%;
 
-  gap:14px 22px;
+  z-index:4;
 
-  position:relative;
-  z-index:5;
+  pointer-events:none;
 }
 .flower-patch{
+  position:absolute;
+
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
   align-items:flex-end;
+  justify-content:center;
 
-  max-width:150px;
-  gap:2px;
+  width:150px;
+  gap:2px 4px;
+}
 
-  font-size:clamp(25px,7vw,38px);
+.garden-bloom{
+  position:relative;
+  width:42px;
+  height:72px;
+  flex:none;
+}
+
+.garden-bloom-flower{
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:34px;
   line-height:1;
+  z-index:3;
+}
+
+.garden-bloom-stem{
+  position:absolute;
+  left:50%;
+  top:28px;
+  width:4px;
+  height:32px;
+  transform:translateX(-50%);
+  background:#6fa85b;
+  border-radius:4px;
+}
+
+.garden-bloom-leaf{
+  position:absolute;
+  top:40px;
+  width:16px;
+  height:9px;
+  background:#78b967;
+}
+
+.garden-bloom-leaf.left{
+  left:5px;
+  border-radius:100% 0 100% 0;
+  transform:rotate(18deg);
+}
+
+.garden-bloom-leaf.right{
+  right:5px;
+  border-radius:0 100% 0 100%;
+  transform:rotate(-18deg);
+}
+
+.garden-bloom-soil{
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:34px;
+  height:9px;
+  transform:translateX(-50%);
+  background:#9c765f;
+  border-radius:50%;
 }
 
 .flower-patch span{
@@ -2043,7 +2098,7 @@ button{
   <h1 class="garden-title">
     1WEN's Garden
   </h1>
-<div id="collectedGarden" class="collected-garden"></div>
+
   <div class="garden-choices">
 
     <button
@@ -2125,7 +2180,7 @@ button{
 
 
   <div class="garden-field"></div>
-
+<div id="collectedGarden" class="collected-garden"></div>
 
   <div class="grass-decoration grass-one">
     🌿
@@ -4010,6 +4065,15 @@ function renderFlowerBook(){
       discovered
       +" / 7 collected";
 }
+  const flowerPatchPositions = {
+  sakura:    { left:"5%",  top:"8%"  },
+  sunflower: { left:"28%", top:"42%" },
+  lavender:  { left:"38%", top:"8%"  },
+  daisy:     { left:"58%", top:"10%" },
+  tulip:     { left:"52%", top:"58%" },
+  hibiscus:  { left:"74%", top:"32%" },
+  rose:      { left:"88%", top:"5%"  }
+};
 function renderCollectedGarden(){
 
   const garden =
@@ -4039,17 +4103,50 @@ function renderCollectedGarden(){
       document.createElement("div");
 
     patch.className="flower-patch";
+    const position = flowerPatchPositions[flower.id];
+
+if(position){
+  patch.style.left = position.left;
+  patch.style.top = position.top;
+}
 
     /* 有幾朵，就真的顯示幾朵 */
     for(let i=0;i<count;i++){
 
-      const bloom =
-        document.createElement("span");
+  const bloom =
+    document.createElement("div");
 
-      bloom.textContent=flower.emoji;
+  bloom.className="garden-bloom";
 
-      patch.appendChild(bloom);
-    }
+  const flowerHead =
+    document.createElement("div");
+  flowerHead.className="garden-bloom-flower";
+  flowerHead.textContent=flower.emoji;
+
+  const stem =
+    document.createElement("div");
+  stem.className="garden-bloom-stem";
+
+  const leafLeft =
+    document.createElement("div");
+  leafLeft.className="garden-bloom-leaf left";
+
+  const leafRight =
+    document.createElement("div");
+  leafRight.className="garden-bloom-leaf right";
+
+  const soil =
+    document.createElement("div");
+  soil.className="garden-bloom-soil";
+
+  bloom.appendChild(stem);
+  bloom.appendChild(leafLeft);
+  bloom.appendChild(leafRight);
+  bloom.appendChild(soil);
+  bloom.appendChild(flowerHead);
+
+  patch.appendChild(bloom);
+}
 
     garden.appendChild(patch);
   });

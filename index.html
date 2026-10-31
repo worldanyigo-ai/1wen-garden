@@ -52,12 +52,54 @@ button{
       rgba(5,8,25,.08),
       rgba(5,8,25,.30)
     ),
-    url("./garden-bg.png");
+    url("./garden-home.png");
 
-  background-size:cover;
+  background-size:contain;
   background-position:center;
 }
+/* 首頁隱藏入口 */
+.home-hotspots{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+}
 
+.home-hotspot{
+  position:absolute;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  pointer-events:auto;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* 星空 → 星星世界 */
+.hotspot-stars{
+  left:0;
+  top:0;
+  width:100%;
+  height:43%;
+}
+
+/* 小女孩 → 花花世界 */
+.hotspot-girl{
+  left:2%;
+  top:49%;
+  width:45%;
+  height:46%;
+}
+
+/* 兔兔 → 兔兔世界 */
+.hotspot-bunnies{
+  left:55%;
+  top:76%;
+  width:43%;
+  height:22%;
+}
 .worlds{
   position:absolute;
   z-index:10;
@@ -1903,45 +1945,31 @@ button{
 
 <main class="home">
 
-  <div class="worlds">
+<div class="home-hotspots">
 
-    <button
-      class="world star-button"
-      type="button"
-      onclick="openStarWorld()">
+  <button
+    class="home-hotspot hotspot-stars"
+    type="button"
+    aria-label="星星世界"
+    onclick="openStarWorld()">
+  </button>
 
-      <span class="icon">
-        ⭐
-      </span>
+  <button
+    class="home-hotspot hotspot-girl"
+    type="button"
+    aria-label="花花世界"
+    onclick="openGardenWorld()">
+  </button>
 
-    </button>
+  <button
+    class="home-hotspot hotspot-bunnies"
+    type="button"
+    aria-label="兔兔世界"
+    onclick="openBunnyWorld()">
+  </button>
 
-
-    <button
-      class="world garden-button"
-      type="button"
-      onclick="openGardenWorld()">
-
-      <span class="icon">
-        🌷
-      </span>
-
-    </button>
-
-
-    <button
-      class="world bunny-button"
-      type="button"
-      onclick="openBunnyWorld()">
-
-      <span class="icon">
-        🐰
-      </span>
-
-    </button>
-
-  </div>
-
+</div>
+  
 </main>
 
 

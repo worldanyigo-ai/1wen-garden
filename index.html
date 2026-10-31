@@ -2,18 +2,40 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+
 <title>1WEN's Garden</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%}
+
+/* =========================
+   基本
+========================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+}
+
 body{
   overflow:hidden;
-  background:#050817;
+  background:#06091e;
   font-family:Arial,"Microsoft JhengHei",sans-serif;
 }
-button{font-family:inherit}
+
+button{
+  font-family:inherit;
+}
+
 
 /* =========================
    首頁
@@ -24,82 +46,117 @@ button{font-family:inherit}
   width:100%;
   height:100vh;
   height:100dvh;
+
   background-image:
-    linear-gradient(rgba(5,8,25,.08),rgba(5,8,25,.30)),
+    linear-gradient(
+      rgba(5,8,25,.08),
+      rgba(5,8,25,.30)
+    ),
     url("./garden-bg.png");
+
   background-size:cover;
   background-position:center;
-  background-repeat:no-repeat;
 }
 
 .worlds{
   position:absolute;
   z-index:10;
+
   left:50%;
   bottom:6vh;
+
   transform:translateX(-50%);
+
   width:min(90%,650px);
+
   display:flex;
   justify-content:space-around;
-  align-items:center;
   gap:18px;
 }
 
 .world{
   width:clamp(85px,22vw,135px);
   aspect-ratio:1/1;
+
   border:1px solid rgba(255,255,255,.28);
   border-radius:50%;
+
   display:flex;
   justify-content:center;
   align-items:center;
+
   cursor:pointer;
-  background:radial-gradient(
-    circle at 35% 30%,
-    rgba(255,255,255,.30),
-    rgba(20,25,55,.35) 60%,
-    rgba(10,15,40,.45)
-  );
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(255,255,255,.30),
+      rgba(20,25,55,.35) 60%,
+      rgba(10,15,40,.45)
+    );
+
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
+
   box-shadow:0 8px 30px rgba(0,0,0,.4);
-  transition:transform .25s;
+
+  transition:transform .2s;
 }
 
-.world:active{transform:scale(.92)}
+.world:active{
+  transform:scale(.92);
+}
 
 .icon{
   font-size:clamp(44px,11vw,70px);
-  line-height:1;
 }
 
 .star-button{
-  box-shadow:0 0 32px rgba(255,220,110,.30),0 8px 30px rgba(0,0,0,.4)
-}
-.garden-button{
-  box-shadow:0 0 32px rgba(255,150,190,.25),0 8px 30px rgba(0,0,0,.4)
-}
-.bunny-button{
-  box-shadow:0 0 32px rgba(255,255,255,.22),0 8px 30px rgba(0,0,0,.4)
+  box-shadow:
+    0 0 32px rgba(255,220,110,.30),
+    0 8px 30px rgba(0,0,0,.4);
 }
 
-/* 返回 */
+.garden-button{
+  box-shadow:
+    0 0 32px rgba(255,150,190,.25),
+    0 8px 30px rgba(0,0,0,.4);
+}
+
+.bunny-button{
+  box-shadow:
+    0 0 32px rgba(255,255,255,.22),
+    0 8px 30px rgba(0,0,0,.4);
+}
+
+
+/* =========================
+   返回按鈕
+========================= */
 
 .back-button{
   position:absolute;
-  z-index:100;
+  z-index:200;
+
   top:max(18px,env(safe-area-inset-top));
   left:18px;
+
   width:46px;
   height:46px;
+
   border:1px solid rgba(255,255,255,.25);
   border-radius:50%;
+
+  cursor:pointer;
+
   color:white;
   font-size:25px;
-  cursor:pointer;
+
   background:rgba(15,20,50,.42);
+
   backdrop-filter:blur(8px);
 }
+
 
 /* =========================
    ⭐ 星星世界
@@ -108,27 +165,62 @@ button{font-family:inherit}
 .star-world{
   position:fixed;
   inset:0;
+
   z-index:50;
+
   display:none;
   overflow:hidden;
+
   background:
-    radial-gradient(circle at 50% 100%,#18275a 0%,transparent 48%),
-    radial-gradient(circle at 15% 20%,rgba(91,76,170,.32),transparent 35%),
-    linear-gradient(#06091e,#101637 55%,#080b20);
+    radial-gradient(
+      circle at 50% 100%,
+      #18275a 0%,
+      transparent 48%
+    ),
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(91,76,170,.32),
+      transparent 35%
+    ),
+    linear-gradient(
+      #06091e,
+      #101637 55%,
+      #080b20
+    );
 }
 
-.star-world.open{display:block}
+.star-world.open{
+  display:block;
+}
 
 .star-world::before{
   content:"";
+
   position:absolute;
   inset:0;
+
   pointer-events:none;
+
   background-image:
-    radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1.5px),
-    radial-gradient(circle,rgba(170,190,255,.6) 1px,transparent 1.5px);
-  background-size:72px 72px,113px 113px;
-  background-position:10px 20px,40px 55px;
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.8) 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle,
+      rgba(170,190,255,.6) 1px,
+      transparent 1.5px
+    );
+
+  background-size:
+    72px 72px,
+    113px 113px;
+
+  background-position:
+    10px 20px,
+    40px 55px;
+
   opacity:.35;
 }
 
@@ -139,423 +231,1285 @@ button{font-family:inherit}
 
 .sky-star{
   position:absolute;
+
   width:54px;
   height:54px;
+
   transform:translate(-50%,-50%);
+
   border:0;
   background:transparent;
+
   cursor:pointer;
   touch-action:manipulation;
+
   display:flex;
   justify-content:center;
   align-items:center;
+
   color:#ffe48a;
   font-size:26px;
+
   text-shadow:
     0 0 7px rgba(255,230,130,.95),
     0 0 18px rgba(255,205,80,.65);
 }
 
-.sky-star::before{content:"✦"}
-.sky-star:nth-child(3n){font-size:20px}
-.sky-star:nth-child(4n){font-size:31px}
-.sky-star.revealed::before{content:""}
-.sky-star.revealed{font-size:27px}
+.sky-star::before{
+  content:"✦";
+}
+
+.sky-star:nth-child(3n){
+  font-size:20px;
+}
+
+.sky-star:nth-child(4n){
+  font-size:31px;
+}
+
+.sky-star.revealed::before{
+  content:"";
+}
+
+.sky-star.revealed{
+  font-size:27px;
+}
 
 .sky-star.special.found{
   color:#fff0a8;
+
   filter:
     drop-shadow(0 0 8px #ffd66b)
     drop-shadow(0 0 20px #ffbf45);
+
   animation:specialGlow 2.2s ease-in-out infinite;
 }
 
 .star-name{
   position:absolute;
+
   top:42px;
   left:50%;
+
   transform:translateX(-50%);
+
   white-space:nowrap;
+
   color:#fff1bd;
+
   font-size:15px;
   font-weight:bold;
 }
 
 @keyframes specialGlow{
-  0%,100%{transform:translate(-50%,-50%) scale(1)}
-  50%{transform:translate(-50%,-50%) scale(1.22)}
+
+  0%,100%{
+    transform:
+      translate(-50%,-50%)
+      scale(1);
+  }
+
+  50%{
+    transform:
+      translate(-50%,-50%)
+      scale(1.22);
+  }
 }
 
 .hint-glow{
   position:absolute;
+
   width:85px;
   height:85px;
+
   border-radius:50%;
+
   transform:translate(-50%,-50%);
+
   pointer-events:none;
-  background:radial-gradient(
-    circle,
-    rgba(255,215,100,.28),
-    rgba(255,190,70,.08) 45%,
-    transparent 70%
-  );
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,215,100,.28),
+      rgba(255,190,70,.08) 45%,
+      transparent 70%
+    );
+
   opacity:0;
+
   animation:hintPulse 3s ease-in-out infinite;
 }
 
 @keyframes hintPulse{
-  0%,60%,100%{opacity:0}
-  75%{opacity:.85}
+
+  0%,60%,100%{
+    opacity:0;
+  }
+
+  75%{
+    opacity:.85;
+  }
 }
 
 .connection-line{
   position:absolute;
+
   height:2px;
+
   transform-origin:left center;
+
   pointer-events:none;
-  background:linear-gradient(
-    90deg,
-    rgba(255,215,110,.15),
-    rgba(255,230,150,.75),
-    rgba(255,215,110,.15)
-  );
-  box-shadow:0 0 10px rgba(255,215,100,.55);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,215,110,.15),
+      rgba(255,230,150,.75),
+      rgba(255,215,110,.15)
+    );
+
+  box-shadow:
+    0 0 10px rgba(255,215,100,.55);
+
   opacity:0;
+
   transition:opacity 1s;
 }
 
-.connection-line.show{opacity:1}
+.connection-line.show{
+  opacity:1;
+}
+
 
 /* =========================
-   🌷 花園世界
+   🌷 花園首頁
 ========================= */
 
 .garden-world{
   position:fixed;
   inset:0;
+
   z-index:60;
+
   display:none;
   overflow:hidden;
+
   color:#68585d;
+
   background:
-    radial-gradient(circle at 20% 15%,rgba(255,255,255,.9),transparent 30%),
-    radial-gradient(circle at 85% 20%,rgba(255,221,230,.65),transparent 30%),
-    linear-gradient(180deg,#fff8ef 0%,#fceeea 58%,#e6efd9 100%);
+    radial-gradient(
+      circle at 20% 15%,
+      rgba(255,255,255,.9),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255,221,230,.65),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #fff8ef 0%,
+      #fceeea 58%,
+      #e6efd9 100%
+    );
 }
 
-.garden-world.open{display:block}
+.garden-world.open{
+  display:block;
+}
 
 .garden-world .back-button,
-.garden-room .back-button{
+.garden-room .back-button,
+.flower-book .back-button{
+
   color:#806b72;
-  background:rgba(255,255,255,.55);
-  border-color:rgba(120,90,100,.15);
+
+  background:rgba(255,255,255,.60);
+
+  border-color:
+    rgba(120,90,100,.15);
 }
 
 .garden-title{
   position:absolute;
-  top:16%;
+
+  top:13%;
   left:50%;
+
   transform:translateX(-50%);
+
   white-space:nowrap;
+
   font-family:Georgia,serif;
-  font-size:clamp(28px,6vw,46px);
+
+  font-size:
+    clamp(28px,6vw,46px);
+
   font-weight:normal;
+
   color:#806c72;
 }
 
 .garden-choices{
   position:absolute;
+
   left:50%;
-  top:52%;
-  transform:translate(-50%,-50%);
-  width:min(88%,600px);
+  top:49%;
+
+  transform:
+    translate(-50%,-50%);
+
+  width:min(92%,700px);
+
   display:flex;
   justify-content:center;
-  gap:clamp(22px,8vw,70px);
+  gap:clamp(15px,5vw,45px);
 }
 
 .garden-choice{
-  width:clamp(125px,32vw,190px);
+  width:clamp(105px,28vw,175px);
   aspect-ratio:1/1;
+
   border:none;
   border-radius:50%;
+
   cursor:pointer;
-  background:rgba(255,255,255,.55);
+  touch-action:manipulation;
+
+  background:
+    rgba(255,255,255,.58);
+
   box-shadow:
     0 12px 35px rgba(130,100,100,.12),
     inset 0 0 25px rgba(255,255,255,.65);
-  font-size:clamp(58px,14vw,90px);
+
+  font-size:
+    clamp(50px,12vw,82px);
 }
 
 .garden-grass{
   position:absolute;
+
   bottom:-5%;
   left:-5%;
+
   width:110%;
   height:25%;
-  border-radius:50% 50% 0 0;
-  background:rgba(182,207,153,.32);
+
+  border-radius:
+    50% 50% 0 0;
+
+  background:
+    rgba(182,207,153,.32);
 }
+
+
+/* =========================
+   🌸 呼吸花
+========================= */
 
 .garden-room{
   position:fixed;
   inset:0;
+
   z-index:70;
+
   display:none;
   overflow:hidden;
+
   background:
-    radial-gradient(circle at 50% 42%,rgba(255,255,255,.95),transparent 30%),
-    linear-gradient(180deg,#fff9f2,#f9e9e7 62%,#e9f0df);
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(255,255,255,.95),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #fff9f2,
+      #f9e9e7 62%,
+      #e9f0df
+    );
 }
 
-.garden-room.open{display:block}
-
-/* 呼吸花 */
+.garden-room.open{
+  display:block;
+}
 
 .breathe-text{
   position:absolute;
+
   top:18%;
+
   width:100%;
+
   text-align:center;
+
   font-family:Georgia,serif;
-  font-size:clamp(22px,5vw,34px);
+
+  font-size:
+    clamp(22px,5vw,34px);
+
   color:#806a72;
 }
 
 .breathing-flower{
   position:absolute;
-  left:50%;
-  top:49%;
-  transform:translate(-50%,-50%);
-  font-size:clamp(110px,28vw,190px);
-  filter:drop-shadow(0 12px 20px rgba(160,100,120,.15));
-  animation:breatheFlower 7s ease-in-out infinite;
-}
 
-.breathing-flower.paused{
-  animation-play-state:paused;
+  left:50%;
+  top:50%;
+
+  transform:
+    translate(-50%,-50%);
+
+  font-size:
+    clamp(110px,28vw,190px);
+
+  filter:
+    drop-shadow(
+      0 12px 20px
+      rgba(160,100,120,.15)
+    );
+
+  animation:
+    breatheFlower
+    7s ease-in-out infinite;
 }
 
 @keyframes breatheFlower{
+
   0%{
-    transform:translate(-50%,-50%) scale(.78);
-    opacity:.82
+    transform:
+      translate(-50%,-50%)
+      scale(.78);
+
+    opacity:.82;
   }
+
   43%{
-    transform:translate(-50%,-50%) scale(1.12);
-    opacity:1
+    transform:
+      translate(-50%,-50%)
+      scale(1.12);
+
+    opacity:1;
   }
+
   100%{
-    transform:translate(-50%,-50%) scale(.78);
-    opacity:.82
+    transform:
+      translate(-50%,-50%)
+      scale(.78);
+
+    opacity:.82;
   }
 }
 
-.pause-button{
-  position:absolute;
-  left:50%;
-  bottom:12%;
-  transform:translateX(-50%);
-  width:58px;
-  height:58px;
-  border:none;
-  border-radius:50%;
-  cursor:pointer;
-  color:#806a72;
-  background:rgba(255,255,255,.68);
-  font-size:22px;
+
+/* =========================
+   🌱 新版種花世界
+========================= */
+
+.growing-room{
+  background:
+    linear-gradient(
+      180deg,
+      #fcefdc 0%,
+      #f7e6cf 52%,
+      #dce9c6 53%,
+      #bfd59f 100%
+    );
 }
 
-/* 種花 */
+
+/* 太陽 */
+
+.garden-sun{
+  position:absolute;
+
+  top:9%;
+  right:10%;
+
+  width:75px;
+  height:75px;
+
+  border-radius:50%;
+
+  background:
+    rgba(255,220,133,.65);
+
+  box-shadow:
+    0 0 40px
+    rgba(255,213,120,.45);
+}
+
+
+/* 雲 */
+
+.garden-cloud{
+  position:absolute;
+
+  color:
+    rgba(255,255,255,.72);
+
+  font-size:75px;
+
+  pointer-events:none;
+}
+
+.cloud-a{
+  top:13%;
+  left:-100px;
+
+  animation:
+    cloudMoveOne
+    34s linear infinite;
+}
+
+.cloud-b{
+  top:25%;
+  left:-140px;
+
+  font-size:55px;
+
+  opacity:.7;
+
+  animation:
+    cloudMoveTwo
+    47s linear infinite;
+}
+
+@keyframes cloudMoveOne{
+
+  from{
+    left:-120px;
+  }
+
+  to{
+    left:110%;
+  }
+}
+
+@keyframes cloudMoveTwo{
+
+  from{
+    left:-150px;
+  }
+
+  to{
+    left:110%;
+  }
+}
+
+
+/* 蝴蝶 */
+
+.butterfly{
+  position:absolute;
+
+  z-index:5;
+
+  top:35%;
+  left:-60px;
+
+  font-size:28px;
+
+  pointer-events:none;
+
+  animation:
+    butterflyFly
+    18s ease-in-out infinite;
+}
+
+@keyframes butterflyFly{
+
+  0%{
+    left:-60px;
+    top:40%;
+    opacity:0;
+  }
+
+  10%{
+    opacity:1;
+  }
+
+  30%{
+    top:31%;
+  }
+
+  55%{
+    top:42%;
+  }
+
+  80%{
+    top:28%;
+  }
+
+  92%{
+    opacity:1;
+  }
+
+  100%{
+    left:110%;
+    top:36%;
+    opacity:0;
+  }
+}
+
+
+/* 草地 */
+
+.garden-field{
+  position:absolute;
+
+  left:-5%;
+  bottom:-5%;
+
+  width:110%;
+  height:38%;
+
+  border-radius:
+    48% 48% 0 0;
+
+  background:
+    linear-gradient(
+      #c7dda9,
+      #a9c985
+    );
+}
+
+
+/* 小草裝飾 */
+
+.grass-decoration{
+  position:absolute;
+
+  bottom:12%;
+
+  font-size:36px;
+
+  opacity:.65;
+}
+
+.grass-one{
+  left:7%;
+}
+
+.grass-two{
+  right:8%;
+}
+
+.grass-three{
+  left:20%;
+  bottom:5%;
+}
+
+
+/* 石頭 */
+
+.rock{
+  position:absolute;
+
+  width:48px;
+  height:25px;
+
+  border-radius:
+    50% 55% 35% 40%;
+
+  background:#b7aa9b;
+
+  opacity:.6;
+}
+
+.rock-one{
+  bottom:12%;
+  left:12%;
+}
+
+.rock-two{
+  bottom:7%;
+  right:15%;
+
+  transform:scale(.7);
+}
+
+
+/* 木牌 */
+
+.garden-sign{
+  position:absolute;
+
+  z-index:5;
+
+  left:8%;
+  bottom:22%;
+
+  padding:10px 15px;
+
+  border-radius:5px;
+
+  color:#76543d;
+
+  background:#d8ad79;
+
+  box-shadow:
+    0 5px 10px
+    rgba(80,60,40,.12);
+
+  font-family:Georgia,serif;
+
+  font-size:
+    clamp(13px,3vw,18px);
+
+  transform:rotate(-4deg);
+}
+
+.garden-sign::after{
+  content:"";
+
+  position:absolute;
+
+  left:50%;
+  top:100%;
+
+  width:7px;
+  height:48px;
+
+  transform:
+    translateX(-50%);
+
+  background:#a77d55;
+}
+
+
+/* 種植主要區域 */
 
 .grow-area{
   position:absolute;
+
+  z-index:10;
+
   left:50%;
-  top:52%;
-  transform:translate(-50%,-50%);
-  width:min(90%,500px);
-  height:430px;
+  top:55%;
+
+  transform:
+    translate(-50%,-50%);
+
+  width:min(94%,520px);
+  height:520px;
 }
 
-.grow-display{
-  position:absolute;
-  left:50%;
-  bottom:100px;
-  transform:translateX(-50%);
-  width:250px;
-  height:260px;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-}
 
-.plant{
-  position:relative;
-  width:180px;
-  height:240px;
-}
-
-.soil{
-  position:absolute;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:180px;
-  height:42px;
-  border-radius:50%;
-  background:#a77962;
-}
-
-.seed{
-  position:absolute;
-  left:50%;
-  bottom:31px;
-  transform:translateX(-50%);
-  width:13px;
-  height:9px;
-  border-radius:50%;
-  background:#76533f;
-}
-
-.sprout{
-  position:absolute;
-  left:50%;
-  bottom:38px;
-  width:5px;
-  height:0;
-  transform:translateX(-50%);
-  border-radius:5px;
-  background:#76a56a;
-  transition:height .5s;
-}
-
-.sprout.show{height:38px}
-
-.sprout.show::before,
-.sprout.show::after{
-  content:"";
-  position:absolute;
-  width:24px;
-  height:13px;
-  top:8px;
-  background:#8ab979;
-}
-
-.sprout.show::before{
-  right:2px;
-  border-radius:100% 0 100% 0;
-}
-
-.sprout.show::after{
-  left:2px;
-  top:19px;
-  border-radius:0 100% 0 100%;
-}
-
-.stem{
-  position:absolute;
-  left:50%;
-  bottom:38px;
-  transform:translateX(-50%);
-  width:7px;
-  height:0;
-  border-radius:5px;
-  background:#6f9e62;
-  transition:height .7s;
-}
-
-.stem.show{height:125px}
-
-.stem.show::before,
-.stem.show::after{
-  content:"";
-  position:absolute;
-  width:42px;
-  height:20px;
-  background:#8ab979;
-}
-
-.stem.show::before{
-  top:55px;
-  right:3px;
-  border-radius:100% 0 100% 0;
-}
-
-.stem.show::after{
-  top:82px;
-  left:3px;
-  border-radius:0 100% 0 100%;
-}
-
-.final-flower{
-  position:absolute;
-  left:50%;
-  bottom:143px;
-  transform:translateX(-50%) scale(0);
-  font-size:82px;
-  transition:transform .8s cubic-bezier(.2,1.5,.4,1);
-}
-
-.final-flower.show{
-  transform:translateX(-50%) scale(1);
-}
+/* 澆花器 */
 
 .water-button{
   position:absolute;
+
+  z-index:30;
+
   left:50%;
-  bottom:330px;
-  transform:translateX(-50%);
-  width:88px;
-  height:88px;
+  top:15px;
+
+  transform:
+    translateX(-50%);
+
+  width:94px;
+  height:82px;
+
   border:none;
-  border-radius:50%;
+  border-radius:24px;
+
   cursor:pointer;
   touch-action:manipulation;
-  font-size:48px;
-  background:rgba(255,255,255,.72);S
+
+  background:
+    rgba(255,255,255,.55);
+
+  box-shadow:
+    0 8px 24px
+    rgba(120,90,90,.10);
+
+  transition:
+    transform .15s ease;
 }
+
 .water-button:active{
-  transform:translateX(-50%) rotate(-15deg) scale(.95);
+  transform:
+    translateX(-50%)
+    rotate(-15deg)
+    scale(.95);
 }
+
+.water-button svg{
+  width:72px;
+  height:58px;
+}
+
+
+/* 水滴 */
+
 .water-drop{
   position:absolute;
-  left:50%;
-  bottom:285px;
-  transform:translateX(-50%);
-  font-size:24px;
+
+  z-index:25;
+
+  left:58%;
+  top:85px;
+
+  font-size:25px;
+
   pointer-events:none;
-  animation:waterFall .7s ease forwards;
+
+  animation:
+    waterFall
+    .85s ease-in forwards;
 }
 
 @keyframes waterFall{
-  from{
+
+  0%{
     opacity:1;
-    transform:translate(-50%,-15px)
+
+    transform:
+      translateY(0)
+      scale(.8);
   }
-  to{
+
+  80%{
+    opacity:1;
+  }
+
+  100%{
     opacity:0;
-    transform:translate(-50%,45px)
+
+    transform:
+      translateY(180px)
+      scale(1.05);
   }
 }
 
-.grow-progress{
+
+/* 植物區 */
+
+.grow-display{
   position:absolute;
+
   left:50%;
-  bottom:72px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:7px;
+  bottom:50px;
+
+  transform:
+    translateX(-50%);
+
+  width:260px;
+  height:330px;
 }
 
-.progress-dot{
-  width:7px;
-  height:7px;
+.plant{
+  position:absolute;
+
+  left:50%;
+  bottom:0;
+
+  transform:
+    translateX(-50%);
+
+  width:210px;
+  height:310px;
+}
+
+
+/* 土 */
+
+.soil{
+  position:absolute;
+
+  z-index:5;
+
+  left:50%;
+  bottom:0;
+
+  transform:
+    translateX(-50%);
+
+  width:190px;
+  height:48px;
+
   border-radius:50%;
-  background:rgba(120,100,100,.18);
+
+  background:
+    linear-gradient(
+      #a8785f,
+      #8d634e
+    );
+
+  box-shadow:
+    inset 0 5px 8px
+    rgba(255,255,255,.12);
 }
 
-.progress-dot.done{background:#d99aa8}
+
+/* 種子 */
+
+.seed{
+  position:absolute;
+
+  z-index:6;
+
+  left:50%;
+  bottom:36px;
+
+  transform:
+    translateX(-50%);
+
+  width:14px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:#76533f;
+
+  transition:
+    opacity .35s;
+}
+
+
+/* 莖 */
+
+.dynamic-stem{
+  position:absolute;
+
+  z-index:4;
+
+  left:50%;
+  bottom:40px;
+
+  transform:
+    translateX(-50%);
+
+  width:7px;
+  height:0;
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c9c5d,
+      #8db979
+    );
+
+  transition:
+    height .45s ease,
+    width .45s ease;
+}
+
+
+/* 葉子 */
+
+.leaf{
+  position:absolute;
+
+  z-index:7;
+
+  width:0;
+  height:0;
+
+  opacity:0;
+
+  background:#82ad6c;
+
+  transition:
+    width .4s ease,
+    height .4s ease,
+    opacity .4s ease,
+    bottom .4s ease;
+}
+
+.leaf.left{
+  right:50%;
+
+  border-radius:
+    100% 0 100% 0;
+
+  transform:
+    rotate(10deg);
+}
+
+.leaf.right{
+  left:50%;
+
+  border-radius:
+    0 100% 0 100%;
+
+  transform:
+    rotate(-10deg);
+}
+
+
+/* 花苞 */
+
+.flower-bud{
+  position:absolute;
+
+  z-index:8;
+
+  left:50%;
+
+  bottom:55px;
+
+  transform:
+    translateX(-50%)
+    scale(0);
+
+  font-size:32px;
+
+  opacity:0;
+
+  transition:
+    bottom .45s ease,
+    transform .45s ease,
+    opacity .45s ease;
+}
+
+
+/* 最終花 */
+
+.final-flower{
+  position:absolute;
+
+  z-index:20;
+
+  left:50%;
+
+  bottom:210px;
+
+  transform:
+    translateX(-50%)
+    scale(0);
+
+  font-size:90px;
+
+  opacity:0;
+
+  filter:
+    drop-shadow(
+      0 8px 12px
+      rgba(130,80,80,.16)
+    );
+
+  transition:
+    transform .8s
+    cubic-bezier(.2,1.6,.4,1),
+    opacity .5s;
+}
+
+.final-flower.show{
+  transform:
+    translateX(-50%)
+    scale(1);
+
+  opacity:1;
+}
+
+
+/* 開花提示 */
+
+.bloom-message{
+  position:absolute;
+
+  z-index:50;
+
+  left:50%;
+  bottom:12px;
+
+  transform:
+    translateX(-50%)
+    translateY(10px);
+
+  width:90%;
+
+  text-align:center;
+
+  color:#725d62;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  opacity:0;
+
+  transition:
+    opacity .5s,
+    transform .5s;
+}
+
+.bloom-message.show{
+  opacity:1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+
+/* 再種一朵 */
+
+.plant-again{
+  position:absolute;
+
+  z-index:60;
+
+  right:15px;
+  bottom:18px;
+
+  display:none;
+
+  padding:10px 15px;
+
+  border:none;
+  border-radius:20px;
+
+  cursor:pointer;
+
+  color:#745d62;
+
+  background:
+    rgba(255,255,255,.70);
+
+  box-shadow:
+    0 5px 15px
+    rgba(100,80,80,.10);
+}
+
+.plant-again.show{
+  display:block;
+}
+
+
+/* =========================
+   📖 花冊
+========================= */
+
+.flower-book{
+  position:fixed;
+  inset:0;
+
+  z-index:90;
+
+  display:none;
+  overflow-y:auto;
+
+  padding:
+    90px 20px
+    40px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff8ef,
+      #f6e8df 60%,
+      #e9efdc
+    );
+}
+
+.flower-book.open{
+  display:block;
+}
+
+.book-title{
+  text-align:center;
+
+  font-family:Georgia,serif;
+
+  font-size:
+    clamp(28px,7vw,42px);
+
+  color:#7c656b;
+}
+
+.book-progress{
+  margin-top:8px;
+
+  text-align:center;
+
+  color:#9b8388;
+
+  font-size:15px;
+}
+
+.book-grid{
+  width:min(100%,650px);
+
+  margin:
+    30px auto 0;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:16px;
+}
+
+.flower-card{
+  min-height:155px;
+
+  padding:18px 10px;
+
+  border-radius:22px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  background:
+    rgba(255,255,255,.63);
+
+  box-shadow:
+    0 8px 25px
+    rgba(110,85,85,.08);
+}
+
+.flower-card.locked{
+  background:
+    rgba(225,216,210,.48);
+}
+
+.book-flower{
+  font-size:55px;
+}
+
+.locked .book-flower{
+  filter:
+    grayscale(1)
+    brightness(.55);
+
+  opacity:.22;
+}
+
+.flower-name{
+  margin-top:9px;
+
+  color:#765f65;
+
+  font-size:16px;
+  font-weight:bold;
+}
+
+.flower-count{
+  margin-top:5px;
+
+  color:#a18a8e;
+
+  font-size:13px;
+}
+
+.secret-card{
+  border:
+    1px solid
+    rgba(218,175,95,.22);
+}
+
+
+/* =========================
+   🌹 玫瑰解鎖
+========================= */
+
+.rose-celebration{
+  position:fixed;
+  inset:0;
+
+  z-index:300;
+
+  display:none;
+
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  background:
+    rgba(255,244,232,.93);
+
+  backdrop-filter:blur(8px);
+}
+
+.rose-celebration.show{
+  display:flex;
+
+  animation:
+    roseFadeIn
+    .7s ease;
+}
+
+.rose-big{
+  font-size:140px;
+
+  animation:
+    roseBloom
+    1.6s
+    cubic-bezier(.2,1.6,.4,1);
+}
+
+.rose-secret-text{
+  margin-top:20px;
+
+  color:#7d5a60;
+
+  font-family:Georgia,serif;
+
+  font-size:
+    clamp(20px,5vw,30px);
+
+  text-align:center;
+}
+
+.rose-close{
+  margin-top:35px;
+
+  padding:12px 25px;
+
+  border:none;
+  border-radius:25px;
+
+  cursor:pointer;
+
+  color:#765f65;
+
+  background:white;
+
+  box-shadow:
+    0 6px 20px
+    rgba(100,70,70,.10);
+}
+
+@keyframes roseFadeIn{
+
+  from{
+    opacity:0;
+  }
+
+  to{
+    opacity:1;
+  }
+}
+
+@keyframes roseBloom{
+
+  0%{
+    transform:scale(0)
+    rotate(-20deg);
+  }
+
+  70%{
+    transform:scale(1.25)
+    rotate(5deg);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+}
+
 
 /* =========================
    🐰 兔兔世界
@@ -564,220 +1518,312 @@ button{font-family:inherit}
 .bunny-world{
   position:fixed;
   inset:0;
+
   z-index:80;
+
   display:none;
   overflow:hidden;
+
   background:
-    radial-gradient(circle at 50% 25%,rgba(255,255,255,.95),transparent 32%),
-    linear-gradient(180deg,#fff7ed 0%,#ffe8e2 58%,#e8efd9 100%);
+    radial-gradient(
+      circle at 50% 25%,
+      rgba(255,255,255,.95),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #fff7ed 0%,
+      #ffe8e2 58%,
+      #e8efd9 100%
+    );
 }
 
-.bunny-world.open{display:block}
+.bunny-world.open{
+  display:block;
+}
 
 .bunny-world .back-button{
   color:#806b72;
-  background:rgba(255,255,255,.58);
-  border-color:rgba(120,90,100,.15);
-}
 
-/* 背景裝飾 */
+  background:
+    rgba(255,255,255,.58);
+
+  border-color:
+    rgba(120,90,100,.15);
+}
 
 .bunny-cloud{
   position:absolute;
-  color:rgba(255,255,255,.75);
+
+  color:
+    rgba(255,255,255,.75);
+
   font-size:70px;
-  user-select:none;
 }
 
-.cloud-one{
+.bunny-cloud.one{
   top:13%;
   left:8%;
 }
 
-.cloud-two{
+.bunny-cloud.two{
   top:21%;
   right:8%;
+
   transform:scale(.7);
 }
 
 .bunny-ground{
   position:absolute;
+
   left:-5%;
   bottom:-7%;
+
   width:110%;
   height:30%;
-  border-radius:50% 50% 0 0;
+
+  border-radius:
+    50% 50% 0 0;
+
   background:#dce9c8;
 }
 
-/* 訊息 */
-
 .bunny-message{
   position:absolute;
+
   z-index:5;
+
   top:14%;
   left:50%;
-  transform:translateX(-50%);
+
+  transform:
+    translateX(-50%);
+
   width:min(86%,650px);
   min-height:90px;
+
   display:flex;
   justify-content:center;
   align-items:center;
+
   text-align:center;
+
   color:#765f64;
-  font-size:clamp(22px,5vw,36px);
+
+  font-size:
+    clamp(22px,5vw,36px);
+
   font-weight:600;
+
   line-height:1.45;
+
   opacity:0;
+
   transition:
-    opacity .45s ease,
-    transform .45s ease;
+    opacity .45s,
+    transform .45s;
 }
 
 .bunny-message.show{
   opacity:1;
-  transform:translateX(-50%) translateY(5px);
-}
 
-/* 兔兔區 */
+  transform:
+    translateX(-50%)
+    translateY(5px);
+}
 
 .bunny-scene{
   position:absolute;
+
   z-index:4;
+
   left:50%;
   top:57%;
-  transform:translate(-50%,-50%);
+
+  transform:
+    translate(-50%,-50%);
+
   width:min(90vw,480px);
   height:390px;
+
   cursor:pointer;
+  touch-action:manipulation;
+
   user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
 
-/* 兔兔 */
-
 .big-bunny{
   position:absolute;
+
   left:50%;
   bottom:55px;
-  transform:translateX(-50%);
-  font-size:clamp(150px,38vw,230px);
+
+  transform:
+    translateX(-50%);
+
+  font-size:
+    clamp(150px,38vw,230px);
+
   line-height:1;
-  filter:drop-shadow(0 15px 15px rgba(130,100,100,.13));
-  transition:transform .15s ease;
+
+  filter:
+    drop-shadow(
+      0 15px 15px
+      rgba(130,100,100,.13)
+    );
+
+  transition:
+    transform .15s;
 }
 
 .bunny-scene.bite .big-bunny{
-  transform:translateX(-50%) scale(1.06) rotate(-2deg);
+  transform:
+    translateX(-50%)
+    scale(1.06)
+    rotate(-2deg);
 }
 
-/* 愛心 */
+.carrot-area{
+  position:absolute;
+
+  z-index:6;
+
+  left:62%;
+  bottom:75px;
+
+  transform:
+    rotate(-28deg);
+}
+
+.carrot{
+  font-size:
+    clamp(75px,18vw,110px);
+
+  display:block;
+
+  transition:
+    transform .2s;
+}
+
+.bunny-scene.bite .carrot{
+  transform:
+    scale(.88)
+    rotate(-6deg);
+}
 
 .bunny-heart{
   position:absolute;
+
   left:66%;
   top:55px;
+
   font-size:35px;
+
   opacity:0;
+
   pointer-events:none;
 }
 
 .bunny-heart.pop{
-  animation:heartPop .8s ease forwards;
+  animation:
+    heartPop
+    .8s ease forwards;
 }
 
 @keyframes heartPop{
+
   0%{
     opacity:0;
-    transform:translateY(15px) scale(.5)
+    transform:
+      translateY(15px)
+      scale(.5);
   }
+
   30%{
     opacity:1;
-    transform:translateY(0) scale(1.2)
+    transform:
+      translateY(0)
+      scale(1.2);
   }
+
   100%{
     opacity:0;
-    transform:translateY(-45px) scale(.9)
+    transform:
+      translateY(-45px)
+      scale(.9);
   }
 }
-
-/* 紅蘿蔔 */
-
-.carrot-area{
-  position:absolute;
-  z-index:6;
-  left:62%;
-  bottom:75px;
-  transform:rotate(-28deg);
-}
-
-.carrot{
-  font-size:clamp(75px,18vw,110px);
-  display:block;
-  transform-origin:bottom center;
-  transition:
-    transform .2s ease,
-    opacity .25s ease;
-}
-
-.bunny-scene.bite .carrot{
-  transform:scale(.88) rotate(-6deg);
-}
-
-/* 每咬一口的小碎屑 */
 
 .crumb{
   position:absolute;
+
   z-index:10;
+
   left:61%;
   bottom:160px;
+
   font-size:18px;
+
   pointer-events:none;
-  animation:crumbFly .7s ease forwards;
+
+  animation:
+    crumbFly
+    .7s ease forwards;
 }
 
 @keyframes crumbFly{
-  0%{
+
+  from{
     opacity:1;
-    transform:translate(0,0) rotate(0)
+    transform:
+      translate(0,0);
   }
-  100%{
+
+  to{
     opacity:0;
-    transform:translate(35px,-45px) rotate(90deg)
+    transform:
+      translate(35px,-45px)
+      rotate(90deg);
   }
 }
-
-/* 小提示 */
 
 .tap-hint{
   position:absolute;
+
   z-index:5;
+
   left:50%;
   bottom:8%;
-  transform:translateX(-50%);
+
+  transform:
+    translateX(-50%);
+
   color:#a3878c;
+
   font-size:14px;
-  letter-spacing:1px;
+
   opacity:.65;
-  animation:tapHint 2.2s ease-in-out infinite;
 }
-
-@keyframes tapHint{
-  0%,100%{opacity:.35}
-  50%{opacity:.8}
-}
-
-/* 語言小標示 */
 
 .language-indicator{
   position:absolute;
+
   z-index:5;
+
   right:20px;
-  top:max(25px,env(safe-area-inset-top));
+  top:max(
+    25px,
+    env(safe-area-inset-top)
+  );
+
   color:#9b8186;
+
   font-size:13px;
+
   opacity:.55;
 }
+
 
 /* =========================
    手機
@@ -797,7 +1843,8 @@ button{font-family:inherit}
   }
 
   .icon{
-    font-size:clamp(42px,13vw,60px);
+    font-size:
+      clamp(42px,13vw,60px);
   }
 
   .sky-star{
@@ -806,16 +1853,31 @@ button{font-family:inherit}
   }
 
   .garden-choices{
-    gap:18px;
+    gap:12px;
   }
 
   .garden-choice{
-    width:38vw;
-    max-width:155px;
+    width:28vw;
+    max-width:125px;
   }
 
   .grow-area{
-    height:410px;
+    top:55%;
+    height:500px;
+  }
+
+  .garden-sign{
+    left:4%;
+    bottom:23%;
+  }
+
+  .book-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .flower-card{
+    min-height:145px;
   }
 
   .bunny-scene{
@@ -823,26 +1885,21 @@ button{font-family:inherit}
     height:350px;
   }
 
-  .big-bunny{
-    bottom:55px;
-  }
-
-  .carrot-area{
-    left:63%;
-    bottom:80px;
-  }
-
   .bunny-message{
     top:15%;
-    font-size:clamp(20px,6vw,29px);
   }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- 首頁 -->
+
+<!-- =========================
+     首頁
+========================= -->
 
 <main class="home">
 
@@ -851,25 +1908,36 @@ button{font-family:inherit}
     <button
       class="world star-button"
       type="button"
-      onclick="openStarWorld()"
-      aria-label="星星世界">
-      <span class="icon">⭐</span>
+      onclick="openStarWorld()">
+
+      <span class="icon">
+        ⭐
+      </span>
+
     </button>
+
 
     <button
       class="world garden-button"
       type="button"
-      onclick="openGardenWorld()"
-      aria-label="花園世界">
-      <span class="icon">🌷</span>
+      onclick="openGardenWorld()">
+
+      <span class="icon">
+        🌷
+      </span>
+
     </button>
+
 
     <button
       class="world bunny-button"
       type="button"
-      onclick="openBunnyWorld()"
-      aria-label="兔兔世界">
-      <span class="icon">🐰</span>
+      onclick="openBunnyWorld()">
+
+      <span class="icon">
+        🐰
+      </span>
+
     </button>
 
   </div>
@@ -877,42 +1945,67 @@ button{font-family:inherit}
 </main>
 
 
-<!-- ⭐ 星星世界 -->
+<!-- =========================
+     ⭐ 星星世界
+========================= -->
 
-<section id="starWorld" class="star-world">
+<section
+  id="starWorld"
+  class="star-world">
 
   <button
     class="back-button"
     type="button"
-    onclick="closeStarWorld()">‹</button>
+    onclick="closeStarWorld()">
+    ‹
+  </button>
 
   <div id="starField"></div>
 
 </section>
 
 
-<!-- 🌷 花園首頁 -->
+<!-- =========================
+     🌷 花園首頁
+========================= -->
 
-<section id="gardenWorld" class="garden-world">
+<section
+  id="gardenWorld"
+  class="garden-world">
 
   <button
     class="back-button"
     type="button"
-    onclick="closeGardenWorld()">‹</button>
+    onclick="closeGardenWorld()">
+    ‹
+  </button>
 
-  <h1 class="garden-title">1WEN's Garden</h1>
+  <h1 class="garden-title">
+    1WEN's Garden
+  </h1>
 
   <div class="garden-choices">
 
     <button
       class="garden-choice"
       type="button"
-      onclick="openBreathingGarden()">🌸</button>
+      onclick="openBreathingGarden()">
+      🌸
+    </button>
 
     <button
       class="garden-choice"
       type="button"
-      onclick="openGrowingGarden()">🌱</button>
+      onclick="openGrowingGarden()">
+      🌱
+    </button>
+
+    <button
+      class="garden-choice"
+      type="button"
+      onclick="openFlowerBook()">
+      📖
+    </button>
 
   </div>
 
@@ -921,95 +2014,290 @@ button{font-family:inherit}
 </section>
 
 
-<!-- 🌸 呼吸花 -->
+<!-- =========================
+     🌸 呼吸花
+========================= -->
 
-<section id="breathingGarden" class="garden-room">
+<section
+  id="breathingGarden"
+  class="garden-room">
 
   <button
     class="back-button"
     type="button"
-    onclick="closeBreathingGarden()">‹</button>
+    onclick="closeBreathingGarden()">
+    ‹
+  </button>
 
   <div class="breathe-text">
     Breathe with the flower
   </div>
 
-  <div
-    id="breathingFlower"
-    class="breathing-flower">🌸</div>
-
-  
+  <div class="breathing-flower">
+    🌸
+  </div>
 
 </section>
 
 
-<!-- 🌱 種花 -->
+<!-- =========================
+     🌱 種花
+========================= -->
 
-<section id="growingGarden" class="garden-room">
+<section
+  id="growingGarden"
+  class="garden-room growing-room">
 
   <button
     class="back-button"
     type="button"
-    onclick="closeGrowingGarden()">‹</button>
+    onclick="closeGrowingGarden()">
+    ‹
+  </button>
+
+
+  <div class="garden-sun"></div>
+
+  <div class="garden-cloud cloud-a">
+    ☁
+  </div>
+
+  <div class="garden-cloud cloud-b">
+    ☁
+  </div>
+
+  <div class="butterfly">
+    🦋
+  </div>
+
+
+  <div class="garden-field"></div>
+
+
+  <div class="grass-decoration grass-one">
+    🌿
+  </div>
+
+  <div class="grass-decoration grass-two">
+    🌱
+  </div>
+
+  <div class="grass-decoration grass-three">
+    🌿
+  </div>
+
+
+  <div class="rock rock-one"></div>
+  <div class="rock rock-two"></div>
+
+
+  <div class="garden-sign">
+    1WEN's Garden
+  </div>
+
 
   <div class="grow-area">
+
+
+    <!-- 粉色澆花器 -->
+
+    <button
+      class="water-button"
+      type="button"
+      aria-label="澆水"
+      onclick="waterPlant()">
+
+      <svg
+        viewBox="0 0 120 90"
+        aria-hidden="true">
+
+        <path
+          d="M31 35 H78 V72 H31 Z"
+          fill="#e7aebb"/>
+
+        <path
+          d="M77 42 L105 24 L110 32 L78 55 Z"
+          fill="#e7aebb"/>
+
+        <path
+          d="M31 42 C8 35 8 70 31 64"
+          fill="none"
+          stroke="#e7aebb"
+          stroke-width="8"
+          stroke-linecap="round"/>
+
+        <path
+          d="M103 23 L114 30"
+          fill="none"
+          stroke="#e7aebb"
+          stroke-width="8"
+          stroke-linecap="round"/>
+
+        <path
+          d="M39 35 C43 20 66 20 71 35"
+          fill="none"
+          stroke="#f5d9df"
+          stroke-width="6"
+          stroke-linecap="round"/>
+
+      </svg>
+
+    </button>
+
+
+    <!-- 植物 -->
 
     <div class="grow-display">
 
       <div class="plant">
 
         <div class="soil"></div>
-        <div class="seed"></div>
 
         <div
-          id="sprout"
-          class="sprout"></div>
+          id="seed"
+          class="seed">
+        </div>
 
         <div
-          id="stem"
-          class="stem"></div>
+          id="dynamicStem"
+          class="dynamic-stem">
+        </div>
+
+        <div
+          id="leaf1"
+          class="leaf left">
+        </div>
+
+        <div
+          id="leaf2"
+          class="leaf right">
+        </div>
+
+        <div
+          id="leaf3"
+          class="leaf left">
+        </div>
+
+        <div
+          id="leaf4"
+          class="leaf right">
+        </div>
+
+        <div
+          id="flowerBud"
+          class="flower-bud">
+          🌱
+        </div>
 
         <div
           id="finalFlower"
-          class="final-flower"></div>
+          class="final-flower">
+        </div>
 
       </div>
 
     </div>
 
+
     <div
-      id="growProgress"
-      class="grow-progress"></div>
+      id="bloomMessage"
+      class="bloom-message">
+    </div>
 
-    <button
-      class="water-button"
-      type="button"
-      onclick="waterPlant()">
-  <svg viewBox="0 0 120 90" width="68" height="55" aria-hidden="true">
-    <path d="M31 35 H78 V72 H31 Z" fill="#e7aebb"/>
-    <path d="M77 42 L105 24 L110 32 L78 55 Z" fill="#e7aebb"/>
-    <path d="M31 42 C8 35 8 70 31 64" fill="none" stroke="#e7aebb" stroke-width="8" stroke-linecap="round"/>
-    <path d="M103 23 L114 30" fill="none" stroke="#e7aebb" stroke-width="8" stroke-linecap="round"/>
-    <path d="M39 35 C43 20 66 20 71 35" fill="none" stroke="#f5d9df" stroke-width="6" stroke-linecap="round"/>
-  </svg>
-</button>
+  </div>
 
+
+  <button
+    id="plantAgain"
+    class="plant-again"
+    type="button"
+    onclick="resetPlant()">
+    再種一朵 ♡
+  </button>
+
+</section>
+
+
+<!-- =========================
+     📖 花冊
+========================= -->
+
+<section
+  id="flowerBook"
+  class="flower-book">
+
+  <button
+    class="back-button"
+    type="button"
+    onclick="closeFlowerBook()">
+    ‹
+  </button>
+
+  <h1 class="book-title">
+    1WEN's Flower Book
+  </h1>
+
+  <div
+    id="bookProgress"
+    class="book-progress">
+  </div>
+
+  <div
+    id="bookGrid"
+    class="book-grid">
   </div>
 
 </section>
 
 
-<!-- 🐰 兔兔世界 -->
+<!-- =========================
+     🌹 隱藏玫瑰
+========================= -->
 
-<section id="bunnyWorld" class="bunny-world">
+<div
+  id="roseCelebration"
+  class="rose-celebration">
+
+  <div class="rose-big">
+    🌹
+  </div>
+
+  <div class="rose-secret-text">
+    A secret flower has bloomed.
+  </div>
+
+  <button
+    class="rose-close"
+    type="button"
+    onclick="closeRoseCelebration()">
+    收進花冊 ♡
+  </button>
+
+</div>
+
+
+<!-- =========================
+     🐰 兔兔世界
+========================= -->
+
+<section
+  id="bunnyWorld"
+  class="bunny-world">
 
   <button
     class="back-button"
     type="button"
-    onclick="closeBunnyWorld()">‹</button>
+    onclick="closeBunnyWorld()">
+    ‹
+  </button>
 
-  <div class="bunny-cloud cloud-one">☁</div>
-  <div class="bunny-cloud cloud-two">☁</div>
+  <div class="bunny-cloud one">
+    ☁
+  </div>
+
+  <div class="bunny-cloud two">
+    ☁
+  </div>
 
   <div
     id="languageIndicator"
@@ -1022,24 +2310,32 @@ button{font-family:inherit}
     class="bunny-message">
   </div>
 
+
   <div
     id="bunnyScene"
     class="bunny-scene"
     onclick="bunnyBite()">
 
-    <div class="big-bunny">🐰</div>
+    <div class="big-bunny">
+      🐰
+    </div>
 
     <div class="carrot-area">
-      <span
-        id="carrot"
-        class="carrot">🥕</span>
+
+      <span class="carrot">
+        🥕
+      </span>
+
     </div>
 
     <div
       id="bunnyHeart"
-      class="bunny-heart">💗</div>
+      class="bunny-heart">
+      💗
+    </div>
 
   </div>
+
 
   <div class="bunny-ground"></div>
 
@@ -1050,428 +2346,1616 @@ button{font-family:inherit}
 </section>
 
 
+
 <script>
 
 /* =========================
-   ⭐ 星星
+   ⭐ 星星世界
 ========================= */
 
 const STAR_COUNT=20;
+
 let specialStars=[];
 let foundSpecial=0;
 
+
 function openStarWorld(){
-  document.getElementById("starWorld").classList.add("open");
+
+  document
+    .getElementById("starWorld")
+    .classList.add("open");
+
   createStars();
 }
 
+
 function closeStarWorld(){
-  document.getElementById("starWorld").classList.remove("open");
-  document.getElementById("starField").innerHTML="";
+
+  document
+    .getElementById("starWorld")
+    .classList.remove("open");
+
+  document
+    .getElementById("starField")
+    .innerHTML="";
+
   specialStars=[];
   foundSpecial=0;
 }
+
 
 function createStars(){
 
-  const field=document.getElementById("starField");
+  const field=
+    document.getElementById(
+      "starField"
+    );
 
   field.innerHTML="";
+
   specialStars=[];
   foundSpecial=0;
 
-  const baseX=randomNumber(22,72);
-  const baseY=randomNumber(25,70);
 
-  const angle=Math.random()*Math.PI*2;
-  const distance=randomNumber(8,13);
+  const baseX=
+    randomNumber(22,72);
 
-  let secondX=baseX+Math.cos(angle)*distance;
-  let secondY=baseY+Math.sin(angle)*distance;
+  const baseY=
+    randomNumber(25,70);
 
-  secondX=Math.max(12,Math.min(88,secondX));
-  secondY=Math.max(15,Math.min(82,secondY));
 
-  const fang=createOneStar(baseX,baseY,true,"芳樑");
-  const wen=createOneStar(secondX,secondY,true,"1WEN");
+  const angle=
+    Math.random()
+    *Math.PI*2;
 
-  specialStars=[fang,wen];
+  const distance=
+    randomNumber(8,13);
 
-  for(let i=0;i<STAR_COUNT-2;i++){
+
+  let secondX=
+    baseX+
+    Math.cos(angle)*distance;
+
+  let secondY=
+    baseY+
+    Math.sin(angle)*distance;
+
+
+  secondX=
+    Math.max(
+      12,
+      Math.min(88,secondX)
+    );
+
+  secondY=
+    Math.max(
+      15,
+      Math.min(82,secondY)
+    );
+
+
+  const fang=
+    createOneStar(
+      baseX,
+      baseY,
+      true,
+      "芳樑"
+    );
+
+  const wen=
+    createOneStar(
+      secondX,
+      secondY,
+      true,
+      "1WEN"
+    );
+
+  specialStars=[
+    fang,
+    wen
+  ];
+
+
+  for(
+    let i=0;
+    i<STAR_COUNT-2;
+    i++
+  ){
 
     let x;
     let y;
+
     let attempts=0;
 
     do{
+
       x=randomNumber(8,92);
       y=randomNumber(12,88);
-      attempts++;
-    }
-    while(tooCloseToSpecial(x,y)&&attempts<30);
 
-    createOneStar(x,y,false,"");
+      attempts++;
+
+    }while(
+      tooCloseToSpecial(x,y)
+      &&
+      attempts<30
+    );
+
+    createOneStar(
+      x,
+      y,
+      false,
+      ""
+    );
   }
 }
 
-function createOneStar(x,y,special,name){
 
-  const field=document.getElementById("starField");
-  const star=document.createElement("button");
+function createOneStar(
+  x,
+  y,
+  special,
+  name
+){
+
+  const field=
+    document.getElementById(
+      "starField"
+    );
+
+  const star=
+    document.createElement(
+      "button"
+    );
+
 
   star.type="button";
-  star.className="sky-star";
 
-  star.style.left=x+"%";
-  star.style.top=y+"%";
+  star.className=
+    "sky-star";
+
+  star.style.left=
+    x+"%";
+
+  star.style.top=
+    y+"%";
 
   star.dataset.x=x;
   star.dataset.y=y;
 
+
   if(special){
 
-    star.classList.add("special");
+    star.classList.add(
+      "special"
+    );
+
     star.dataset.name=name;
 
     star.addEventListener(
       "click",
-      ()=>findSpecialStar(star)
+      ()=>{
+        findSpecialStar(star);
+      }
     );
 
   }else{
 
     star.addEventListener(
       "click",
-      ()=>revealNormalStar(star)
+      ()=>{
+        revealNormalStar(star);
+      }
     );
   }
+
 
   field.appendChild(star);
 
   return star;
 }
 
+
 function revealNormalStar(star){
 
-  if(star.classList.contains("revealed")){
+  if(
+    star.classList.contains(
+      "revealed"
+    )
+  ){
     return;
   }
 
-  star.classList.add("revealed");
+  star.classList.add(
+    "revealed"
+  );
 
   star.textContent=
-    Math.random()<.5 ? "🐰" : "🌸";
+    Math.random()<.5
+    ?
+    "🐰"
+    :
+    "🌸";
 }
+
 
 function findSpecialStar(star){
 
-  if(star.classList.contains("found")){
+  if(
+    star.classList.contains(
+      "found"
+    )
+  ){
     return;
   }
 
-  star.classList.add("found");
 
-  const label=document.createElement("span");
+  star.classList.add(
+    "found"
+  );
 
-  label.className="star-name";
-  label.textContent=star.dataset.name;
+
+  const label=
+    document.createElement(
+      "span"
+    );
+
+  label.className=
+    "star-name";
+
+  label.textContent=
+    star.dataset.name;
 
   star.appendChild(label);
 
+
   foundSpecial++;
+
 
   if(foundSpecial===1){
 
     const other=
-      specialStars.find(item=>item!==star);
+      specialStars.find(
+        item=>item!==star
+      );
 
     showHint(other);
   }
 
+
   if(foundSpecial===2){
 
     removeHint();
+
     connectSpecialStars();
   }
 }
+
 
 function showHint(target){
 
   removeHint();
 
-  const hint=document.createElement("div");
 
-  hint.className="hint-glow";
-  hint.id="hintGlow";
+  const hint=
+    document.createElement(
+      "div"
+    );
 
-  hint.style.left=target.dataset.x+"%";
-  hint.style.top=target.dataset.y+"%";
+  hint.className=
+    "hint-glow";
+
+  hint.id=
+    "hintGlow";
+
+  hint.style.left=
+    target.dataset.x+"%";
+
+  hint.style.top=
+    target.dataset.y+"%";
+
 
   document
-    .getElementById("starField")
+    .getElementById(
+      "starField"
+    )
     .appendChild(hint);
 }
 
+
 function removeHint(){
 
-  const old=document.getElementById("hintGlow");
+  const old=
+    document.getElementById(
+      "hintGlow"
+    );
 
   if(old){
     old.remove();
   }
 }
 
+
 function connectSpecialStars(){
 
-  const field=document.getElementById("starField");
+  const field=
+    document.getElementById(
+      "starField"
+    );
 
-  const first=specialStars[0];
-  const second=specialStars[1];
+  const first=
+    specialStars[0];
 
-  const rect=field.getBoundingClientRect();
+  const second=
+    specialStars[1];
 
-  const x1=parseFloat(first.dataset.x)/100*rect.width;
-  const y1=parseFloat(first.dataset.y)/100*rect.height;
+  const rect=
+    field.getBoundingClientRect();
 
-  const x2=parseFloat(second.dataset.x)/100*rect.width;
-  const y2=parseFloat(second.dataset.y)/100*rect.height;
+
+  const x1=
+    parseFloat(
+      first.dataset.x
+    )
+    /100
+    *rect.width;
+
+  const y1=
+    parseFloat(
+      first.dataset.y
+    )
+    /100
+    *rect.height;
+
+
+  const x2=
+    parseFloat(
+      second.dataset.x
+    )
+    /100
+    *rect.width;
+
+  const y2=
+    parseFloat(
+      second.dataset.y
+    )
+    /100
+    *rect.height;
+
 
   const dx=x2-x1;
   const dy=y2-y1;
 
-  const length=Math.sqrt(dx*dx+dy*dy);
-  const angle=Math.atan2(dy,dx)*180/Math.PI;
 
-  const line=document.createElement("div");
+  const length=
+    Math.sqrt(
+      dx*dx+
+      dy*dy
+    );
 
-  line.className="connection-line";
-  line.style.left=x1+"px";
-  line.style.top=y1+"px";
-  line.style.width=length+"px";
-  line.style.transform="rotate("+angle+"deg)";
+  const angle=
+    Math.atan2(
+      dy,
+      dx
+    )
+    *180
+    /Math.PI;
 
-  field.insertBefore(line,field.firstChild);
 
-  requestAnimationFrame(()=>{
-    line.classList.add("show");
-  });
+  const line=
+    document.createElement(
+      "div"
+    );
+
+  line.className=
+    "connection-line";
+
+  line.style.left=
+    x1+"px";
+
+  line.style.top=
+    y1+"px";
+
+  line.style.width=
+    length+"px";
+
+  line.style.transform=
+    "rotate("
+    +angle+
+    "deg)";
+
+
+  field.insertBefore(
+    line,
+    field.firstChild
+  );
+
+
+  requestAnimationFrame(
+    ()=>{
+      line.classList.add(
+        "show"
+      );
+    }
+  );
 }
+
 
 function tooCloseToSpecial(x,y){
 
-  if(specialStars.length<2){
+  if(
+    specialStars.length<2
+  ){
     return false;
   }
 
-  return specialStars.some(star=>{
 
-    const sx=parseFloat(star.dataset.x);
-    const sy=parseFloat(star.dataset.y);
+  return specialStars.some(
+    star=>{
 
-    const dx=x-sx;
-    const dy=y-sy;
+      const sx=
+        parseFloat(
+          star.dataset.x
+        );
 
-    return Math.sqrt(dx*dx+dy*dy)<9;
-  });
+      const sy=
+        parseFloat(
+          star.dataset.y
+        );
+
+      const dx=x-sx;
+      const dy=y-sy;
+
+      return(
+        Math.sqrt(
+          dx*dx+
+          dy*dy
+        )
+        <9
+      );
+    }
+  );
 }
+
 
 function randomNumber(min,max){
-  return Math.random()*(max-min)+min;
+
+  return(
+    Math.random()
+    *(max-min)
+    +min
+  );
 }
+
 
 
 /* =========================
-   🌷 花園
+   🌷 花園首頁
 ========================= */
 
 function openGardenWorld(){
-  document.getElementById("gardenWorld").classList.add("open");
+
+  document
+    .getElementById(
+      "gardenWorld"
+    )
+    .classList.add(
+      "open"
+    );
 }
+
 
 function closeGardenWorld(){
-  document.getElementById("gardenWorld").classList.remove("open");
+
+  document
+    .getElementById(
+      "gardenWorld"
+    )
+    .classList.remove(
+      "open"
+    );
 }
 
 
-/* 呼吸花 */
 
-let breathingPaused=false;
+/* =========================
+   🌸 呼吸花
+========================= */
 
 function openBreathingGarden(){
-  document.getElementById("breathingGarden").classList.add("open");
+
+  document
+    .getElementById(
+      "breathingGarden"
+    )
+    .classList.add(
+      "open"
+    );
 }
+
 
 function closeBreathingGarden(){
-  document.getElementById("breathingGarden").classList.remove("open");
+
+  document
+    .getElementById(
+      "breathingGarden"
+    )
+    .classList.remove(
+      "open"
+    );
 }
 
-function toggleBreathing(){
 
-  const flower=document.getElementById("breathingFlower");
-  const button=document.getElementById("pauseButton");
 
-  breathingPaused=!breathingPaused;
+/* =========================
+   🌱 花朵資料
+========================= */
 
-  if(breathingPaused){
+const flowerData=[
 
-    flower.classList.add("paused");
-    button.textContent="▶";
+  {
+    id:"sakura",
+    emoji:"🌸",
+    name:"櫻花",
+    target:5
+  },
 
-  }else{
+  {
+    id:"sunflower",
+    emoji:"🌻",
+    name:"向日葵",
+    target:2
+  },
 
-    flower.classList.remove("paused");
-    button.textContent="Ⅱ";
+  {
+    id:"rose",
+    emoji:"🌹",
+    name:"玫瑰",
+    target:0,
+    secret:true
+  },
+
+  {
+    id:"lavender",
+    emoji:"🪻",
+    name:"薰衣草",
+    target:1
+  },
+
+  {
+    id:"daisy",
+    emoji:"🌼",
+    name:"雛菊",
+    target:3
+  },
+
+  {
+    id:"tulip",
+    emoji:"🌷",
+    name:"鬱金香",
+    target:1
+  },
+
+  {
+    id:"hibiscus",
+    emoji:"🌺",
+    name:"扶桑花",
+    target:4
+  }
+
+];
+
+
+/* =========================
+   花冊存檔
+========================= */
+
+const SAVE_KEY=
+  "1wenFlowerBookV1";
+
+
+function newFlowerSave(){
+
+  return{
+
+    sakura:0,
+    sunflower:0,
+    rose:0,
+    lavender:0,
+    daisy:0,
+    tulip:0,
+    hibiscus:0,
+
+    roseUnlocked:false
+  };
+}
+
+
+function loadFlowerSave(){
+
+  try{
+
+    const saved=
+      localStorage.getItem(
+        SAVE_KEY
+      );
+
+    if(!saved){
+      return newFlowerSave();
+    }
+
+    return Object.assign(
+      newFlowerSave(),
+      JSON.parse(saved)
+    );
+
+  }catch(error){
+
+    return newFlowerSave();
   }
 }
 
 
-/* 種花 */
+let flowerSave=
+  loadFlowerSave();
+
+
+function saveFlowerBook(){
+
+  try{
+
+    localStorage.setItem(
+      SAVE_KEY,
+      JSON.stringify(
+        flowerSave
+      )
+    );
+
+  }catch(error){
+
+    console.log(
+      "Flower save unavailable"
+    );
+  }
+}
+
+
+
+/* =========================
+   選擇下一朵花
+========================= */
+
+function allNormalTargetsComplete(){
+
+  return flowerData
+    .filter(
+      flower=>!flower.secret
+    )
+    .every(
+      flower=>
+        flowerSave[flower.id]
+        >=
+        flower.target
+    );
+}
+
+
+function chooseNextFlower(){
+
+  /*
+    六種普通花全部達標後，
+    如果玫瑰還沒出現，
+    下一株一定是玫瑰。
+  */
+
+  if(
+    allNormalTargetsComplete()
+    &&
+    !flowerSave.roseUnlocked
+  ){
+
+    return flowerData.find(
+      flower=>
+        flower.id==="rose"
+    );
+  }
+
+
+  /*
+    尚未完成花冊時，
+    優先從「還沒達標」
+    的花裡隨機。
+
+    這可以確保：
+    🌸 5
+    🌻 2
+    🪻 1
+    🌼 3
+    🌷 1
+    🌺 4
+
+    最終一定能完成。
+  */
+
+  const unfinished=
+    flowerData.filter(
+      flower=>
+        !flower.secret
+        &&
+        flowerSave[flower.id]
+        <
+        flower.target
+    );
+
+
+  if(unfinished.length>0){
+
+    return unfinished[
+      Math.floor(
+        Math.random()
+        *unfinished.length
+      )
+    ];
+  }
+
+
+  /*
+    花冊完成後，
+    六種普通花仍然
+    可以繼續隨機種。
+  */
+
+  const normalFlowers=
+    flowerData.filter(
+      flower=>
+        !flower.secret
+    );
+
+
+  return normalFlowers[
+    Math.floor(
+      Math.random()
+      *normalFlowers.length
+    )
+  ];
+}
+
+
+
+/* =========================
+   🌱 種花系統
+========================= */
 
 let waterCount=0;
-let chosenFlower="🌷";
 
-const flowers=[
-  "🌸",
-  "🌻",
-  "🌷",
-  "🪻",
-  "🌼",
-  "🌹"
-];
+let currentFlower=null;
+
+let plantFinished=false;
+
 
 function openGrowingGarden(){
 
   document
-    .getElementById("growingGarden")
-    .classList.add("open");
+    .getElementById(
+      "growingGarden"
+    )
+    .classList.add(
+      "open"
+    );
 
   resetPlant();
 }
 
+
 function closeGrowingGarden(){
 
   document
-    .getElementById("growingGarden")
-    .classList.remove("open");
+    .getElementById(
+      "growingGarden"
+    )
+    .classList.remove(
+      "open"
+    );
 }
+
 
 function resetPlant(){
 
   waterCount=0;
 
-  chosenFlower=
-    flowers[
-      Math.floor(Math.random()*flowers.length)
-    ];
+  plantFinished=false;
+
+  currentFlower=
+    chooseNextFlower();
+
 
   document
-    .getElementById("sprout")
-    .classList.remove("show");
+    .getElementById(
+      "seed"
+    )
+    .style.opacity="1";
 
-  document
-    .getElementById("stem")
-    .classList.remove("show");
+
+  const stem=
+    document.getElementById(
+      "dynamicStem"
+    );
+
+  stem.style.height="0px";
+  stem.style.width="7px";
+
+
+  [
+    "leaf1",
+    "leaf2",
+    "leaf3",
+    "leaf4"
+  ]
+  .forEach(id=>{
+
+    const leaf=
+      document.getElementById(
+        id
+      );
+
+    leaf.style.width="0px";
+    leaf.style.height="0px";
+    leaf.style.opacity="0";
+    leaf.style.bottom="45px";
+  });
+
+
+  const bud=
+    document.getElementById(
+      "flowerBud"
+    );
+
+  bud.style.bottom="55px";
+
+  bud.style.transform=
+    "translateX(-50%) scale(0)";
+
+  bud.style.opacity="0";
+
+  bud.textContent="🌱";
+
 
   const flower=
-    document.getElementById("finalFlower");
+    document.getElementById(
+      "finalFlower"
+    );
 
-  flower.classList.remove("show");
+  flower.classList.remove(
+    "show"
+  );
+
   flower.textContent="";
 
-  createProgressDots();
+
+  const message=
+    document.getElementById(
+      "bloomMessage"
+    );
+
+  message.classList.remove(
+    "show"
+  );
+
+  message.textContent="";
+
+
+  document
+    .getElementById(
+      "plantAgain"
+    )
+    .classList.remove(
+      "show"
+    );
 }
 
-function createProgressDots(){
 
-  const progress=
-    document.getElementById("growProgress");
 
-  progress.innerHTML="";
-
-  for(let i=0;i<15;i++){
-
-    const dot=document.createElement("div");
-
-    dot.className="progress-dot";
-
-    progress.appendChild(dot);
-  }
-}
+/* =========================
+   每次澆水
+========================= */
 
 function waterPlant(){
+
+  if(plantFinished){
+    return;
+  }
+
 
   if(waterCount>=15){
     return;
   }
 
+
   waterCount++;
 
+
   showWaterDrop();
-  updateProgress();
 
-  if(waterCount===5){
+  growPlantStage(
+    waterCount
+  );
 
-    document
-      .getElementById("sprout")
-      .classList.add("show");
-  }
-
-  if(waterCount===10){
-
-    document
-      .getElementById("sprout")
-      .classList.remove("show");
-
-    document
-      .getElementById("stem")
-      .classList.add("show");
-  }
 
   if(waterCount===15){
 
-    const flower=
-      document.getElementById("finalFlower");
-
-    flower.textContent=chosenFlower;
-
-    requestAnimationFrame(()=>{
-      flower.classList.add("show");
-    });
+    setTimeout(
+      finishFlower,
+      450
+    );
   }
 }
+
+
+
+/* =========================
+   💧 水滴
+========================= */
 
 function showWaterDrop(){
 
   const area=
-    document.querySelector(".grow-area");
+    document.querySelector(
+      ".grow-area"
+    );
 
   const drop=
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  drop.className="water-drop";
-  drop.textContent="💧";
+  drop.className=
+    "water-drop";
+
+  drop.textContent=
+    "💧";
 
   area.appendChild(drop);
 
-  setTimeout(()=>{
-    drop.remove();
-  },700);
+
+  setTimeout(
+    ()=>{
+      drop.remove();
+    },
+    900
+  );
 }
 
-function updateProgress(){
 
-  const dots=
-    document.querySelectorAll(
-      "#growProgress .progress-dot"
+
+/* =========================
+   🌱 15 階段成長
+========================= */
+
+function growPlantStage(stage){
+
+  const stem=
+    document.getElementById(
+      "dynamicStem"
     );
 
-  dots.forEach((dot,index)=>{
+  const seed=
+    document.getElementById(
+      "seed"
+    );
 
-    if(index<waterCount){
-      dot.classList.add("done");
-    }
-  });
+  const bud=
+    document.getElementById(
+      "flowerBud"
+    );
+
+
+  /*
+    1～3：
+    剛發芽
+  */
+
+  if(stage===1){
+
+    stem.style.height=
+      "14px";
+  }
+
+
+  if(stage===2){
+
+    stem.style.height=
+      "28px";
+
+    seed.style.opacity=
+      ".7";
+  }
+
+
+  if(stage===3){
+
+    stem.style.height=
+      "43px";
+
+    seed.style.opacity=
+      "0";
+  }
+
+
+  /*
+    4～6：
+    第一、第二片葉子
+  */
+
+  if(stage===4){
+
+    stem.style.height=
+      "60px";
+
+    showLeaf(
+      "leaf1",
+      52,
+      25,
+      14
+    );
+  }
+
+
+  if(stage===5){
+
+    stem.style.height=
+      "76px";
+
+    showLeaf(
+      "leaf1",
+      60,
+      34,
+      18
+    );
+  }
+
+
+  if(stage===6){
+
+    stem.style.height=
+      "92px";
+
+    showLeaf(
+      "leaf2",
+      72,
+      28,
+      15
+    );
+  }
+
+
+  /*
+    7～9：
+    莖變高、葉子增加
+  */
+
+  if(stage===7){
+
+    stem.style.height=
+      "110px";
+
+    showLeaf(
+      "leaf2",
+      82,
+      38,
+      20
+    );
+  }
+
+
+  if(stage===8){
+
+    stem.style.height=
+      "128px";
+
+    showLeaf(
+      "leaf3",
+      100,
+      30,
+      16
+    );
+  }
+
+
+  if(stage===9){
+
+    stem.style.height=
+      "145px";
+
+    showLeaf(
+      "leaf3",
+      110,
+      42,
+      21
+    );
+  }
+
+
+  /*
+    10～11：
+    最後一片葉子
+  */
+
+  if(stage===10){
+
+    stem.style.height=
+      "162px";
+
+    showLeaf(
+      "leaf4",
+      130,
+      32,
+      17
+    );
+  }
+
+
+  if(stage===11){
+
+    stem.style.height=
+      "178px";
+
+    showLeaf(
+      "leaf4",
+      140,
+      43,
+      22
+    );
+
+    stem.style.width=
+      "8px";
+  }
+
+
+  /*
+    12：
+    花苞出現
+  */
+
+  if(stage===12){
+
+    stem.style.height=
+      "190px";
+
+    bud.style.bottom=
+      "222px";
+
+    bud.style.opacity=
+      "1";
+
+    bud.style.transform=
+      "translateX(-50%) scale(.55)";
+
+    bud.textContent=
+      "🌱";
+  }
+
+
+  /*
+    13：
+    花苞變大
+  */
+
+  if(stage===13){
+
+    stem.style.height=
+      "200px";
+
+    bud.style.bottom=
+      "232px";
+
+    bud.style.transform=
+      "translateX(-50%) scale(.75)";
+
+    bud.textContent=
+      "🌿";
+  }
+
+
+  /*
+    14：
+    即將開花
+  */
+
+  if(stage===14){
+
+    stem.style.height=
+      "210px";
+
+    bud.style.bottom=
+      "242px";
+
+    bud.style.transform=
+      "translateX(-50%) scale(.95)";
+
+    bud.textContent=
+      "✨";
+  }
+
+
+  /*
+    15：
+    花苞消失，
+    準備正式綻放
+  */
+
+  if(stage===15){
+
+    stem.style.height=
+      "215px";
+
+    bud.style.opacity=
+      "0";
+
+    bud.style.transform=
+      "translateX(-50%) scale(0)";
+  }
 }
+
+
+
+/* =========================
+   葉子成長
+========================= */
+
+function showLeaf(
+  id,
+  bottom,
+  width,
+  height
+){
+
+  const leaf=
+    document.getElementById(
+      id
+    );
+
+  leaf.style.bottom=
+    bottom+"px";
+
+  leaf.style.width=
+    width+"px";
+
+  leaf.style.height=
+    height+"px";
+
+  leaf.style.opacity=
+    "1";
+}
+
+
+
+/* =========================
+   🌸 開花
+========================= */
+
+function finishFlower(){
+
+  if(plantFinished){
+    return;
+  }
+
+
+  plantFinished=true;
+
+
+  const flower=
+    document.getElementById(
+      "finalFlower"
+    );
+
+  flower.textContent=
+    currentFlower.emoji;
+
+
+  requestAnimationFrame(
+    ()=>{
+      flower.classList.add(
+        "show"
+      );
+    }
+  );
+
+
+  /*
+    更新花冊
+  */
+
+  if(currentFlower.secret){
+
+    flowerSave.rose=1;
+
+    flowerSave.roseUnlocked=
+      true;
+
+  }else{
+
+    flowerSave[
+      currentFlower.id
+    ]++;
+  }
+
+
+  saveFlowerBook();
+
+
+  /*
+    顯示開花文字
+  */
+
+  const message=
+    document.getElementById(
+      "bloomMessage"
+    );
+
+  message.textContent=
+    currentFlower.emoji
+    +" "
+    +currentFlower.name
+    +" 開花了 ♡";
+
+  message.classList.add(
+    "show"
+  );
+
+
+  /*
+    顯示再種一朵
+  */
+
+  setTimeout(
+    ()=>{
+
+      document
+        .getElementById(
+          "plantAgain"
+        )
+        .classList.add(
+          "show"
+        );
+
+    },
+    900
+  );
+
+
+  /*
+    🌹 第一次玫瑰
+  */
+
+  if(currentFlower.secret){
+
+    setTimeout(
+      ()=>{
+
+        document
+          .getElementById(
+            "roseCelebration"
+          )
+          .classList.add(
+            "show"
+          );
+
+      },
+      1000
+    );
+  }
+}
+
+
+
+/* =========================
+   🌹 關閉玫瑰畫面
+========================= */
+
+function closeRoseCelebration(){
+
+  document
+    .getElementById(
+      "roseCelebration"
+    )
+    .classList.remove(
+      "show"
+    );
+}
+
+
+
+/* =========================
+   📖 花冊
+========================= */
+
+function openFlowerBook(){
+
+  renderFlowerBook();
+
+  document
+    .getElementById(
+      "flowerBook"
+    )
+    .classList.add(
+      "open"
+    );
+}
+
+
+function closeFlowerBook(){
+
+  document
+    .getElementById(
+      "flowerBook"
+    )
+    .classList.remove(
+      "open"
+    );
+}
+
+
+function renderFlowerBook(){
+
+  const grid=
+    document.getElementById(
+      "bookGrid"
+    );
+
+  grid.innerHTML="";
+
+
+  let discovered=0;
+
+
+  flowerData.forEach(
+    flower=>{
+
+      const count=
+        flowerSave[
+          flower.id
+        ] || 0;
+
+
+      const discoveredFlower=
+        count>0;
+
+
+      if(discoveredFlower){
+        discovered++;
+      }
+
+
+      const card=
+        document.createElement(
+          "div"
+        );
+
+      card.className=
+        "flower-card";
+
+
+      if(!discoveredFlower){
+
+        card.classList.add(
+          "locked"
+        );
+      }
+
+
+      if(flower.secret){
+
+        card.classList.add(
+          "secret-card"
+        );
+      }
+
+
+      const flowerIcon=
+        document.createElement(
+          "div"
+        );
+
+      flowerIcon.className=
+        "book-flower";
+
+
+      const name=
+        document.createElement(
+          "div"
+        );
+
+      name.className=
+        "flower-name";
+
+
+      const countText=
+        document.createElement(
+          "div"
+        );
+
+      countText.className=
+        "flower-count";
+
+
+      if(discoveredFlower){
+
+        flowerIcon.textContent=
+          flower.emoji;
+
+        name.textContent=
+          flower.name;
+
+
+        if(flower.secret){
+
+          countText.textContent=
+            "Secret flower";
+
+        }else{
+
+          countText.textContent=
+            Math.min(
+              count,
+              flower.target
+            )
+            +" / "
+            +flower.target;
+        }
+
+      }else{
+
+        flowerIcon.textContent=
+          "❔";
+
+
+        if(flower.secret){
+
+          name.textContent=
+            "？？？";
+
+          countText.textContent=
+            "Secret";
+
+        }else{
+
+          name.textContent=
+            "？？？";
+
+          countText.textContent=
+            "尚未發現";
+        }
+      }
+
+
+      card.appendChild(
+        flowerIcon
+      );
+
+      card.appendChild(
+        name
+      );
+
+      card.appendChild(
+        countText
+      );
+
+
+      grid.appendChild(
+        card
+      );
+    }
+  );
+
+
+  document
+    .getElementById(
+      "bookProgress"
+    )
+    .textContent=
+      discovered
+      +" / 7 collected";
+}
+
 
 
 /* =========================
@@ -1505,99 +3989,140 @@ const bunnyMessages={
   ]
 };
 
-const bunnyLanguages=["zh","ko","en"];
+
+const bunnyLanguages=[
+  "zh",
+  "ko",
+  "en"
+];
+
 
 const bunnyLanguageNames={
+
   zh:"中文",
   ko:"한국어",
   en:"English"
+
 };
+
 
 let bunnyClickCount=0;
 
 
-/* 打開兔兔 */
-
 function openBunnyWorld(){
 
   document
-    .getElementById("bunnyWorld")
-    .classList.add("open");
+    .getElementById(
+      "bunnyWorld"
+    )
+    .classList.add(
+      "open"
+    );
+
 
   bunnyClickCount=0;
 
+
   const message=
-    document.getElementById("bunnyMessage");
+    document.getElementById(
+      "bunnyMessage"
+    );
 
   message.textContent="";
-  message.classList.remove("show");
+
+  message.classList.remove(
+    "show"
+  );
+
 
   updateBunnyLanguage();
 }
 
 
-/* 返回首頁 */
-
 function closeBunnyWorld(){
 
   document
-    .getElementById("bunnyWorld")
-    .classList.remove("open");
+    .getElementById(
+      "bunnyWorld"
+    )
+    .classList.remove(
+      "open"
+    );
 }
 
-
-/* 兔兔咬一口 */
 
 function bunnyBite(){
 
   const scene=
-    document.getElementById("bunnyScene");
+    document.getElementById(
+      "bunnyScene"
+    );
 
   const message=
-    document.getElementById("bunnyMessage");
+    document.getElementById(
+      "bunnyMessage"
+    );
 
-  /* 算目前語言 */
 
   const languageRound=
-    Math.floor(bunnyClickCount/5)%3;
+    Math.floor(
+      bunnyClickCount/5
+    )
+    %3;
+
 
   const language=
-    bunnyLanguages[languageRound];
+    bunnyLanguages[
+      languageRound
+    ];
 
-  /* 算目前第幾句 */
 
   const messageIndex=
     bunnyClickCount%5;
 
-  /* 顯示文字 */
 
-  message.classList.remove("show");
-
-  setTimeout(()=>{
-
-    message.textContent=
-      bunnyMessages[language][messageIndex];
-
-    message.classList.add("show");
-
-  },100);
+  message.classList.remove(
+    "show"
+  );
 
 
-  /* 咬紅蘿蔔動畫 */
+  setTimeout(
+    ()=>{
 
-  scene.classList.add("bite");
+      message.textContent=
+        bunnyMessages[
+          language
+        ][
+          messageIndex
+        ];
 
-  setTimeout(()=>{
-    scene.classList.remove("bite");
-  },180);
+      message.classList.add(
+        "show"
+      );
+
+    },
+    100
+  );
 
 
-  /* 小碎屑 */
+  scene.classList.add(
+    "bite"
+  );
+
+
+  setTimeout(
+    ()=>{
+
+      scene.classList.remove(
+        "bite"
+      );
+
+    },
+    180
+  );
+
 
   createCrumb();
-
-
-  /* 愛心 */
 
   showBunnyHeart();
 
@@ -1605,72 +4130,111 @@ function bunnyBite(){
   bunnyClickCount++;
 
 
-  /* 第五句之後切換語言 */
+  if(
+    bunnyClickCount%5===0
+  ){
 
-  if(bunnyClickCount%5===0){
-
-    setTimeout(()=>{
-      updateBunnyLanguage();
-    },600);
+    setTimeout(
+      updateBunnyLanguage,
+      600
+    );
   }
 }
 
 
-/* 顯示目前語言 */
-
 function updateBunnyLanguage(){
 
   const languageRound=
-    Math.floor(bunnyClickCount/5)%3;
+    Math.floor(
+      bunnyClickCount/5
+    )
+    %3;
+
 
   const language=
-    bunnyLanguages[languageRound];
+    bunnyLanguages[
+      languageRound
+    ];
+
 
   document
-    .getElementById("languageIndicator")
+    .getElementById(
+      "languageIndicator"
+    )
     .textContent=
-      bunnyLanguageNames[language];
+      bunnyLanguageNames[
+        language
+      ];
 }
 
-
-/* 紅蘿蔔碎屑 */
 
 function createCrumb(){
 
   const scene=
-    document.getElementById("bunnyScene");
+    document.getElementById(
+      "bunnyScene"
+    );
+
 
   const crumb=
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  crumb.className="crumb";
+
+  crumb.className=
+    "crumb";
+
 
   crumb.textContent=
-    Math.random()<.5 ? "🥕" : "✨";
+    Math.random()<.5
+    ?
+    "🥕"
+    :
+    "✨";
+
 
   crumb.style.marginLeft=
-    (Math.random()*20-10)+"px";
+    (
+      Math.random()*20
+      -10
+    )
+    +"px";
 
-  scene.appendChild(crumb);
 
-  setTimeout(()=>{
-    crumb.remove();
-  },700);
+  scene.appendChild(
+    crumb
+  );
+
+
+  setTimeout(
+    ()=>{
+      crumb.remove();
+    },
+    700
+  );
 }
 
-
-/* 愛心 */
 
 function showBunnyHeart(){
 
   const heart=
-    document.getElementById("bunnyHeart");
+    document.getElementById(
+      "bunnyHeart"
+    );
 
-  heart.classList.remove("pop");
+
+  heart.classList.remove(
+    "pop"
+  );
+
 
   void heart.offsetWidth;
 
-  heart.classList.add("pop");
+
+  heart.classList.add(
+    "pop"
+  );
 }
 
 </script>

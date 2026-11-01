@@ -2080,6 +2080,7 @@ button{
 
 
 <body>
+<!-- 1WEN Garden Build: V2.2 FIX 2026-11-01 -->
 
 
 <!-- =========================
@@ -2688,26 +2689,23 @@ function closeGardenWorld(){
 ========================= */
 
 function openBreathingGarden(){
-
-  document
-    .getElementById(
-      "breathingGarden"
-    )
-    .classList.add(
-      "open"
-    );
+  /* V2.2：從種花畫面直接切換到呼吸花，不讓兩個全螢幕畫面疊在一起 */
+  const growing=document.getElementById("growingGarden");
+  const breathing=document.getElementById("breathingGarden");
+  if(growing) growing.classList.remove("open");
+  if(breathing) breathing.classList.add("open");
 }
 
-
 function closeBreathingGarden(){
-
-  document
-    .getElementById(
-      "breathingGarden"
-    )
-    .classList.remove(
-      "open"
-    );
+  /* 返回時直接回到種花世界 */
+  const breathing=document.getElementById("breathingGarden");
+  const growing=document.getElementById("growingGarden");
+  if(breathing) breathing.classList.remove("open");
+  if(growing){
+    growing.classList.add("open");
+    renderCollectedGarden();
+    renderGardenSky();
+  }
 }
 
 
@@ -3943,15 +3941,17 @@ function renderBunnyFlowers(){
 
 function openBunnyWorld(){
 
-  renderBunnyFlowers();
+  /* V2.2：先開啟兔兔世界，再繪製花園。
+     即使花園資料發生例外，也不能阻止兔兔世界開啟。 */
+  const bunnyWorld=document.getElementById("bunnyWorld");
+  if(!bunnyWorld) return;
+  bunnyWorld.classList.add("open");
 
-  document
-    .getElementById(
-      "bunnyWorld"
-    )
-    .classList.add(
-      "open"
-    );
+  try{
+    renderBunnyFlowers();
+  }catch(error){
+    console.warn("Bunny garden render skipped:",error);
+  }
 
 
   bunnyClickCount=0;

@@ -666,6 +666,11 @@ button{
   display:block;
 }
 
+/* V2.1：呼吸花永遠顯示在種花畫面上方 */
+#breathingGarden.open{
+  z-index:95;
+}
+
 .breathe-text{
   position:absolute;
 
@@ -1649,24 +1654,6 @@ button{
 
 
 /* 兔兔世界同步顯示已種出的花 */
-function renderBunnyFlowers(){
-  const garden=document.getElementById("bunnyFlowerGarden"); if(!garden)return; garden.innerHTML="";
-  const flowers=[];
-  flowerData.forEach(f=>{
-    let count=flowerSave[f.id]||0;
-    if(f.secret && !flowerSave.roseUnlocked)count=0;
-    const visible=f.secret?Math.min(count,1):Math.min(count,f.target||count);
-    for(let i=0;i<visible;i++)flowers.push(f);
-  });
-  const slots=[
-    [8,72],[15,38],[23,70],[31,32],[39,78],[61,78],[69,34],[77,70],[85,38],[92,72],
-    [12,12],[27,12],[73,12],[88,12],[19,55],[81,55],[34,52],[66,52]
-  ];
-  flowers.forEach((f,i)=>{
-    const el=document.createElement("div");el.className="bunny-flower-item";el.textContent=f.emoji;
-    const slot=slots[i%slots.length];el.style.left=slot[0]+"%";el.style.top=slot[1]+"%";garden.appendChild(el);
-  });
-}
 
 /* =========================
    🐰 兔兔世界
@@ -2535,6 +2522,8 @@ let foundSpecial=0;
 let normalStars=[];
 let revealedNormal=0;
 let collectionMode=false;
+let starRoundFinished=false;
+let lastStarWorldTap=0;
 
 function newStarSave(){
   return { core:{fang:{x:42,y:42},wen:{x:58,y:46}}, collected:[] };
@@ -2556,11 +2545,11 @@ function openStarWorld(){
 function closeStarWorld(){
   document.getElementById("starWorld").classList.remove("open");
   document.getElementById("starField").innerHTML="";
-  specialStars=[]; normalStars=[]; foundSpecial=0; revealedNormal=0; collectionMode=false;
+  specialStars=[]; normalStars=[]; foundSpecial=0; revealedNormal=0; collectionMode=false; starRoundFinished=false;
 }
 function createStars(){
   const field=document.getElementById("starField");
-  field.innerHTML=""; specialStars=[]; normalStars=[]; foundSpecial=0; revealedNormal=0; collectionMode=false;
+  field.innerHTML=""; specialStars=[]; normalStars=[]; foundSpecial=0; revealedNormal=0; collectionMode=false; starRoundFinished=false;
   renderSavedStarsInStarWorld();
   const fang=createOneStar(starSave.core.fang.x,starSave.core.fang.y,true,"芳樑");
   const wen=createOneStar(starSave.core.wen.x,starSave.core.wen.y,true,"1WEN");
@@ -2631,8 +2620,9 @@ function chooseCollectedStar(star){
   normalStars.forEach(x=>x.classList.remove("collectable")); star.classList.add("collected-choice");
   const item={type:star.dataset.reward,x:parseFloat(star.dataset.x),y:parseFloat(star.dataset.y)};
   starSave.collected.push(item); saveStarCollection();
+  starRoundFinished=true;
   const hint=document.getElementById("starCollectionHint");
-  if(hint){hint.textContent=item.type+" 已經留在 1WEN 的星空裡 ♡";hint.classList.add("show");}
+  if(hint){hint.textContent=item.type+" 已經留在 1WEN 的星空裡 ♡　點兩下天空可以再玩一次";hint.classList.add("show");}
   renderGardenSky();
 }
 function renderSavedStarsInStarWorld(){
@@ -2667,6 +2657,19 @@ function connectSpecialStars(){
   field.insertBefore(line,field.firstChild);requestAnimationFrame(()=>line.classList.add("show"));
 }
 function randomNumber(min,max){return Math.random()*(max-min)+min;}
+
+/* V2.1：完成收藏後，連點兩下星空直接開始新一輪 */
+document.getElementById("starWorld").addEventListener("click",function(e){
+  if(!starRoundFinished)return;
+  if(e.target.closest(".back-button"))return;
+  const now=Date.now();
+  if(now-lastStarWorldTap<520){
+    lastStarWorldTap=0;
+    createStars();
+  }else{
+    lastStarWorldTap=now;
+  }
+});
 
 /* =========================
    🌷 花園首頁
@@ -3911,6 +3914,32 @@ const bunnyLanguageNames={
 
 let bunnyClickCount=0;
 
+/* V2.1：兔兔世界同步顯示已種出的花 */
+function renderBunnyFlowers(){
+  const garden=document.getElementById("bunnyFlowerGarden");
+  if(!garden)return;
+  garden.innerHTML="";
+  const flowers=[];
+  flowerData.forEach(f=>{
+    let count=flowerSave[f.id]||0;
+    if(f.secret && !flowerSave.roseUnlocked)count=0;
+    const visible=f.secret?Math.min(count,1):Math.min(count,f.target||count);
+    for(let i=0;i<visible;i++)flowers.push(f);
+  });
+  const slots=[
+    [8,72],[15,38],[23,70],[31,32],[39,78],[61,78],[69,34],[77,70],[85,38],[92,72],
+    [12,12],[27,12],[73,12],[88,12],[19,55],[81,55],[34,52],[66,52]
+  ];
+  flowers.forEach((f,i)=>{
+    const el=document.createElement("div");
+    el.className="bunny-flower-item";
+    el.textContent=f.emoji;
+    const slot=slots[i%slots.length];
+    el.style.left=slot[0]+"%";
+    el.style.top=slot[1]+"%";
+    garden.appendChild(el);
+  });
+}
 
 function openBunnyWorld(){
 

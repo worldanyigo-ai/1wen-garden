@@ -2075,12 +2075,17 @@ button{
   .garden-sky-item{font-size:20px;}
 }
 
+
+/* V2.3 visible build marker */
+.build-version{position:fixed;right:8px;bottom:6px;z-index:9999;font-size:10px;letter-spacing:.04em;color:rgba(255,255,255,.55);background:rgba(0,0,0,.18);padding:2px 6px;border-radius:999px;pointer-events:none;user-select:none;}
+
 </style>
 </head>
 
 
 <body>
-<!-- 1WEN Garden Build: V2.2 FIX 2026-11-01 -->
+<!-- 1WEN Garden Build: V2.3 FIX 2026-11-01 -->
+<div class="build-version" aria-hidden="true">v2.3</div>
 
 
 <!-- =========================
@@ -2106,6 +2111,7 @@ button{
   </button>
 
   <button
+    id="homeBunnyHotspot"
     class="home-hotspot hotspot-bunnies"
     type="button"
     aria-label="兔兔世界"
@@ -2221,7 +2227,7 @@ button{
   </button>
 
 
-  <button class="breathe-shortcut" type="button" aria-label="呼吸花" onclick="openBreathingGarden()">🌸</button>
+  <button id="breathingShortcut" class="breathe-shortcut" type="button" aria-label="呼吸花" onclick="openBreathingGarden()">🌸</button>
 
   <div id="gardenSkyCollection" class="garden-sky-collection"></div>
 
@@ -4175,6 +4181,35 @@ function showBunnyHeart(){
 // V2 初始化：讓共享收藏在重新整理後仍然存在
 renderGardenSky();
 renderBunnyFlowers();
+
+
+
+/* =========================
+   V2.3 robust navigation bindings
+========================= */
+(function(){
+  function bindOnce(id, handler){
+    const el=document.getElementById(id);
+    if(!el || el.dataset.v23Bound==="1") return;
+    el.dataset.v23Bound="1";
+    el.addEventListener("pointerup", function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      handler();
+    }, {passive:false});
+  }
+
+  function bindV23Navigation(){
+    bindOnce("homeBunnyHotspot", openBunnyWorld);
+    bindOnce("breathingShortcut", openBreathingGarden);
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded", bindV23Navigation, {once:true});
+  }else{
+    bindV23Navigation();
+  }
+})();
 
 </script>
 

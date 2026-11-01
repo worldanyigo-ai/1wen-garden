@@ -1648,6 +1648,26 @@ button{
 }
 
 
+/* 兔兔世界同步顯示已種出的花 */
+function renderBunnyFlowers(){
+  const garden=document.getElementById("bunnyFlowerGarden"); if(!garden)return; garden.innerHTML="";
+  const flowers=[];
+  flowerData.forEach(f=>{
+    let count=flowerSave[f.id]||0;
+    if(f.secret && !flowerSave.roseUnlocked)count=0;
+    const visible=f.secret?Math.min(count,1):Math.min(count,f.target||count);
+    for(let i=0;i<visible;i++)flowers.push(f);
+  });
+  const slots=[
+    [8,72],[15,38],[23,70],[31,32],[39,78],[61,78],[69,34],[77,70],[85,38],[92,72],
+    [12,12],[27,12],[73,12],[88,12],[19,55],[81,55],[34,52],[66,52]
+  ];
+  flowers.forEach((f,i)=>{
+    const el=document.createElement("div");el.className="bunny-flower-item";el.textContent=f.emoji;
+    const slot=slots[i%slots.length];el.style.left=slot[0]+"%";el.style.top=slot[1]+"%";garden.appendChild(el);
+  });
+}
+
 /* =========================
    🐰 兔兔世界
 ========================= */
@@ -2027,6 +2047,47 @@ button{
   }
 }
 
+
+/* =========================
+   V2 共用世界：收藏星空 / 花園捷徑 / 兔兔花園
+========================= */
+.breathe-shortcut{
+  position:absolute; z-index:210;
+  top:max(18px,env(safe-area-inset-top)); left:76px;
+  width:46px; height:46px; border:1px solid rgba(120,90,100,.15);
+  border-radius:50%; cursor:pointer; touch-action:manipulation;
+  background:rgba(255,255,255,.68); font-size:23px;
+  box-shadow:0 5px 16px rgba(100,80,80,.10);
+}
+.garden-sky-collection{
+  position:absolute; inset:0 0 47% 0; z-index:3;
+  pointer-events:none; overflow:hidden;
+}
+.garden-sky-item,.bunny-flower-item{
+  position:absolute; transform:translate(-50%,-50%); user-select:none;
+}
+.garden-sky-item{font-size:clamp(18px,4vw,27px); filter:drop-shadow(0 0 6px rgba(255,225,120,.65));}
+.garden-sky-item.core{color:#ffe48a;font-size:24px;}
+.garden-sky-name{font-size:11px;color:#8c735d;white-space:nowrap;margin-top:2px;text-align:center;font-weight:bold;}
+.star-collection-hint{
+  position:absolute; left:50%; bottom:max(26px,env(safe-area-inset-bottom)); z-index:120;
+  transform:translateX(-50%); padding:10px 18px; border-radius:22px;
+  background:rgba(15,20,50,.66); color:#fff1bd; font-size:14px; white-space:nowrap;
+  backdrop-filter:blur(7px); pointer-events:none; opacity:0; transition:opacity .35s;
+}
+.star-collection-hint.show{opacity:1;}
+.sky-star.collectable{animation:collectPulse 1.35s ease-in-out infinite;}
+.sky-star.collected-choice{filter:drop-shadow(0 0 10px #ffd66b) drop-shadow(0 0 24px #ffbf45);}
+@keyframes collectPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.7) drop-shadow(0 0 8px #ffd66b)}}
+.bunny-flower-garden{position:absolute;left:3%;right:3%;bottom:3%;height:29%;z-index:3;pointer-events:none;}
+.bunny-flower-item{font-size:clamp(25px,6vw,40px);filter:drop-shadow(0 4px 3px rgba(80,70,50,.12));}
+.bunny-flower-item::after{content:"";display:block;width:4px;height:20px;background:#78a866;margin:-5px auto 0;border-radius:4px;}
+@media(max-width:600px){
+  .sky-star{width:54px;height:54px;}
+  .breathe-shortcut{left:72px;width:44px;height:44px;}
+  .garden-sky-item{font-size:20px;}
+}
+
 </style>
 </head>
 
@@ -2053,7 +2114,7 @@ button{
     class="home-hotspot hotspot-girl"
     type="button"
     aria-label="花花世界"
-    onclick="openGardenWorld()">
+    onclick="openGrowingGarden()">
   </button>
 
   <button
@@ -2171,6 +2232,10 @@ button{
     ‹
   </button>
 
+
+  <button class="breathe-shortcut" type="button" aria-label="呼吸花" onclick="openBreathingGarden()">🌸</button>
+
+  <div id="gardenSkyCollection" class="garden-sky-collection"></div>
 
   <div class="garden-sun"></div>
 
@@ -2323,15 +2388,6 @@ button{
 
   </div>
 
-
-  <button
-    id="plantAgain"
-    class="plant-again"
-    type="button"
-    onclick="resetPlant()">
-    再種一朵 ♡
-  </button>
-
 </section>
 
 
@@ -2454,6 +2510,8 @@ button{
   </div>
 
 
+  <div id="bunnyFlowerGarden" class="bunny-flower-garden"></div>
+
   <div class="bunny-ground"></div>
 
   <div class="tap-hint">
@@ -2467,510 +2525,157 @@ button{
 <script>
 
 /* =========================
-   ⭐ 星星世界
+   ⭐ V2 星星世界：每輪可收藏一顆
 ========================= */
-
-const STAR_COUNT=20;
-
+const STAR_COUNT=16;
+const STAR_SAVE_KEY="1wenStarCollectionV2";
+const STAR_REWARDS=["⭐","🌸","🐰","✨","💗","🌙"];
 let specialStars=[];
 let foundSpecial=0;
+let normalStars=[];
+let revealedNormal=0;
+let collectionMode=false;
 
-
+function newStarSave(){
+  return { core:{fang:{x:42,y:42},wen:{x:58,y:46}}, collected:[] };
+}
+function loadStarSave(){
+  try{
+    const raw=localStorage.getItem(STAR_SAVE_KEY);
+    return raw ? Object.assign(newStarSave(),JSON.parse(raw)) : newStarSave();
+  }catch(e){ return newStarSave(); }
+}
+let starSave=loadStarSave();
+function saveStarCollection(){
+  try{localStorage.setItem(STAR_SAVE_KEY,JSON.stringify(starSave));}catch(e){}
+}
 function openStarWorld(){
-
-  document
-    .getElementById("starWorld")
-    .classList.add("open");
-
+  document.getElementById("starWorld").classList.add("open");
   createStars();
 }
-
-
 function closeStarWorld(){
-
-  document
-    .getElementById("starWorld")
-    .classList.remove("open");
-
-  document
-    .getElementById("starField")
-    .innerHTML="";
-
-  specialStars=[];
-  foundSpecial=0;
+  document.getElementById("starWorld").classList.remove("open");
+  document.getElementById("starField").innerHTML="";
+  specialStars=[]; normalStars=[]; foundSpecial=0; revealedNormal=0; collectionMode=false;
 }
-
-
 function createStars(){
-
-  const field=
-    document.getElementById(
-      "starField"
-    );
-
-  field.innerHTML="";
-
-  specialStars=[];
-  foundSpecial=0;
-
-
-  const baseX=
-    randomNumber(22,72);
-
-  const baseY=
-    randomNumber(25,70);
-
-
-  const angle=
-    Math.random()
-    *Math.PI*2;
-
-  const distance=
-    randomNumber(8,13);
-
-
-  let secondX=
-    baseX+
-    Math.cos(angle)*distance;
-
-  let secondY=
-    baseY+
-    Math.sin(angle)*distance;
-
-
-  secondX=
-    Math.max(
-      12,
-      Math.min(88,secondX)
-    );
-
-  secondY=
-    Math.max(
-      15,
-      Math.min(82,secondY)
-    );
-
-
-  const fang=
-    createOneStar(
-      baseX,
-      baseY,
-      true,
-      "芳樑"
-    );
-
-  const wen=
-    createOneStar(
-      secondX,
-      secondY,
-      true,
-      "1WEN"
-    );
-
-  specialStars=[
-    fang,
-    wen
-  ];
-
-
-  for(
-    let i=0;
-    i<STAR_COUNT-2;
-    i++
-  ){
-
-    let x;
-    let y;
-
-    let attempts=0;
-
-    do{
-
-      x=randomNumber(8,92);
-      y=randomNumber(12,88);
-
-      attempts++;
-
-    }while(
-      tooCloseToSpecial(x,y)
-      &&
-      attempts<30
-    );
-
-    createOneStar(
-      x,
-      y,
-      false,
-      ""
-    );
+  const field=document.getElementById("starField");
+  field.innerHTML=""; specialStars=[]; normalStars=[]; foundSpecial=0; revealedNormal=0; collectionMode=false;
+  renderSavedStarsInStarWorld();
+  const fang=createOneStar(starSave.core.fang.x,starSave.core.fang.y,true,"芳樑");
+  const wen=createOneStar(starSave.core.wen.x,starSave.core.wen.y,true,"1WEN");
+  specialStars=[fang,wen];
+  const occupied=[...starSave.collected.map(x=>({x:x.x,y:x.y})),starSave.core.fang,starSave.core.wen];
+  for(let i=0;i<STAR_COUNT-2;i++){
+    const pos=findSafeStarPosition(occupied);
+    occupied.push(pos);
+    const star=createOneStar(pos.x,pos.y,false,"");
+    normalStars.push(star);
   }
+  const hint=document.createElement("div"); hint.id="starCollectionHint"; hint.className="star-collection-hint";
+  field.appendChild(hint);
 }
-
-
-function createOneStar(
-  x,
-  y,
-  special,
-  name
-){
-
-  const field=
-    document.getElementById(
-      "starField"
-    );
-
-  const star=
-    document.createElement(
-      "button"
-    );
-
-
-  star.type="button";
-
-  star.className=
-    "sky-star";
-
-  star.style.left=
-    x+"%";
-
-  star.style.top=
-    y+"%";
-
-  star.dataset.x=x;
-  star.dataset.y=y;
-
-
+function findSafeStarPosition(occupied){
+  const field=document.getElementById("starField");
+  const w=Math.max(field.clientWidth,320), h=Math.max(field.clientHeight,500);
+  const minPx=w<500?64:58;
+  for(let tries=0;tries<180;tries++){
+    const p={x:randomNumber(8,92),y:randomNumber(12,86)};
+    const ok=occupied.every(o=>{
+      const dx=(p.x-o.x)/100*w, dy=(p.y-o.y)/100*h;
+      return Math.hypot(dx,dy)>=minPx;
+    });
+    if(ok)return p;
+  }
+  return {x:randomNumber(8,92),y:randomNumber(12,86)};
+}
+function createOneStar(x,y,special,name){
+  const field=document.getElementById("starField");
+  const star=document.createElement("button");
+  star.type="button"; star.className="sky-star"; star.style.left=x+"%"; star.style.top=y+"%";
+  star.dataset.x=x; star.dataset.y=y;
   if(special){
-
-    star.classList.add(
-      "special"
-    );
-
-    star.dataset.name=name;
-
-    star.addEventListener(
-      "click",
-      ()=>{
-        findSpecialStar(star);
-      }
-    );
-
+    star.classList.add("special"); star.dataset.name=name;
+    star.addEventListener("click",()=>findSpecialStar(star));
   }else{
-
-    star.addEventListener(
-      "click",
-      ()=>{
-        revealNormalStar(star);
-      }
-    );
+    star.dataset.reward=STAR_REWARDS[Math.floor(Math.random()*STAR_REWARDS.length)];
+    star.addEventListener("click",()=>revealNormalStar(star));
   }
-
-
-  field.appendChild(star);
-
-  return star;
+  field.appendChild(star); return star;
 }
-
-
 function revealNormalStar(star){
-
-  if(
-    star.classList.contains(
-      "revealed"
-    )
-  ){
-    return;
-  }
-
-  star.classList.add(
-    "revealed"
-  );
-
-  star.textContent=
-    Math.random()<.5
-    ?
-    "🐰"
-    :
-    "🌸";
+  if(collectionMode){ chooseCollectedStar(star); return; }
+  if(star.classList.contains("revealed"))return;
+  star.classList.add("revealed"); star.textContent=star.dataset.reward; revealedNormal++;
+  checkRoundComplete();
 }
-
-
 function findSpecialStar(star){
-
-  if(
-    star.classList.contains(
-      "found"
-    )
-  ){
-    return;
-  }
-
-
-  star.classList.add(
-    "found"
-  );
-
-
-  const label=
-    document.createElement(
-      "span"
-    );
-
-  label.className=
-    "star-name";
-
-  label.textContent=
-    star.dataset.name;
-
-  star.appendChild(label);
-
-
+  if(star.classList.contains("found"))return;
+  star.classList.add("found");
+  const label=document.createElement("span"); label.className="star-name"; label.textContent=star.dataset.name; star.appendChild(label);
   foundSpecial++;
-
-
-  if(foundSpecial===1){
-
-    const other=
-      specialStars.find(
-        item=>item!==star
-      );
-
-    showHint(other);
-  }
-
-
-  if(foundSpecial===2){
-
-    removeHint();
-
-    connectSpecialStars();
+  if(foundSpecial===1){showHint(specialStars.find(item=>item!==star));}
+  if(foundSpecial===2){removeHint();connectSpecialStars();checkRoundComplete();}
+}
+function checkRoundComplete(){
+  if(foundSpecial===2 && revealedNormal===normalStars.length){
+    collectionMode=true;
+    normalStars.forEach(star=>star.classList.add("collectable"));
+    const hint=document.getElementById("starCollectionHint");
+    if(hint){hint.textContent="選一顆今晚想留下的星 ♡";hint.classList.add("show");}
   }
 }
-
-
+function chooseCollectedStar(star){
+  if(!collectionMode || !star.classList.contains("revealed"))return;
+  collectionMode=false;
+  normalStars.forEach(x=>x.classList.remove("collectable")); star.classList.add("collected-choice");
+  const item={type:star.dataset.reward,x:parseFloat(star.dataset.x),y:parseFloat(star.dataset.y)};
+  starSave.collected.push(item); saveStarCollection();
+  const hint=document.getElementById("starCollectionHint");
+  if(hint){hint.textContent=item.type+" 已經留在 1WEN 的星空裡 ♡";hint.classList.add("show");}
+  renderGardenSky();
+}
+function renderSavedStarsInStarWorld(){
+  const field=document.getElementById("starField");
+  starSave.collected.forEach(item=>{
+    const el=document.createElement("div"); el.className="sky-star revealed saved-star";
+    el.style.left=item.x+"%";el.style.top=item.y+"%";el.textContent=item.type;el.style.pointerEvents="none";
+    field.appendChild(el);
+  });
+}
+function renderGardenSky(){
+  const sky=document.getElementById("gardenSkyCollection"); if(!sky)return; sky.innerHTML="";
+  [{name:"芳樑",...starSave.core.fang},{name:"1WEN",...starSave.core.wen}].forEach(core=>{
+    const wrap=document.createElement("div");wrap.className="garden-sky-item core";wrap.style.left=core.x+"%";wrap.style.top=core.y+"%";
+    wrap.innerHTML='✦<div class="garden-sky-name">'+core.name+'</div>';sky.appendChild(wrap);
+  });
+  starSave.collected.forEach(item=>{
+    const el=document.createElement("div");el.className="garden-sky-item";el.style.left=item.x+"%";el.style.top=item.y+"%";el.textContent=item.type;sky.appendChild(el);
+  });
+}
 function showHint(target){
-
-  removeHint();
-
-
-  const hint=
-    document.createElement(
-      "div"
-    );
-
-  hint.className=
-    "hint-glow";
-
-  hint.id=
-    "hintGlow";
-
-  hint.style.left=
-    target.dataset.x+"%";
-
-  hint.style.top=
-    target.dataset.y+"%";
-
-
-  document
-    .getElementById(
-      "starField"
-    )
-    .appendChild(hint);
+  removeHint(); const hint=document.createElement("div");hint.className="hint-glow";hint.id="hintGlow";
+  hint.style.left=target.dataset.x+"%";hint.style.top=target.dataset.y+"%";document.getElementById("starField").appendChild(hint);
 }
-
-
-function removeHint(){
-
-  const old=
-    document.getElementById(
-      "hintGlow"
-    );
-
-  if(old){
-    old.remove();
-  }
-}
-
-
+function removeHint(){const old=document.getElementById("hintGlow");if(old)old.remove();}
 function connectSpecialStars(){
-
-  const field=
-    document.getElementById(
-      "starField"
-    );
-
-  const first=
-    specialStars[0];
-
-  const second=
-    specialStars[1];
-
-  const rect=
-    field.getBoundingClientRect();
-
-
-  const x1=
-    parseFloat(
-      first.dataset.x
-    )
-    /100
-    *rect.width;
-
-  const y1=
-    parseFloat(
-      first.dataset.y
-    )
-    /100
-    *rect.height;
-
-
-  const x2=
-    parseFloat(
-      second.dataset.x
-    )
-    /100
-    *rect.width;
-
-  const y2=
-    parseFloat(
-      second.dataset.y
-    )
-    /100
-    *rect.height;
-
-
-  const dx=x2-x1;
-  const dy=y2-y1;
-
-
-  const length=
-    Math.sqrt(
-      dx*dx+
-      dy*dy
-    );
-
-  const angle=
-    Math.atan2(
-      dy,
-      dx
-    )
-    *180
-    /Math.PI;
-
-
-  const line=
-    document.createElement(
-      "div"
-    );
-
-  line.className=
-    "connection-line";
-
-  line.style.left=
-    x1+"px";
-
-  line.style.top=
-    y1+"px";
-
-  line.style.width=
-    length+"px";
-
-  line.style.transform=
-    "rotate("
-    +angle+
-    "deg)";
-
-
-  field.insertBefore(
-    line,
-    field.firstChild
-  );
-
-
-  requestAnimationFrame(
-    ()=>{
-      line.classList.add(
-        "show"
-      );
-    }
-  );
+  const field=document.getElementById("starField"),first=specialStars[0],second=specialStars[1],rect=field.getBoundingClientRect();
+  const x1=parseFloat(first.dataset.x)/100*rect.width,y1=parseFloat(first.dataset.y)/100*rect.height;
+  const x2=parseFloat(second.dataset.x)/100*rect.width,y2=parseFloat(second.dataset.y)/100*rect.height;
+  const dx=x2-x1,dy=y2-y1,length=Math.hypot(dx,dy),angle=Math.atan2(dy,dx)*180/Math.PI;
+  const line=document.createElement("div");line.className="connection-line";line.style.left=x1+"px";line.style.top=y1+"px";line.style.width=length+"px";line.style.transform="rotate("+angle+"deg)";
+  field.insertBefore(line,field.firstChild);requestAnimationFrame(()=>line.classList.add("show"));
 }
-
-
-function tooCloseToSpecial(x,y){
-
-  if(
-    specialStars.length<2
-  ){
-    return false;
-  }
-
-
-  return specialStars.some(
-    star=>{
-
-      const sx=
-        parseFloat(
-          star.dataset.x
-        );
-
-      const sy=
-        parseFloat(
-          star.dataset.y
-        );
-
-      const dx=x-sx;
-      const dy=y-sy;
-
-      return(
-        Math.sqrt(
-          dx*dx+
-          dy*dy
-        )
-        <9
-      );
-    }
-  );
-}
-
-
-function randomNumber(min,max){
-
-  return(
-    Math.random()
-    *(max-min)
-    +min
-  );
-}
-
-
+function randomNumber(min,max){return Math.random()*(max-min)+min;}
 
 /* =========================
    🌷 花園首頁
 ========================= */
 
-function openGardenWorld(){
-
-  document
-    .getElementById(
-      "gardenWorld"
-    )
-    .classList.add(
-      "open"
-    );
-    renderCollectedGarden();
-}
-
+function openGardenWorld(){ openGrowingGarden(); }
 
 function closeGardenWorld(){
-
-  document
-    .getElementById(
-      "gardenWorld"
-    )
-    .classList.remove(
-      "open"
-    );
+  document.getElementById("gardenWorld").classList.remove("open");
 }
 
 
@@ -3261,6 +2966,7 @@ function openGrowingGarden(){
     );
 
   renderCollectedGarden();
+  renderGardenSky();
   resetPlant();
 }
 
@@ -3360,15 +3066,6 @@ function resetPlant(){
   );
 
   message.textContent="";
-
-
-  document
-    .getElementById(
-      "plantAgain"
-    )
-    .classList.remove(
-      "show"
-    );
 }
 
 
@@ -3380,7 +3077,7 @@ function resetPlant(){
 function waterPlant(){
 
   if(plantFinished){
-    return;
+    resetPlant();
   }
 
 
@@ -3821,27 +3518,6 @@ function finishFlower(){
     "show"
   );
 
-
-  /*
-    顯示再種一朵
-  */
-
-  setTimeout(
-    ()=>{
-
-      document
-        .getElementById(
-          "plantAgain"
-        )
-        .classList.add(
-          "show"
-        );
-
-    },
-    900
-  );
-
-
   /*
     🌹 第一次玫瑰
   */
@@ -4238,6 +3914,8 @@ let bunnyClickCount=0;
 
 function openBunnyWorld(){
 
+  renderBunnyFlowers();
+
   document
     .getElementById(
       "bunnyWorld"
@@ -4463,6 +4141,11 @@ function showBunnyHeart(){
     "pop"
   );
 }
+
+
+// V2 初始化：讓共享收藏在重新整理後仍然存在
+renderGardenSky();
+renderBunnyFlowers();
 
 </script>
 

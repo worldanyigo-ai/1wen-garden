@@ -2144,8 +2144,8 @@ button{
 
 
 <body>
-<!-- 1WEN Garden Build: V4.2 image castle hotspot -->
-<div class="build-version" aria-hidden="true">v4.2</div>
+<!-- 1WEN Garden Build: V4.5 castle growth after 1000 -->
+<div class="build-version" aria-hidden="true">v4.5</div>
 <button class="reset-worlds" type="button" onclick="showResetDialog()" aria-label="重置所有世界">↺ 重置世界</button>
 <div class="reset-dialog-backdrop" id="resetBackdrop" role="dialog" aria-modal="true" aria-labelledby="resetHeading">
  <div class="reset-dialog">
@@ -4130,7 +4130,13 @@ function castleStageName(n){
   if(n<=30)return "第三階段 · 城堡外圍";
   if(n<=50)return "第四階段 · 夢幻主城堡";
   if(n<=100)return "第五階段 · 完整童話王國";
-  return "第六階段 · 永遠成長的王國";
+  if(n<=1000)return "第六階段 · 永遠成長的王國";
+  if(n<=1100)return "第七階段 · 鐘樓小鎮";
+  if(n<=1200)return "第八階段 · 河畔童話";
+  if(n<=1300)return "第九階段 · 皇家花園";
+  if(n<=1500)return "第十階段 · 雲端高塔";
+  if(n<=2000)return "第十一階段 · 夢幻王國";
+  return "第十二階段 · 四季永續王國";
 }
 function openCastleWorld(){
   const world=document.getElementById("castleWorld");
@@ -4210,6 +4216,58 @@ function renderCastle(){
     const x=28+(i*113)%844,y=385+(i*17)%35;
     parts.push(`<text x="${x}" y="${y}" font-size="${16+i%4*2}" text-anchor="middle">${flowers[i%flowers.length]}</text>`);
   }
+  // V4.5: All original visuals stay unchanged through build 1000.
+  // Each completed build from 1001 onward changes the landscape; earlier saves remain intact.
+  const progress=Math.max(0,count-1000);
+  if(progress>0){
+    const stage=(start,end)=>Math.max(0,Math.min(1,(count-start+1)/(end-start+1)));
+    const p1=stage(1001,1100),p2=stage(1101,1200),p3=stage(1201,1300),p4=stage(1301,1500),p5=stage(1501,2000);
+    // Bell tower: grows gradually from the first build after 1000.
+    if(p1>0){
+      const h=35+140*p1;
+      parts.push(`<g><rect x="72" y="${349-h}" width="64" height="${h}" rx="5" fill="#fff2dc" stroke="#c9a8bd" stroke-width="3"/><path d="M61 ${349-h} L104 ${316-h} L147 ${349-h}Z" fill="#db9fcb"/><circle cx="104" cy="${374-h}" r="${8+9*p1}" fill="#f7df9a" stroke="#ab8498" stroke-width="3"/><path d="M104 ${374-h}v-${8*p1}m0 ${8*p1}l${7*p1} ${5*p1}" stroke="#8b7387" stroke-width="2"/></g>`);
+    }
+    // River, stone bridge and waterwheel.
+    if(p2>0){
+      parts.push(`<path d="M${-80+100*p2} 418 Q160 ${414-16*p2} 290 424 T660 415 T960 420" fill="none" stroke="#8ac9df" stroke-width="${5+21*p2}" stroke-linecap="round" opacity=".9"/>`);
+      if(p2>.25)parts.push(`<path d="M${630-30*p2} 409 Q665 ${372-22*p2} ${705+30*p2} 409" fill="none" stroke="#e8d8c5" stroke-width="${3+12*p2}" stroke-linecap="round"/>`);
+      if(p2>.5)parts.push(`<g transform="translate(760 395)"><circle r="${6+23*p2}" fill="none" stroke="#b68d75" stroke-width="5"/><path d="M-${20*p2} 0H${20*p2}M0 -${20*p2}V${20*p2}" stroke="#b68d75" stroke-width="4"/></g>`);
+    }
+    // Royal gardens: flowers added one by one, not all at once.
+    if(p3>0){
+      parts.push(`<rect x="286" y="${407-13*p3}" width="${315*p3}" height="${9*p3}" rx="5" fill="#e5c7b0"/>`);
+      const gardenN=Math.ceil(p3*24);
+      for(let i=0;i<gardenN;i++)parts.push(`<text x="${302+(i*43)%286}" y="${386+(i%3)*12}" font-size="${14+i%3*3}">${flowers[(i+2)%flowers.length]}</text>`);
+      if(p3>.7)parts.push(`<g transform="translate(826 350)"><rect x="-30" y="-47" width="60" height="47" fill="#d7f1de" opacity=".75" stroke="#fff4d8" stroke-width="4"/><path d="M-36 -47L0 -82L36 -47Z" fill="#b4d6cc" stroke="#fff4d8" stroke-width="4"/></g>`);
+    }
+    // Tall sky towers and banners progressively grow.
+    if(p4>0){
+      const h=40+145*p4;
+      for(const x of [232,668])parts.push(`<g><rect x="${x-18}" y="${320-h}" width="36" height="${h}" rx="5" fill="#f9e9e4" stroke="#c7aec5" stroke-width="3"/><path d="M${x-28} ${320-h}L${x} ${290-h}L${x+28} ${320-h}Z" fill="#dfa1c8"/><path d="M${x} ${290-h}v-16l${18*p4} 6l-${18*p4} 6" fill="#f7d58d" stroke="#fff2da" stroke-width="2"/></g>`);
+    }
+    // The royal avenue and glowing windows expand to the 2000 milestone.
+    if(p5>0){
+      parts.push(`<path d="M445 355 Q${445-70*p5} 386 ${450-110*p5} 430 H${450+110*p5} Q${445+70*p5} 386 455 355Z" fill="#e5d0c0" opacity=".7"/>`);
+      const lights=Math.ceil(p5*32);
+      for(let i=0;i<lights;i++){
+        const x=68+(i*89)%770,y=265+(i*31)%85;
+        parts.push(`<circle cx="${x}" cy="${y}" r="${2+i%3}" fill="#ffe7a2" opacity="${.5+.4*((i%5)/5)}"/>`);
+      }
+    }
+    // After 2000: bounded decoration count, but each further build changes the
+    // seasonal palette and light pattern. No unbounded DOM growth.
+    if(count>2000){
+      const season=Math.floor((count-2001)/100)%4;
+      const palettes=[["#ffd5e5","🌸"],["#f8e39b","🌼"],["#eebd95","🍁"],["#d9eaff","❄️"]];
+      const [shade,symbol]=palettes[season];
+      parts.push(`<text x="450" y="65" text-anchor="middle" font-size="21" fill="${shade}">✦ ${["春日花城","盛夏星夜","秋日童話","冬雪王國"][season]} ✦</text>`);
+      const phase=count%100;
+      for(let i=0;i<30;i++){
+        const x=35+((i*127+phase*7)%835),y=110+((i*47+phase*3)%295);
+        parts.push(`<text x="${x}" y="${y}" font-size="${10+i%3*3}" opacity=".7">${symbol}</text>`);
+      }
+    }
+  }
   const svg=`<svg viewBox="0 0 900 430" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg"><path d="M0 370 Q130 330 280 369 T590 365 T900 360 L900 430H0Z" fill="#8fbe96"/><path d="M0 401Q180 365 350 401T900 391V430H0Z" fill="#6da87c"/>${parts.join("")}</svg>`;
   document.getElementById("castleLandscape").innerHTML=svg;
 }
@@ -4257,4 +4315,3 @@ function nextResetStep(){
 
 </body>
 </html>
-

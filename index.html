@@ -2095,18 +2095,46 @@ button{
 .reset-dialog button.danger{background:#a34257;color:white}
 .reset-dialog button:disabled{opacity:.4;cursor:not-allowed}
 
+
+/* V4 童話城堡：獨立世界，不影響既有世界 */
+.castle-home-entry{position:absolute;right:5%;top:48%;z-index:15;width:clamp(66px,16vw,110px);height:clamp(75px,19vw,120px);border:0;background:transparent;cursor:pointer;touch-action:manipulation;display:flex;flex-direction:column;align-items:center;justify-content:center;filter:drop-shadow(0 5px 6px rgba(17,19,48,.55));animation:castleFloat 4s ease-in-out infinite}
+.castle-home-entry .castle-home-icon{font-size:clamp(46px,11vw,75px);line-height:1.1}.castle-home-entry .castle-home-label{font-size:clamp(10px,2.5vw,14px);font-weight:bold;color:#fff1d2;text-shadow:0 2px 5px #28254a;white-space:nowrap}
+@keyframes castleFloat{50%{transform:translateY(-6px)}}
+.castle-world{position:fixed;inset:0;z-index:110;display:none;overflow:hidden;background:linear-gradient(180deg,#2d315f 0%,#726a9d 43%,#f2b8b7 71%,#8ab88b 72%,#57976e 100%);touch-action:manipulation;user-select:none}
+.castle-world.open{display:block}
+.castle-sky{position:absolute;inset:0 0 28%;pointer-events:none;background:radial-gradient(circle at 77% 20%,rgba(255,244,196,.42),transparent 18%),radial-gradient(circle at 20% 15%,rgba(253,217,239,.23),transparent 35%)}
+.castle-moon{position:absolute;right:12%;top:9%;font-size:clamp(44px,8vw,72px);filter:drop-shadow(0 0 20px #ffedc8)}
+.castle-cloud{position:absolute;font-size:clamp(40px,8vw,75px);opacity:.55;filter:grayscale(.25);animation:castleDrift 20s ease-in-out infinite alternate}.castle-cloud.a{left:8%;top:13%}.castle-cloud.b{right:17%;top:28%;animation-delay:-9s;font-size:45px}
+@keyframes castleDrift{to{transform:translateX(36px)}}
+.castle-ground{position:absolute;left:-10%;bottom:-10%;width:120%;height:39%;background:linear-gradient(#a3c99c,#5b9c78);border-radius:50% 50% 0 0;pointer-events:none}
+.castle-landscape{position:absolute;left:50%;top:12%;width:min(95vw,950px);height:61%;transform:translateX(-50%);pointer-events:none;overflow:visible}
+.castle-landscape svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 8px 7px rgba(46,48,68,.19))}
+.castle-actors{position:absolute;left:50%;bottom:10%;transform:translateX(-50%);width:min(94vw,440px);height:clamp(190px,35vh,300px);display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,4vw,32px);pointer-events:none}
+.castle-character{position:relative;width:44%;height:100%;display:flex;align-items:flex-end;justify-content:center;filter:drop-shadow(0 8px 6px rgba(42,53,55,.18))}
+.castle-character svg{width:100%;height:100%;overflow:visible}
+.castle-hammer{position:absolute;width:43%;height:43%;top:12%;right:-8%;transform-origin:25% 85%;transform:rotate(28deg);transition:transform .23s ease;z-index:3}
+.castle-hammer.raised{transform:rotate(-55deg)}.castle-hammer.hit{transform:rotate(72deg)}
+.castle-boy.hit{animation:castleBop .35s ease}.castle-impact{position:absolute;top:3%;right:-12%;font-size:32px;opacity:0}.castle-impact.show{animation:castleImpact .5s ease}
+@keyframes castleBop{50%{transform:translateY(10px) rotate(5deg)}}@keyframes castleImpact{20%{opacity:1;transform:scale(1.4)}100%{opacity:0;transform:translateY(-20px)}}
+.castle-instructions{position:absolute;left:50%;bottom:max(3%,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;text-align:center;color:#fffaf1;text-shadow:0 2px 5px #4c5272;width:90%;pointer-events:none}
+.castle-instructions strong{display:block;font-size:clamp(15px,3.8vw,21px);margin-bottom:5px}.castle-instructions span{font-size:clamp(12px,3vw,15px)}
+.castle-status{position:absolute;right:15px;top:max(18px,env(safe-area-inset-top));z-index:5;border-radius:18px;background:rgba(32,34,75,.46);padding:9px 12px;color:#fff5d7;font-size:13px;pointer-events:none}
+.castle-world .back-button{z-index:120}.castle-tap-area{position:absolute;inset:70px 0 7%;z-index:4;background:transparent;border:0;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.castle-actors,.castle-landscape{z-index:2}.castle-instructions{z-index:6}
+@media(max-width:600px){.castle-home-entry{right:4%;top:51%}.castle-landscape{top:17%;height:50%}.castle-actors{bottom:12%;height:230px}.castle-status{font-size:11px;right:8px}.castle-instructions{bottom:max(4%,env(safe-area-inset-bottom))}}
+
 </style>
 </head>
 
 
 <body>
-<!-- 1WEN Garden Build: V3.0 2026-11-04 -->
-<div class="build-version" aria-hidden="true">v3.0</div>
+<!-- 1WEN Garden Build: V4.0 castle world -->
+<div class="build-version" aria-hidden="true">v4.0</div>
 <button class="reset-worlds" type="button" onclick="showResetDialog()" aria-label="重置所有世界">↺ 重置世界</button>
 <div class="reset-dialog-backdrop" id="resetBackdrop" role="dialog" aria-modal="true" aria-labelledby="resetHeading">
  <div class="reset-dialog">
   <h2 id="resetHeading">重置 1WEN's Garden</h2>
-  <p id="resetDescription">這會清除所有收藏星星、已種花朵，三個世界會重新開始。此操作無法復原。確定要繼續嗎？</p>
+  <p id="resetDescription">這會清除所有收藏星星、已種花朵及城堡建造進度，四個世界會重新開始。此操作無法復原。確定要繼續嗎？</p>
   <div id="resetStep2" style="display:none"><p>第二次確認：請輸入「重置」兩個字。</p><input id="resetInput" type="text" autocomplete="off" placeholder="輸入：重置" oninput="updateResetConfirm()"></div>
   <button type="button" onclick="hideResetDialog()">取消，保留收藏</button>
   <button type="button" class="danger" id="resetConfirm" onclick="nextResetStep()">繼續確認</button>
@@ -2541,6 +2569,48 @@ button{
 </section>
 
 
+
+
+<!-- 🏰 童話城堡世界：女孩舉鎚、輕敲、建造 -->
+<section id="castleWorld" class="castle-world" aria-label="童話城堡世界">
+  <div class="castle-sky"></div><div class="castle-moon">🌙</div>
+  <div class="castle-cloud a">☁️</div><div class="castle-cloud b">☁️</div>
+  <div class="castle-ground"></div>
+  <div class="castle-landscape" id="castleLandscape" aria-hidden="true"></div>
+  <div class="castle-actors" aria-hidden="true">
+    <div class="castle-character castle-girl">
+      <svg viewBox="0 0 170 250" xmlns="http://www.w3.org/2000/svg">
+        <path d="M72 180L58 241M98 180L110 241" stroke="#5f5887" stroke-width="17" stroke-linecap="round"/>
+        <path d="M58 241H44M110 241H124" stroke="#54456b" stroke-width="13" stroke-linecap="round"/>
+        <path d="M61 118Q85 105 108 118L132 190Q85 205 38 190Z" fill="#f4a4c5" stroke="#e38db3" stroke-width="3"/>
+        <path d="M64 128L37 165M107 128L135 147" stroke="#f5c5a9" stroke-width="14" stroke-linecap="round"/>
+        <path d="M50 78Q36 22 79 20Q128 12 121 80L127 130Q105 142 99 115L54 122Z" fill="#604653"/>
+        <circle cx="85" cy="76" r="43" fill="#f8d0b5"/>
+        <path d="M45 67Q42 26 83 29Q118 27 126 62Q104 59 92 44Q76 62 45 67" fill="#604653"/>
+        <circle cx="71" cy="80" r="3.5" fill="#55404b"/><circle cx="99" cy="80" r="3.5" fill="#55404b"/>
+        <path d="M74 97Q85 107 98 96" fill="none" stroke="#a96879" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="56" cy="92" r="8" fill="#ef9da5" opacity=".45"/><circle cx="113" cy="92" r="8" fill="#ef9da5" opacity=".45"/>
+      </svg>
+      <svg id="castleHammer" class="castle-hammer" viewBox="0 0 90 130" xmlns="http://www.w3.org/2000/svg"><path d="M42 117L49 36" stroke="#aa7653" stroke-width="12" stroke-linecap="round"/><rect x="17" y="10" width="63" height="35" rx="10" fill="#c5c5d9" stroke="#8c91af" stroke-width="4"/><path d="M28 20H65" stroke="#f5e9f5" stroke-width="4" opacity=".7"/></svg>
+    </div>
+    <div class="castle-character castle-boy" id="castleBoy">
+      <svg viewBox="0 0 170 250" xmlns="http://www.w3.org/2000/svg">
+        <path d="M67 180L58 241M102 180L111 241" stroke="#617eab" stroke-width="17" stroke-linecap="round"/>
+        <path d="M58 241H44M111 241H126" stroke="#4b5477" stroke-width="13" stroke-linecap="round"/>
+        <path d="M61 117Q85 105 110 117L125 188Q85 200 47 188Z" fill="#a1c9dc" stroke="#77a9c3" stroke-width="3"/>
+        <path d="M62 128L40 164M108 128L132 165" stroke="#f5c5a9" stroke-width="14" stroke-linecap="round"/>
+        <circle cx="85" cy="76" r="43" fill="#f7cdae"/>
+        <path d="M43 76Q38 28 70 29Q80 9 96 29Q126 24 127 75L113 59Q85 67 69 49Q58 66 43 76" fill="#4a4352"/>
+        <circle cx="70" cy="82" r="3.5" fill="#52434a"/><circle cx="100" cy="82" r="3.5" fill="#52434a"/>
+        <path d="M76 100Q85 105 94 100" fill="none" stroke="#a66d71" stroke-width="3" stroke-linecap="round"/>
+      </svg><span class="castle-impact" id="castleImpact">💫</span>
+    </div>
+  </div>
+  <button class="castle-tap-area" type="button" aria-label="點擊敲鎚與建造城堡" onclick="tapCastle()"></button>
+  <button class="back-button" type="button" aria-label="返回首頁" onclick="closeCastleWorld()">‹</button>
+  <div class="castle-status" id="castleStatus">🏰 已建造 0 次</div>
+  <div class="castle-instructions"><strong id="castleHint">點一下，女孩就會舉起鐵鎚 🔨</strong><span id="castleStage">童話村莊正在等待妳 ♡</span></div>
+</section>
 
 <script>
 
@@ -4025,6 +4095,104 @@ renderBunnyFlowers();
 })();
 
 
+
+/* V4 童話城堡：建造次數單獨儲存；重置時才清除 */
+const CASTLE_SAVE_KEY="1wenCastleV4";
+let castleBuildCount=0;
+let castleTapStep=0;
+let castleAnimating=false;
+try{castleBuildCount=Math.max(0,Math.floor(Number(localStorage.getItem(CASTLE_SAVE_KEY))||0));}catch(e){}
+function castleStageName(n){
+  if(n===0)return "童話村莊正在等待妳 ♡";
+  if(n<=5)return "第一階段 · 小小村莊";
+  if(n<=15)return "第二階段 · 童話小鎮";
+  if(n<=30)return "第三階段 · 城堡外圍";
+  if(n<=50)return "第四階段 · 夢幻主城堡";
+  if(n<=100)return "第五階段 · 完整童話王國";
+  return "第六階段 · 永遠成長的王國";
+}
+function openCastleWorld(){
+  const world=document.getElementById("castleWorld");
+  if(!world)return;
+  world.classList.add("open");
+  castleTapStep=0;
+  document.getElementById("castleHammer").classList.remove("raised","hit");
+  renderCastle();
+  document.getElementById("castleHint").textContent="點一下，女孩就會舉起鐵鎚 🔨";
+}
+function closeCastleWorld(){document.getElementById("castleWorld").classList.remove("open");}
+function tapCastle(){
+  if(castleAnimating)return;
+  const hammer=document.getElementById("castleHammer");
+  const boy=document.getElementById("castleBoy");
+  const impact=document.getElementById("castleImpact");
+  const hint=document.getElementById("castleHint");
+  castleTapStep=(castleTapStep+1)%3;
+  hammer.classList.remove("raised","hit");
+  if(castleTapStep===1){
+    hammer.classList.add("raised");
+    hint.textContent="女孩把鐵鎚舉高高！下一下敲敲 ♡";
+  }else if(castleTapStep===2){
+    hammer.classList.add("hit");
+    boy.classList.remove("hit");impact.classList.remove("show");
+    void boy.offsetWidth;
+    boy.classList.add("hit");impact.classList.add("show");
+    hint.textContent="咚！男孩冒出小星星 💫 下一下蓋房子";
+  }else{
+    castleBuildCount++;
+    try{localStorage.setItem(CASTLE_SAVE_KEY,String(castleBuildCount));}catch(e){}
+    hint.textContent="噹噹！童話王國又長大了一點 🏰";
+    renderCastle();
+  }
+}
+function castleCottage(x,y,scale=1,variant=0){
+  const roofs=["#e59bb7","#c8a0d8","#f1bc95","#9dbbdc"];
+  const roof=roofs[variant%roofs.length];
+  return `<g transform="translate(${x} ${y}) scale(${scale})"><ellipse cx="0" cy="2" rx="38" ry="9" fill="#426e59" opacity=".25"/><rect x="-27" y="-48" width="54" height="48" rx="4" fill="#fff0da" stroke="#d7b9b0" stroke-width="2"/><path d="M-36 -47 L0 -78 L36 -47Z" fill="${roof}" stroke="#ae839a" stroke-width="2"/><rect x="-8" y="-28" width="16" height="28" rx="7" fill="#9d8093"/><rect x="-23" y="-34" width="11" height="13" rx="3" fill="#a3d4e2"/><rect x="12" y="-34" width="11" height="13" rx="3" fill="#a3d4e2"/><path d="M-17 -34V-21M17 -34V-21" stroke="#fff" stroke-width="2"/></g>`;
+}
+function castleTower(x,y,scale=1){
+  return `<g transform="translate(${x} ${y}) scale(${scale})"><rect x="-21" y="-110" width="42" height="110" rx="5" fill="#fff2e5" stroke="#cfb8c9" stroke-width="3"/><path d="M-31 -109 L0 -163 L31 -109Z" fill="#e6a3c4" stroke="#ae8da8" stroke-width="3"/><path d="M0 -163V-183" stroke="#f5f0d9" stroke-width="3"/><path d="M0 -182L24 -175L0 -168Z" fill="#f4d78e"/><rect x="-7" y="-87" width="14" height="26" rx="7" fill="#9bb9d8"/><rect x="-7" y="-44" width="14" height="25" rx="7" fill="#9bb9d8"/></g>`;
+}
+function renderCastle(){
+  const count=castleBuildCount;
+  document.getElementById("castleStatus").textContent=`🏰 已建造 ${count} 次`;
+  document.getElementById("castleStage").textContent=castleStageName(count);
+  const parts=[];
+  // 預先安排建築位置，避免隨機重疊中央角色。
+  const houses=[
+    [90,306,.78,0],[210,323,.72,1],[675,306,.82,2],[790,325,.73,3],
+    [145,248,.62,2],[748,248,.62,0],[276,294,.62,3],[610,292,.65,1],
+    [44,365,.67,1],[841,363,.65,2],[250,237,.55,0],[648,233,.57,3],
+    [338,331,.55,1],[557,330,.55,2],[115,375,.6,3]
+  ];
+  for(let i=0;i<Math.min(count,15);i++)parts.push(castleCottage(...houses[i]));
+  // 城牆、入口及塔樓依次成長。
+  if(count>=16){
+    const width=Math.min(480,70+(count-15)*27);
+    parts.push(`<rect x="${450-width/2}" y="288" width="${width}" height="78" rx="5" fill="#f8e9e2" stroke="#d6c3cf" stroke-width="3"/>`);
+  }
+  if(count>=21)parts.push(castleTower(292,307,.68));
+  if(count>=27)parts.push(castleTower(608,307,.68));
+  if(count>=31){
+    const height=Math.min(170,65+(count-30)*5);
+    parts.push(`<rect x="384" y="${350-height}" width="132" height="${height}" rx="7" fill="#fff2e7" stroke="#d6bdca" stroke-width="4"/><path d="M370 ${350-height} L450 ${305-height} L530 ${350-height}Z" fill="#e8a6c6" stroke="#b98ba7" stroke-width="4"/><path d="M429 350V309Q450 284 471 309V350Z" fill="#987e9f"/><rect x="408" y="${373-height}" width="17" height="27" rx="8" fill="#a5c8dc"/><rect x="476" y="${373-height}" width="17" height="27" rx="8" fill="#a5c8dc"/>`);
+  }
+  if(count>=41)parts.push(castleTower(358,313,.83));
+  if(count>=51)parts.push(castleTower(543,313,.83));
+  if(count>=61)parts.push(`<ellipse cx="450" cy="360" rx="60" ry="15" fill="#8ecbd6"/><path d="M450 350V322" stroke="#b5e2e9" stroke-width="7"/><circle cx="450" cy="320" r="9" fill="#f7e6a2"/>`);
+  if(count>=76)parts.push(`<path d="M435 350Q410 380 450 400Q485 390 466 350" fill="none" stroke="#e8d5b4" stroke-width="15"/>`);
+  if(count>=100)parts.push(`<text x="450" y="94" font-size="24" fill="#fff2c5" text-anchor="middle" font-weight="bold">1WEN ♡ 芳樑</text>`);
+  // 101 次以後持續增添花圃，數量上限避免無限 DOM 膨脹。
+  const extras=Math.min(55,Math.max(0,count-100));
+  const flowers=["🌷","🌸","🌼","🌻","🌹","🪻"];
+  for(let i=0;i<extras;i++){
+    const x=28+(i*113)%844,y=385+(i*17)%35;
+    parts.push(`<text x="${x}" y="${y}" font-size="${16+i%4*2}" text-anchor="middle">${flowers[i%flowers.length]}</text>`);
+  }
+  const svg=`<svg viewBox="0 0 900 430" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg"><path d="M0 370 Q130 330 280 369 T590 365 T900 360 L900 430H0Z" fill="#8fbe96"/><path d="M0 401Q180 365 350 401T900 391V430H0Z" fill="#6da87c"/>${parts.join("")}</svg>`;
+  document.getElementById("castleLandscape").innerHTML=svg;
+}
+
 /* V3: two-step destructive reset; clears only Garden keys */
 let resetStep=1;
 function showResetDialog(){
@@ -4044,7 +4212,7 @@ function updateResetConfirm(){
 function nextResetStep(){
   if(resetStep===1){
     resetStep=2;
-    document.getElementById("resetDescription").textContent="最後一次確認：星星與花朵的累積紀錄將永久清除。";
+    document.getElementById("resetDescription").textContent="最後一次確認：星星、花朵與城堡的累積紀錄將永久清除。";
     document.getElementById("resetStep2").style.display="block";
     const button=document.getElementById("resetConfirm");
     button.textContent="確定清除全部收藏";
@@ -4056,6 +4224,7 @@ function nextResetStep(){
   try{
     localStorage.removeItem(SAVE_KEY);
     localStorage.removeItem(STAR_SAVE_KEY);
+    localStorage.removeItem(CASTLE_SAVE_KEY);
   }catch(error){
     alert("無法清除瀏覽器儲存資料，請確認沒有使用限制儲存的模式。");
     return;

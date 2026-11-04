@@ -2128,8 +2128,8 @@ button{
 
 
 <body>
-<!-- 1WEN Garden Build: V4.0 castle world -->
-<div class="build-version" aria-hidden="true">v4.0</div>
+<!-- 1WEN Garden Build: V4.1 castle entrance fix -->
+<div class="build-version" aria-hidden="true">v4.1</div>
 <button class="reset-worlds" type="button" onclick="showResetDialog()" aria-label="重置所有世界">↺ 重置世界</button>
 <div class="reset-dialog-backdrop" id="resetBackdrop" role="dialog" aria-modal="true" aria-labelledby="resetHeading">
  <div class="reset-dialog">
@@ -2173,7 +2173,13 @@ button{
   </button>
 
 </div>
-  
+
+  <!-- V4.1: 可見且可點擊的童話城堡入口 -->
+  <button class="castle-home-entry" type="button" aria-label="進入童話城堡世界" onclick="openCastleWorld()">
+    <span class="castle-home-icon" aria-hidden="true">🏰</span>
+    <span class="castle-home-label">童話城堡</span>
+  </button>
+
 </main>
 
 

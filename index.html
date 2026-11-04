@@ -2123,13 +2123,29 @@ button{
 .castle-actors,.castle-landscape{z-index:2}.castle-instructions{z-index:6}
 @media(max-width:600px){.castle-home-entry{right:4%;top:51%}.castle-landscape{top:17%;height:50%}.castle-actors{bottom:12%;height:230px}.castle-status{font-size:11px;right:8px}.castle-instructions{bottom:max(4%,env(safe-area-inset-bottom))}}
 
+
+/* V4.2: Align hotspot to the actual displayed 940x1673 background image,
+   even when the viewport has letterboxing from background-size:contain. */
+.home-image-coordinate-layer{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(100vw, calc(100dvh * 940 / 1673));
+  height:min(100dvh, calc(100vw * 1673 / 940));
+  z-index:16;pointer-events:none;
+}
+.home-castle-hotspot{
+  position:absolute;left:39%;top:45.5%;width:42%;height:15%;
+  background:transparent;border:0;padding:0;cursor:pointer;
+  pointer-events:auto;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
 </style>
 </head>
 
 
 <body>
-<!-- 1WEN Garden Build: V4.1 castle entrance fix -->
-<div class="build-version" aria-hidden="true">v4.1</div>
+<!-- 1WEN Garden Build: V4.2 image castle hotspot -->
+<div class="build-version" aria-hidden="true">v4.2</div>
 <button class="reset-worlds" type="button" onclick="showResetDialog()" aria-label="重置所有世界">↺ 重置世界</button>
 <div class="reset-dialog-backdrop" id="resetBackdrop" role="dialog" aria-modal="true" aria-labelledby="resetHeading">
  <div class="reset-dialog">
@@ -2174,11 +2190,10 @@ button{
 
 </div>
 
-  <!-- V4.1: 可見且可點擊的童話城堡入口 -->
-  <button class="castle-home-entry" type="button" aria-label="進入童話城堡世界" onclick="openCastleWorld()">
-    <span class="castle-home-icon" aria-hidden="true">🏰</span>
-    <span class="castle-home-label">童話城堡</span>
-  </button>
+  <!-- V4.2: 透明城堡入口，與背景圖片的 contain 顯示範圍對齊 -->
+  <div class="home-image-coordinate-layer">
+    <button class="home-castle-hotspot" type="button" aria-label="進入童話城堡世界" onclick="openCastleWorld()"></button>
+  </div>
 
 </main>
 
@@ -4242,3 +4257,4 @@ function nextResetStep(){
 
 </body>
 </html>
+

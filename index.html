@@ -2079,13 +2079,39 @@ button{
 /* V2.3 visible build marker */
 .build-version{position:fixed;right:8px;bottom:6px;z-index:9999;font-size:10px;letter-spacing:.04em;color:rgba(255,255,255,.55);background:rgba(0,0,0,.18);padding:2px 6px;border-radius:999px;pointer-events:none;user-select:none;}
 
+
+/* V3: moonlit garden + safe reset */
+.garden-moon{position:absolute;top:9%;right:10%;width:72px;height:72px;border-radius:50%;background:#fff7d5;box-shadow:0 0 22px rgba(255,249,210,.7),0 0 58px rgba(210,217,255,.45);z-index:2;pointer-events:none}
+.garden-moon::after{content:"";position:absolute;left:16px;top:11px;width:13px;height:13px;border-radius:50%;background:rgba(213,204,166,.18);box-shadow:26px 23px 0 4px rgba(213,204,166,.13),9px 38px 0 1px rgba(213,204,166,.12)}
+.growing-room{background:linear-gradient(180deg,#15294e 0%,#3c4d77 36%,#778ca2 52%,#dce9c6 53%,#bfd59f 100%)!important}
+.reset-worlds{position:fixed;left:12px;bottom:12px;z-index:9998;background:rgba(21,29,52,.53);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:7px 12px;font-size:12px;cursor:pointer;backdrop-filter:blur(5px)}
+.reset-dialog-backdrop{position:fixed;inset:0;z-index:10050;background:rgba(10,15,30,.72);display:none;align-items:center;justify-content:center;padding:18px}
+.reset-dialog-backdrop.show{display:flex}
+.reset-dialog{width:min(390px,100%);border-radius:22px;background:#fffaf5;color:#493e43;padding:24px;text-align:center;box-shadow:0 16px 50px rgba(0,0,0,.3);font-size:15px}
+.reset-dialog h2{font-size:20px;margin:0 0 12px}
+.reset-dialog p{line-height:1.8;margin:8px 0 16px}
+.reset-dialog input{width:100%;box-sizing:border-box;border:1px solid #c7aeb4;border-radius:10px;padding:11px;font-size:16px;text-align:center;margin-bottom:14px}
+.reset-dialog button{padding:10px 17px;border-radius:12px;border:0;margin:4px;cursor:pointer;background:#eee3e5;color:#453b3f}
+.reset-dialog button.danger{background:#a34257;color:white}
+.reset-dialog button:disabled{opacity:.4;cursor:not-allowed}
+
 </style>
 </head>
 
 
 <body>
-<!-- 1WEN Garden Build: V2.3 FIX 2026-11-01 -->
-<div class="build-version" aria-hidden="true">v2.3</div>
+<!-- 1WEN Garden Build: V3.0 2026-11-04 -->
+<div class="build-version" aria-hidden="true">v3.0</div>
+<button class="reset-worlds" type="button" onclick="showResetDialog()" aria-label="重置所有世界">↺ 重置世界</button>
+<div class="reset-dialog-backdrop" id="resetBackdrop" role="dialog" aria-modal="true" aria-labelledby="resetHeading">
+ <div class="reset-dialog">
+  <h2 id="resetHeading">重置 1WEN's Garden</h2>
+  <p id="resetDescription">這會清除所有收藏星星、已種花朵，三個世界會重新開始。此操作無法復原。確定要繼續嗎？</p>
+  <div id="resetStep2" style="display:none"><p>第二次確認：請輸入「重置」兩個字。</p><input id="resetInput" type="text" autocomplete="off" placeholder="輸入：重置" oninput="updateResetConfirm()"></div>
+  <button type="button" onclick="hideResetDialog()">取消，保留收藏</button>
+  <button type="button" class="danger" id="resetConfirm" onclick="nextResetStep()">繼續確認</button>
+ </div>
+</div>
 
 
 <!-- =========================
@@ -2231,7 +2257,7 @@ button{
 
   <div id="gardenSkyCollection" class="garden-sky-collection"></div>
 
-  <div class="garden-sun"></div>
+  <div class="garden-moon" aria-hidden="true"></div>
 
   <div class="garden-cloud cloud-a">
     ☁
@@ -2421,7 +2447,7 @@ button{
      🌹 隱藏玫瑰
 ========================= -->
 
-<div
+<div style="display:none"
   id="roseCelebration"
   class="rose-celebration">
 
@@ -2721,57 +2747,19 @@ function closeBreathingGarden(){
 ========================= */
 
 const flowerData=[
-
-  {
-    id:"sakura",
-    emoji:"🌸",
-    name:"櫻花",
-    target:5
-  },
-
-  {
-    id:"sunflower",
-    emoji:"🌻",
-    name:"向日葵",
-    target:2
-  },
-
-  {
-    id:"rose",
-    emoji:"🌹",
-    name:"玫瑰",
-    target:0,
-    secret:true
-  },
-
-  {
-    id:"lavender",
-    emoji:"🪻",
-    name:"薰衣草",
-    target:1
-  },
-
-  {
-    id:"daisy",
-    emoji:"🌼",
-    name:"雛菊",
-    target:3
-  },
-
-  {
-    id:"tulip",
-    emoji:"🌷",
-    name:"鬱金香",
-    target:1
-  },
-
-  {
-    id:"hibiscus",
-    emoji:"🌺",
-    name:"扶桑花",
-    target:4
-  }
-
+  {id:"sakura",emoji:"🌸",name:"櫻花",target:5},
+  {id:"sunflower",emoji:"🌻",name:"向日葵",target:2},
+  {id:"rose",emoji:"🌹",name:"玫瑰",target:1},
+  {id:"lavender",emoji:"🪻",name:"薰衣草",target:1},
+  {id:"daisy",emoji:"🌼",name:"雛菊",target:3},
+  {id:"tulip",emoji:"🌷",name:"鬱金香",target:1},
+  {id:"hibiscus",emoji:"🌺",name:"扶桑花",target:4},
+  {id:"cherry",emoji:"🌺",name:"山茶花",target:1},
+  {id:"blossom",emoji:"💮",name:"白花",target:1},
+  {id:"lotus",emoji:"🪷",name:"蓮花",target:1},
+  {id:"hyacinth",emoji:"🪻",name:"風信子",target:1},
+  {id:"fourleaf",emoji:"🍀",name:"幸運草",target:1},
+  {id:"bouquet",emoji:"💐",name:"繽紛花束",target:1}
 ];
 
 
@@ -2784,21 +2772,10 @@ const SAVE_KEY=
 
 
 function newFlowerSave(){
-
-  return{
-
-    sakura:0,
-    sunflower:0,
-    rose:0,
-    lavender:0,
-    daisy:0,
-    tulip:0,
-    hibiscus:0,
-
-    roseUnlocked:false
-  };
+  const result={roseUnlocked:true};
+  flowerData.forEach(f=>{result[f.id]=0;});
+  return result;
 }
-
 
 function loadFlowerSave(){
 
@@ -2854,102 +2831,11 @@ function saveFlowerBook(){
    選擇下一朵花
 ========================= */
 
-function allNormalTargetsComplete(){
-
-  return flowerData
-    .filter(
-      flower=>!flower.secret
-    )
-    .every(
-      flower=>
-        flowerSave[flower.id]
-        >=
-        flower.target
-    );
-}
-
-
 function chooseNextFlower(){
-
-  /*
-    六種普通花全部達標後，
-    如果玫瑰還沒出現，
-    下一株一定是玫瑰。
-  */
-
-  if(
-    allNormalTargetsComplete()
-    &&
-    !flowerSave.roseUnlocked
-  ){
-
-    return flowerData.find(
-      flower=>
-        flower.id==="rose"
-    );
-  }
-
-
-  /*
-    尚未完成花冊時，
-    優先從「還沒達標」
-    的花裡隨機。
-
-    這可以確保：
-    🌸 5
-    🌻 2
-    🪻 1
-    🌼 3
-    🌷 1
-    🌺 4
-
-    最終一定能完成。
-  */
-
-  const unfinished=
-    flowerData.filter(
-      flower=>
-        !flower.secret
-        &&
-        flowerSave[flower.id]
-        <
-        flower.target
-    );
-
-
-  if(unfinished.length>0){
-
-    return unfinished[
-      Math.floor(
-        Math.random()
-        *unfinished.length
-      )
-    ];
-  }
-
-
-  /*
-    花冊完成後，
-    六種普通花仍然
-    可以繼續隨機種。
-  */
-
-  const normalFlowers=
-    flowerData.filter(
-      flower=>
-        !flower.secret
-    );
-
-
-  return normalFlowers[
-    Math.floor(
-      Math.random()
-      *normalFlowers.length
-    )
-  ];
+  const undiscovered=flowerData.filter(f=>(flowerSave[f.id]||0)===0);
+  const pool=undiscovered.length ? undiscovered : flowerData;
+  return pool[Math.floor(Math.random()*pool.length)];
 }
-
-
 
 /* =========================
    🌱 種花系統
@@ -2960,6 +2846,8 @@ let waterCount=0;
 let currentFlower=null;
 
 let plantFinished=false;
+let bloomLockedUntil=0;
+let bloomPending=false;
 
 
 function openGrowingGarden(){
@@ -2995,6 +2883,8 @@ function resetPlant(){
   waterCount=0;
 
   plantFinished=false;
+  bloomPending=false;
+  bloomLockedUntil=0;
 
   currentFlower=
     chooseNextFlower();
@@ -3082,37 +2972,26 @@ function resetPlant(){
 ========================= */
 
 function waterPlant(){
-
+  if(bloomPending) return;
   if(plantFinished){
+    if(Date.now()<bloomLockedUntil) return;
     resetPlant();
   }
-
-
-  if(waterCount>=15){
-    return;
-  }
-
-
+  if(waterCount>=10) return;
   waterCount++;
-
-
   showWaterDrop();
-
-  growPlantStage(
-    waterCount
-  );
-
-
-  if(waterCount===15){
-
-    setTimeout(
-      finishFlower,
-      450
-    );
+  const stages=[1,2,3,4,5,6,8,10,12,15];
+  growPlantStage(stages[waterCount-1]);
+  if(waterCount===10){
+    bloomPending=true;
+    setTimeout(()=>{
+      if(!bloomPending)return;
+      finishFlower();
+      bloomPending=false;
+      bloomLockedUntil=Date.now()+2000;
+    },450);
   }
 }
-
-
 
 /* =========================
    💧 水滴
@@ -3483,24 +3362,8 @@ function finishFlower(){
   );
 
 
-  /*
-    更新花冊
-  */
-
-  if(currentFlower.secret){
-
-    flowerSave.rose=1;
-
-    flowerSave.roseUnlocked=
-      true;
-
-  }else{
-
-    flowerSave[
-      currentFlower.id
-    ]++;
-  }
-
+  flowerSave[currentFlower.id]=(flowerSave[currentFlower.id]||0)+1;
+  if(currentFlower.id==="rose") flowerSave.roseUnlocked=true;
 
   saveFlowerBook();
   renderCollectedGarden();
@@ -3525,27 +3388,7 @@ function finishFlower(){
     "show"
   );
 
-  /*
-    🌹 第一次玫瑰
-  */
 
-  if(currentFlower.secret){
-
-    setTimeout(
-      ()=>{
-
-        document
-          .getElementById(
-            "roseCelebration"
-          )
-          .classList.add(
-            "show"
-          );
-
-      },
-      1000
-    );
-  }
 }
 
 
@@ -3645,12 +3488,7 @@ function renderFlowerBook(){
       }
 
 
-      if(flower.secret){
-
-        card.classList.add(
-          "secret-card"
-        );
-      }
+      
 
 
       const flowerIcon=
@@ -3689,21 +3527,7 @@ function renderFlowerBook(){
           flower.name;
 
 
-        if(flower.secret){
-
-          countText.textContent=
-            "Secret flower";
-
-        }else{
-
-          countText.textContent=
-            Math.min(
-              count,
-              flower.target
-            )
-            +" / "
-            +flower.target;
-        }
+        countText.textContent=count+" 朵";
 
       }else{
 
@@ -3711,22 +3535,8 @@ function renderFlowerBook(){
           "❔";
 
 
-        if(flower.secret){
-
-          name.textContent=
-            "？？？";
-
-          countText.textContent=
-            "Secret";
-
-        }else{
-
-          name.textContent=
-            "？？？";
-
-          countText.textContent=
-            "尚未發現";
-        }
+        name.textContent="？？？";
+        countText.textContent="尚未發現";
       }
 
 
@@ -3756,7 +3566,7 @@ function renderFlowerBook(){
     )
     .textContent=
       discovered
-      +" / 7 collected";
+      +" / "+flowerData.length+" collected";
 }
 /* =========================
    🌷 草地收藏花園（正式版）
@@ -3783,9 +3593,13 @@ const collectedFlowerSlots={
   hibiscus:[
     [84,38],[88,33],[92,38],[96,32]
   ],
-  rose:[
-    [62,66]
-  ]
+  rose:[[62,66]],
+  cherry:[[8,55]],
+  blossom:[[43,30]],
+  lotus:[[57,30]],
+  hyacinth:[[94,57]],
+  fourleaf:[[27,56]],
+  bouquet:[[75,57]]
 };
 
 function createCollectedBloom(flower,x,y,extra=false){
@@ -3845,10 +3659,10 @@ function renderCollectedGarden(){
   flowerData.forEach(flower=>{
     const count=flowerSave[flower.id] || 0;
     if(count<=0) return;
-    if(flower.secret && !flowerSave.roseUnlocked) return;
+
 
     const slots=collectedFlowerSlots[flower.id] || [];
-    const fixedLimit=flower.secret ? 1 : flower.target;
+    const fixedLimit=flower.target;
     const fixedCount=Math.min(count,fixedLimit,slots.length);
 
     for(let i=0;i<fixedCount;i++){
@@ -3925,22 +3739,21 @@ function renderBunnyFlowers(){
   garden.innerHTML="";
   const flowers=[];
   flowerData.forEach(f=>{
-    let count=flowerSave[f.id]||0;
-    if(f.secret && !flowerSave.roseUnlocked)count=0;
-    const visible=f.secret?Math.min(count,1):Math.min(count,f.target||count);
-    for(let i=0;i<visible;i++)flowers.push(f);
+    const count=Math.max(0,Number(flowerSave[f.id])||0);
+    for(let i=0;i<count;i++)flowers.push(f);
   });
-  const slots=[
-    [8,72],[15,38],[23,70],[31,32],[39,78],[61,78],[69,34],[77,70],[85,38],[92,72],
-    [12,12],[27,12],[73,12],[88,12],[19,55],[81,55],[34,52],[66,52]
-  ];
   flowers.forEach((f,i)=>{
     const el=document.createElement("div");
     el.className="bunny-flower-item";
     el.textContent=f.emoji;
-    const slot=slots[i%slots.length];
-    el.style.left=slot[0]+"%";
-    el.style.top=slot[1]+"%";
+    // 兩側優先分布，避免擋住兔兔與紅蘿蔔
+    const column=i%12;
+    const row=Math.floor(i/12);
+    const x=column<6 ? 5+column*6 : 65+(column-6)*6;
+    const y=78-(row%4)*18;
+    el.style.left=x+"%";
+    el.style.top=y+"%";
+    el.style.fontSize=(24+(i%3)*3)+"px";
     garden.appendChild(el);
   });
 }
@@ -4210,6 +4023,45 @@ renderBunnyFlowers();
     bindV23Navigation();
   }
 })();
+
+
+/* V3: two-step destructive reset; clears only Garden keys */
+let resetStep=1;
+function showResetDialog(){
+  resetStep=1;
+  document.getElementById("resetDescription").textContent="這會清除所有收藏星星、已種花朵，三個世界會重新開始。此操作無法復原。確定要繼續嗎？";
+  document.getElementById("resetStep2").style.display="none";
+  document.getElementById("resetInput").value="";
+  const button=document.getElementById("resetConfirm");
+  button.textContent="繼續確認";
+  button.disabled=false;
+  document.getElementById("resetBackdrop").classList.add("show");
+}
+function hideResetDialog(){document.getElementById("resetBackdrop").classList.remove("show");}
+function updateResetConfirm(){
+  document.getElementById("resetConfirm").disabled=document.getElementById("resetInput").value.trim()!=="重置";
+}
+function nextResetStep(){
+  if(resetStep===1){
+    resetStep=2;
+    document.getElementById("resetDescription").textContent="最後一次確認：星星與花朵的累積紀錄將永久清除。";
+    document.getElementById("resetStep2").style.display="block";
+    const button=document.getElementById("resetConfirm");
+    button.textContent="確定清除全部收藏";
+    button.disabled=true;
+    document.getElementById("resetInput").focus();
+    return;
+  }
+  if(document.getElementById("resetInput").value.trim()!=="重置")return;
+  try{
+    localStorage.removeItem(SAVE_KEY);
+    localStorage.removeItem(STAR_SAVE_KEY);
+  }catch(error){
+    alert("無法清除瀏覽器儲存資料，請確認沒有使用限制儲存的模式。");
+    return;
+  }
+  location.reload();
+}
 
 </script>
 

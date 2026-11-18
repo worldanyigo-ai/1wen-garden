@@ -2139,13 +2139,67 @@ button{
   -webkit-tap-highlight-color:transparent;
 }
 
+
+/* V4.6 Welcome Home: isolated presentation, no existing game state changes */
+.welcome-overlay{position:fixed;inset:0;z-index:20000;display:none;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 24%,#51467d 0%,#1e244e 48%,#0b132b 100%);color:#fff5e8;overflow:auto;text-align:center}
+.welcome-overlay.active{display:flex}
+.welcome-panel{width:min(100%,440px);position:relative;padding:35px 20px 26px;border:1px solid rgba(255,232,205,.27);border-radius:28px;background:rgba(255,255,255,.09);box-shadow:0 20px 70px rgba(0,0,0,.28);backdrop-filter:blur(8px)}
+.welcome-kicker{font-size:12px;letter-spacing:.16em;color:#f5d9c2}
+.welcome-rabbit{font-size:96px;display:block;margin:12px auto;animation:welcomeHop 2.8s ease-in-out infinite}
+@keyframes welcomeHop{50%{transform:translateY(-12px) rotate(-5deg)}}
+.welcome-envelope{font-size:66px;display:block;margin:8px auto 16px;cursor:pointer;border:0;background:transparent;touch-action:manipulation;animation:welcomeGlow 2s ease-in-out infinite}
+@keyframes welcomeGlow{50%{filter:drop-shadow(0 0 18px #ffd0e1)}}
+.welcome-rose{font-size:108px;display:block;animation:welcomeBloom 1.5s cubic-bezier(.2,1.5,.3,1) both}
+@keyframes welcomeBloom{from{opacity:0;transform:scale(.1) rotate(-25deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.welcome-title{font-family:Georgia,'Microsoft JhengHei',serif;font-size:clamp(24px,6vw,33px);line-height:1.4;margin:10px 0}
+.welcome-letter{font-size:16px;line-height:2;white-space:pre-line;margin:18px auto;max-width:330px}
+.welcome-action{background:#fff1e9;border:0;border-radius:999px;padding:13px 24px;color:#714f68;font-size:15px;font-weight:bold;cursor:pointer;touch-action:manipulation;margin:12px 5px 0}
+.welcome-dismiss{position:absolute;right:12px;top:12px;color:white;background:rgba(255,255,255,.12);border:0;border-radius:50%;width:40px;height:40px;font-size:24px;cursor:pointer}
+.welcome-reopen{position:fixed;right:14px;bottom:38px;z-index:19999;display:none;border:1px solid rgba(255,255,255,.7);border-radius:30px;background:#a86188;color:white;padding:11px 16px;font-size:13px;box-shadow:0 4px 20px #0004;cursor:pointer;touch-action:manipulation}
+.welcome-reopen.active{display:block}
+@media(prefers-reduced-motion:reduce){.welcome-rabbit,.welcome-envelope,.welcome-rose{animation:none}}
+
 </style>
 </head>
 
 
 <body>
-<!-- 1WEN Garden Build: V4.5 castle growth after 1000 -->
-<div class="build-version" aria-hidden="true">v4.5</div>
+
+<!-- V4.6: date-gated welcome, independent of game worlds and saved progress -->
+<div class="welcome-overlay" id="welcomeOverlay" role="dialog" aria-modal="true" aria-label="仙女回家限定驚喜" aria-hidden="true">
+  <div class="welcome-panel">
+    <button class="welcome-dismiss" type="button" id="welcomeClose" aria-label="關閉驚喜">×</button>
+    <div class="welcome-kicker">1WEN's Garden · 2026.11.18 ONLY</div>
+    <div id="welcomeIntro">
+      <span class="welcome-rabbit" aria-hidden="true">🐰</span>
+      <h2 class="welcome-title">兔兔有一封信要交給妳</h2>
+      <p>歡迎回來，我們的小仙女 ♡</p>
+      <button class="welcome-envelope" type="button" id="welcomeOpenLetter" aria-label="打開兔兔的信">💌</button>
+      <p>輕輕點開信封</p>
+    </div>
+    <div id="welcomeReveal" hidden>
+      <span class="welcome-rose" aria-hidden="true">🌹</span>
+      <h2 class="welcome-title">歡迎回家，皮淡仙女</h2>
+      <p class="welcome-letter">親愛的小仙女：
+
+這幾天妳去看了不同的風景，
+希望妳帶回好多開心的回憶。
+
+旅途辛苦了，今天不用急著做任何事，
+慢慢休息，慢慢跟我分享妳的故事。
+
+妳的小花園一直都在，
+而我也是。
+
+歡迎回家。❤️</p>
+      <button class="welcome-action" type="button" id="welcomeReturn">回到我們的花園 🌷</button>
+    </div>
+  </div>
+</div>
+<button class="welcome-reopen" id="welcomeReopen" type="button" hidden>🐰 兔兔的歡迎信</button>
+
+<!-- 1WEN Garden Build: V4.6 welcome home event; original V4.5 castle growth retained -->
+<div class="build-version" aria-hidden="true">v4.6</div>
 <button class="reset-worlds" type="button" onclick="showResetDialog()" aria-label="重置所有世界">↺ 重置世界</button>
 <div class="reset-dialog-backdrop" id="resetBackdrop" role="dialog" aria-modal="true" aria-labelledby="resetHeading">
  <div class="reset-dialog">
@@ -4311,6 +4365,55 @@ function nextResetStep(){
   location.reload();
 }
 
+</script>
+
+
+<script>
+/* V4.6 date-only welcome; preview via ?welcomePreview=1 (not a secret/security gate). */
+(function(){
+  'use strict';
+  const EVENT_DAY='2026-11-18';
+  const PREVIEW=new URLSearchParams(window.location.search).get('welcomePreview')==='1';
+  const SESSION_KEY='1wen_welcome_2026_11_18_seen';
+  const overlay=document.getElementById('welcomeOverlay');
+  const reopen=document.getElementById('welcomeReopen');
+  const intro=document.getElementById('welcomeIntro');
+  const reveal=document.getElementById('welcomeReveal');
+  function taiwanDay(){
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    const get=k=>parts.find(x=>x.type===k).value;
+    return get('year')+'-'+get('month')+'-'+get('day');
+  }
+  function enabled(){return PREVIEW||taiwanDay()===EVENT_DAY;}
+  function seen(){try{return sessionStorage.getItem(SESSION_KEY)==='1';}catch(e){return false;}}
+  function markSeen(){try{sessionStorage.setItem(SESSION_KEY,'1');}catch(e){}}
+  function show(){
+    if(!enabled())return;
+    intro.hidden=false;reveal.hidden=true;
+    overlay.classList.add('active');overlay.setAttribute('aria-hidden','false');
+    markSeen();
+  }
+  function close(){overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true');}
+  function refresh(){
+    const active=enabled();
+    reopen.hidden=!active;
+    reopen.classList.toggle('active',active);
+    if(!active)close();
+  }
+  document.getElementById('welcomeOpenLetter').addEventListener('click',()=>{
+    if(!enabled()){refresh();return;}
+    intro.hidden=true;reveal.hidden=false;
+  });
+  document.getElementById('welcomeClose').addEventListener('click',close);
+  document.getElementById('welcomeReturn').addEventListener('click',close);
+  reopen.addEventListener('click',show);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
+  window.addEventListener('pageshow',refresh);
+  refresh();
+  if(enabled()&&!seen())show();
+  // Check across midnight even if the page remains open.
+  setInterval(refresh,15000);
+})();
 </script>
 
 </body>
